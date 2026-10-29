@@ -1,0 +1,65 @@
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+*.env
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+.venv/
+ENV/
+env/
+
+# Vector indexes and cache
+*.faiss
+*.index
+*.sqlite3
+index_data/
+.cache/
+data/
+
+# Corpus raw files (PDFs)
+corpus/raw/*.pdf
+
+# Testing, coverage, typing, and evals output
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+evals/results/*.json
+
+# Logs & temp
+*.log
+scratch/
+tmp/
+
+# OS and IDE files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "preauth-desk"
+version = "0.1.0"
+description = "Health Insurance Pre-Authorisation Desk - Multi-Agent System"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.111.0",
+    "uvicorn[standard]>=0.30.0",
+    "pydantic>=2.7.0",
+    "pydantic-settings>=2.2.0",
+    "redis>=5.0.4",
+    "arq>=0.26.0",
+    "langgraph>=0.2.0",
+    "langchain-core>=0.2.0",
+    "sentence-transformers>=2.7.0",
+    "faiss-cpu>=1.8.0",
+    "rank-bm25>=0.2.2",
+    "pymupdf>=1.24.0",
+    "asyncpg>=0.29.0",
+    "sqlalchemy[asyncio]>=2.0.30",
+    "structlog>=24.1.0",
+    "prometheus-client>=0.20.0",
+    "opentelemetry-api>=1.24.0",
+    "opentelemetry-sdk>=1.24.0",
+    "opentelemetry-instrumentation-fastapi>=0.45b0",
+    "opentelemetry-exporter-otlp>=1.24.0",
+    "httpx>=0.27.0",
+    "pyyaml>=6.0.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2.0",
+    "pytest-asyncio>=0.23.0",
+    "locust>=2.28.0",
+    "ruff>=0.4.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+pythonpath = ["src"]

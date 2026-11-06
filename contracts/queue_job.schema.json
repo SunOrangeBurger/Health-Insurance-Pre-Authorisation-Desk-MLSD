@@ -1,0 +1,23 @@
+{
+  "properties": {
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "correlation_id": {
+      "title": "Correlation Id",
+      "type": "string"
+    },
+    "contract_version": {
+      "default": "1.0",
+      "title": "Contract Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "run_id",
+    "correlation_id"
+  ],
+  "title": "QueueJobMessage",
+  "type": "object"
+}

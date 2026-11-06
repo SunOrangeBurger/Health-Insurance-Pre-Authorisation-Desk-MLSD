@@ -1,0 +1,26 @@
+{
+  "properties": {
+    "satisfactory": {
+      "title": "Satisfactory",
+      "type": "boolean"
+    },
+    "reason": {
+      "anyOf": [
+        {
+          "maxLength": 500,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reason"
+    }
+  },
+  "required": [
+    "satisfactory"
+  ],
+  "title": "FeedbackRequest",
+  "type": "object"
+}

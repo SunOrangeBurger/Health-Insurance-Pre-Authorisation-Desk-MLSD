@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pre-Authorisation Desk</title>
+  <style>
+    body { font: 16px/1.5 system-ui, sans-serif; max-width: 760px; margin: 3rem auto; padding: 0 1rem; color: #172033; }
+    button { padding: .7rem 1rem; background: #175cd3; color: white; border: 0; border-radius: .35rem; cursor: pointer; }
+    pre { background: #f5f7fa; padding: 1rem; overflow: auto; border-radius: .35rem; }
+    .notice { border-left: 4px solid #f0a000; padding-left: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>Health Insurance Pre-Authorisation Desk</h1>
+  <p class="notice">Synthetic data only. This service recommends a route; a medical officer makes the final decision.</p>
+  <button id="submit">Submit sample request</button>
+  <pre id="output">Ready.</pre>
+  <script>
+    const output = document.querySelector('#output');
+    document.querySelector('#submit').addEventListener('click', async () => {
+      const future = new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10);
+      const issue = new Date(Date.now() - 400 * 86400000).toISOString().slice(0, 10);
+      const payload = {
+        request_id: 'DEMO-0001', policy_number: 'SYN-POL-0001', policy_issue_date: issue,
+        policy_start_date: issue, sum_insured: 500000, patient_age: 44, patient_gender: 'F',
+        admission_type: 'day_care', planned_admission_date: future,
+        diagnosis_text: 'Synthetic cataract diagnosis', procedure_text: 'Phacoemulsification with IOL',
+        procedure_code: 'SYN-001', room_category_requested: 'single', estimated_cost: 75000,
+        hospital_id: 'SYN-HOSP-001', prior_conditions: [], notes: 'Synthetic demonstration request'
+      };
+      output.textContent = 'Submitting...';
+      const accepted = await fetch('/v1/preauth', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload)});
+      const job = await accepted.json();
+      if (!accepted.ok) { output.textContent = JSON.stringify(job, null, 2); return; }
+      output.textContent = JSON.stringify(job, null, 2);
+      const timer = setInterval(async () => {
+        const response = await fetch(job.poll_url);
+        const run = await response.json();
+        output.textContent = JSON.stringify(run, null, 2);
+        if (['completed', 'escalated', 'failed', 'degraded'].includes(run.status)) clearInterval(timer);
+      }, 500);
+    });
+  </script>
+</body>
+</html>

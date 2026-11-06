@@ -1,0 +1,449 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Health Insurance Pre-Authorisation Desk",
+    "version": "1.0"
+  },
+  "paths": {
+    "/healthz": {
+      "get": {
+        "tags": [
+          "operations"
+        ],
+        "summary": "Healthz",
+        "operationId": "healthz_healthz_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Healthz Healthz Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/readyz": {
+      "get": {
+        "tags": [
+          "operations"
+        ],
+        "summary": "Readyz",
+        "operationId": "readyz_readyz_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Readyz Readyz Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/preauth": {
+      "post": {
+        "summary": "Submit Preauth",
+        "operationId": "submit_preauth_v1_preauth_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreauthRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubmissionResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/runs/{run_id}": {
+      "get": {
+        "summary": "Read Run",
+        "operationId": "read_run_v1_runs__run_id__get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AdmissionType": {
+        "type": "string",
+        "enum": [
+          "planned_surgical",
+          "day_care",
+          "emergency",
+          "maternity"
+        ],
+        "title": "AdmissionType"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "PatientGender": {
+        "type": "string",
+        "enum": [
+          "M",
+          "F",
+          "O"
+        ],
+        "title": "PatientGender"
+      },
+      "PreauthRequest": {
+        "properties": {
+          "request_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9-]{8,64}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Id"
+          },
+          "policy_number": {
+            "type": "string",
+            "pattern": "^[A-Z0-9][A-Z0-9-]{5,31}$",
+            "title": "Policy Number"
+          },
+          "policy_issue_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Policy Issue Date"
+          },
+          "policy_start_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Policy Start Date"
+          },
+          "sum_insured": {
+            "type": "integer",
+            "multipleOf": 1000.0,
+            "maximum": 10000000.0,
+            "minimum": 100000.0,
+            "title": "Sum Insured"
+          },
+          "patient_age": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Patient Age"
+          },
+          "patient_gender": {
+            "$ref": "#/components/schemas/PatientGender"
+          },
+          "admission_type": {
+            "$ref": "#/components/schemas/AdmissionType"
+          },
+          "planned_admission_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Planned Admission Date"
+          },
+          "diagnosis_text": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 3,
+            "title": "Diagnosis Text"
+          },
+          "procedure_text": {
+            "type": "string",
+            "maxLength": 300,
+            "minLength": 3,
+            "title": "Procedure Text"
+          },
+          "procedure_code": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9.-]{2,20}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Procedure Code"
+          },
+          "room_category_requested": {
+            "$ref": "#/components/schemas/RoomCategory"
+          },
+          "estimated_cost": {
+            "type": "number",
+            "maximum": 5000000.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Estimated Cost"
+          },
+          "hospital_id": {
+            "type": "string",
+            "pattern": "^SYN-HOSP-[A-Z0-9-]{2,24}$",
+            "title": "Hospital Id"
+          },
+          "prior_conditions": {
+            "items": {
+              "type": "string",
+              "maxLength": 100,
+              "minLength": 3
+            },
+            "type": "array",
+            "maxItems": 20,
+            "title": "Prior Conditions"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "policy_number",
+          "policy_issue_date",
+          "policy_start_date",
+          "sum_insured",
+          "patient_age",
+          "patient_gender",
+          "admission_type",
+          "planned_admission_date",
+          "diagnosis_text",
+          "procedure_text",
+          "room_category_requested",
+          "estimated_cost",
+          "hospital_id"
+        ],
+        "title": "PreauthRequest"
+      },
+      "RoomCategory": {
+        "type": "string",
+        "enum": [
+          "general",
+          "shared",
+          "single",
+          "deluxe"
+        ],
+        "title": "RoomCategory"
+      },
+      "RunResponse": {
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "queued",
+              "running",
+              "completed",
+              "escalated",
+              "failed",
+              "degraded"
+            ],
+            "title": "Status"
+          },
+          "correlation_id": {
+            "type": "string",
+            "title": "Correlation Id"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result"
+          },
+          "prompt_versions": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Prompt Versions"
+          },
+          "timings": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": "object",
+            "title": "Timings"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          }
+        },
+        "type": "object",
+        "required": [
+          "run_id",
+          "status",
+          "correlation_id"
+        ],
+        "title": "RunResponse"
+      },
+      "SubmissionResponse": {
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "queued"
+            ],
+            "const": "queued",
+            "title": "Status"
+          },
+          "poll_url": {
+            "type": "string",
+            "title": "Poll Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "run_id",
+          "status",
+          "poll_url"
+        ],
+        "title": "SubmissionResponse"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

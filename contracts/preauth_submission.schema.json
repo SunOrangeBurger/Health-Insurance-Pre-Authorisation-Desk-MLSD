@@ -1,0 +1,27 @@
+{
+  "properties": {
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "status": {
+      "const": "queued",
+      "enum": [
+        "queued"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "poll_url": {
+      "title": "Poll Url",
+      "type": "string"
+    }
+  },
+  "required": [
+    "run_id",
+    "status",
+    "poll_url"
+  ],
+  "title": "SubmissionResponse",
+  "type": "object"
+}

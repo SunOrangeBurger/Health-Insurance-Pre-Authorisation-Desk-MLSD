@@ -1,4 +1,4 @@
-.PHONY: all build up down restart logs test check-secrets ingest eval load clean
+.PHONY: all build up down restart logs test contracts check-secrets ingest eval load clean
 
 SHELL := /usr/bin/env bash
 COMPOSE ?= docker compose
@@ -25,6 +25,9 @@ logs:
 
 test:
 	pytest tests/ -v
+
+contracts:
+	python scripts/export_contracts.py
 
 ingest:
 	$(COMPOSE) run --rm indexer ingest

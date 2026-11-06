@@ -1,0 +1,26 @@
+{
+  "properties": {
+    "messages": {
+      "items": {
+        "additionalProperties": {
+          "type": "string"
+        },
+        "type": "object"
+      },
+      "title": "Messages",
+      "type": "array"
+    },
+    "temperature": {
+      "default": 0,
+      "maximum": 2.0,
+      "minimum": 0.0,
+      "title": "Temperature",
+      "type": "number"
+    }
+  },
+  "required": [
+    "messages"
+  ],
+  "title": "LLMRequest",
+  "type": "object"
+}

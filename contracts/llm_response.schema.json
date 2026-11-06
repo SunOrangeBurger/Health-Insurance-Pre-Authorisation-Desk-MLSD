@@ -1,0 +1,25 @@
+{
+  "properties": {
+    "content": {
+      "title": "Content",
+      "type": "string"
+    },
+    "prompt_tokens": {
+      "minimum": 0,
+      "title": "Prompt Tokens",
+      "type": "integer"
+    },
+    "completion_tokens": {
+      "minimum": 0,
+      "title": "Completion Tokens",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "content",
+    "prompt_tokens",
+    "completion_tokens"
+  ],
+  "title": "LLMResponse",
+  "type": "object"
+}

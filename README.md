@@ -61,6 +61,48 @@ curl http://localhost:8000/readyz
 ### 4. Interactive Web Interface
 Open `http://localhost:8000/` in your browser to submit synthetic pre-authorisation requests and inspect the live agent recommendation, citations, and verification trails.
 
+### 5. Submit a Synthetic Request
+
+```bash
+ISSUE_DATE=$(date -d '-400 days' +%F)
+ADMISSION_DATE=$(date -d '+7 days' +%F)
+curl -sS -X POST http://localhost:8000/v1/preauth \
+  -H 'Content-Type: application/json' \
+  -H 'X-Correlation-ID: readme-demo' \
+  -d "{\
+    \"request_id\":\"DEMO-0001\",\
+    \"policy_number\":\"SYN-POL-0001\",\
+    \"policy_issue_date\":\"${ISSUE_DATE}\",\
+    \"policy_start_date\":\"${ISSUE_DATE}\",\
+    \"sum_insured\":500000,\
+    \"patient_age\":44,\
+    \"patient_gender\":\"F\",\
+    \"admission_type\":\"day_care\",\
+    \"planned_admission_date\":\"${ADMISSION_DATE}\",\
+    \"diagnosis_text\":\"Synthetic cataract diagnosis\",\
+    \"procedure_text\":\"Phacoemulsification with IOL\",\
+    \"procedure_code\":\"SYN-001\",\
+    \"room_category_requested\":\"single\",\
+    \"estimated_cost\":75000,\
+    \"hospital_id\":\"SYN-HOSP-001\",\
+    \"prior_conditions\":[],\
+    \"notes\":\"Synthetic demonstration request\"\
+  }"
+```
+
+Poll the returned `poll_url` until the status is terminal. During Phase 1 the worker deliberately returns a conservative `medical-review` placeholder; policy research is added in Phases 2–3.
+
+### Local Tests with uv
+
+```bash
+uv venv --python 3.11
+uv pip install --python .venv/bin/python -r requirements.txt \
+  --extra-index-url https://download.pytorch.org/whl/cpu
+.venv/bin/pytest -q
+```
+
+Published contracts are in `contracts/`; regenerate them with `make contracts` from the activated environment.
+
 ---
 
 ## Project Structure

@@ -1,4 +1,7 @@
 from contextlib import asynccontextmanager
+import json
+from datetime import datetime
+from pathlib import Path
 from typing import Any
 from uuid import uuid4
 
@@ -8,7 +11,7 @@ from fastapi import Depends, FastAPI, HTTPException, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
-from prometheus_client import CONTENT_TYPE_LATEST, Counter, generate_latest
+from prometheus_client import CONTENT_TYPE_LATEST, Counter, Gauge, generate_latest
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.responses import Response
@@ -24,18 +27,33 @@ from preauth.api.schemas import (
 from preauth.config import get_settings
 from preauth.obs.logging import configure_logging, get_logger
 from preauth.store.database import close_database, get_session, init_database
-from preauth.store.repository import create_quarantine, create_run, get_run, update_run
+from preauth.store.repository import create_quarantine, create_run, get_run, get_run_steps, update_run
 
 configure_logging()
 logger = get_logger(__name__)
 settings = get_settings()
 SUBMISSIONS = Counter("preauth_submissions_total", "Accepted pre-authorisation submissions")
 QUARANTINED = Counter("preauth_quarantine_total", "Rejected pre-authorisation submissions")
+INDEX_BUILT = Gauge("index_built_timestamp", "Unix timestamp of the active policy index")
+INDEX_CHUNKS = Gauge("index_chunks_total", "Chunks in the active policy index")
+INDEX_RATE = Gauge("ingest_chunks_per_second", "Chunk throughput of the latest index build")
+
+
+def _read_index_manifest() -> dict[str, Any] | None:
+    path = Path(settings.index_storage_dir) / "index_manifest.json"
+    if not path.exists():
+        return None
+    manifest = json.loads(path.read_text(encoding="utf-8"))
+    INDEX_CHUNKS.set(manifest["n_chunks"])
+    INDEX_RATE.set(manifest["chunks_per_second"])
+    INDEX_BUILT.set(datetime.fromisoformat(manifest["built_at"]).timestamp())
+    return manifest
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await init_database()
+    _read_index_manifest()
     app.state.redis = await create_pool(RedisSettings.from_dsn(settings.redis_url))
     yield
     await app.state.redis.close()
@@ -105,6 +123,14 @@ async def metrics() -> Response:
     return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)
 
 
+@app.get("/v1/index/status", tags=["operations"])
+async def index_status() -> dict[str, Any]:
+    manifest = _read_index_manifest()
+    if manifest is None:
+        raise HTTPException(status_code=503, detail="policy index unavailable")
+    return manifest
+
+
 @app.post(
     "/v1/preauth",
     response_model=SubmissionResponse,
@@ -159,6 +185,28 @@ async def read_run(run_id: str, session: AsyncSession = Depends(get_session)) ->
         },
         error=run.error_message,
     )
+
+
+@app.get("/v1/runs/{run_id}/trace")
+async def read_run_trace(run_id: str, session: AsyncSession = Depends(get_session)) -> dict[str, Any]:
+    run = await get_run(session, run_id)
+    if run is None:
+        raise HTTPException(status_code=404, detail="run not found")
+    steps = await get_run_steps(session, run_id)
+    return {
+        "run_id": run_id,
+        "correlation_id": run.correlation_id,
+        "steps": [
+            {
+                "sequence": step.sequence,
+                "agent": step.agent,
+                "kind": step.kind,
+                "payload": step.payload,
+                "created_at": step.created_at.isoformat(),
+            }
+            for step in steps
+        ],
+    }
 
 
 app.mount("/", StaticFiles(directory="web", html=True), name="web")

@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from typing import Any
 
-from sqlalchemy import DateTime, JSON, String, Text
+from sqlalchemy import DateTime, Integer, JSON, String, Text
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -38,3 +38,15 @@ class Quarantine(Base):
     raw_payload: Mapped[dict[str, Any]] = mapped_column(JSON)
     errors: Mapped[list[dict[str, Any]]] = mapped_column(JSON)
     contract_version: Mapped[str] = mapped_column(String(16))
+
+
+class RunStep(Base):
+    __tablename__ = "run_steps"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    run_id: Mapped[str] = mapped_column(String(36), index=True)
+    sequence: Mapped[int] = mapped_column(Integer)
+    agent: Mapped[str] = mapped_column(String(64))
+    kind: Mapped[str] = mapped_column(String(64))
+    payload: Mapped[dict[str, Any]] = mapped_column(JSON)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)

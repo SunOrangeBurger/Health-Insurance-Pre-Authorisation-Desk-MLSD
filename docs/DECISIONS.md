@@ -105,3 +105,21 @@ This document logs every significant technical decision made throughout the proj
 - **Context:** API, worker and stub share the same source and the architecture calls for one application image. Building each service separately under Podman duplicated work. Unconstrained PyTorch also selected large CUDA packages even though embeddings run on CPU.
 - **Decision:** Build one named `localhost/preauth-desk:dev` image and reuse it for API, worker and stub. Pin `torch==2.2.2+cpu` and use the official CPU wheel index during the image build.
 - **Rejected Alternatives:** Three independently built identical images (wasteful) and CUDA-enabled PyTorch (multiple unnecessary gigabytes and no runtime benefit for MiniLM CPU embeddings).
+
+---
+
+## ADR-010: Clause-Aware Hybrid Retrieval
+- **Status:** Accepted
+- **Date:** 2026-11-06 (Phase 2)
+- **Context:** A semantic search for a procedure's cover clause may miss a binding waiting-period table located many pages away. Exact policy terms and clause IDs are also important.
+- **Decision:** Parse with PyMuPDF, preserve pages and canonical clause IDs, tag provision types, embed locally with MiniLM, and fuse FAISS dense and BM25 sparse ranks. Give exact query-token matches a small deterministic boost.
+- **Rejected Alternatives:** A single fixed-size semantic pass (misses modifying provisions) and BM25 alone (weak on paraphrases).
+
+---
+
+## ADR-011: Deterministic Verification Around a Bounded LangGraph
+- **Status:** Accepted
+- **Date:** 2026-11-06 (Phase 3)
+- **Context:** Unsupported coverage statements are more harmful than conservative escalation, and an LLM must not be trusted to validate its own citation IDs.
+- **Decision:** Use separate research and verifier/router agents in LangGraph. Resolve citation IDs deterministically against the run's `EvidenceBundle`, require a mandatory-provision search checklist, and enforce step/tool/time/replan limits. Failed verification always routes to `medical-review`.
+- **Rejected Alternatives:** One monolithic prompt and verifier-only natural-language citation checking.

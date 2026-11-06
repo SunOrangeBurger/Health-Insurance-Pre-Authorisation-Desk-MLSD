@@ -55,6 +55,28 @@
         }
       }
     },
+    "/v1/index/status": {
+      "get": {
+        "tags": [
+          "operations"
+        ],
+        "summary": "Index Status",
+        "operationId": "index_status_v1_index_status_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Index Status V1 Index Status Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/preauth": {
       "post": {
         "summary": "Submit Preauth",
@@ -115,6 +137,46 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/RunResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/runs/{run_id}/trace": {
+      "get": {
+        "summary": "Read Run Trace",
+        "operationId": "read_run_trace_v1_runs__run_id__trace_get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Read Run Trace V1 Runs  Run Id  Trace Get"
                 }
               }
             }

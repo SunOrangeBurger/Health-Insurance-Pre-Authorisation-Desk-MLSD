@@ -6,8 +6,8 @@
 |---|---|---|---|---|
 | **Phase 0** | Foundations (layout, Dockerfile, env, secrets check, corpus) | ✅ **Done** | Day 1 | 2026-10-29 |
 | **Phase 1** | Walking Skeleton (Compose, API, Queue, Worker, Contracts, Web Client) | ✅ **Done** | Days 2–5 | 2026-11-06 |
-| **Phase 2** | Corpus Pipeline & Retrieval (Chunking, Tagging, FAISS, BM25 Hybrid) | 🔲 Planned | Days 4–9 | — |
-| **Phase 3** | Agents (LangGraph Research & Verifier, Loop bounds, Cataract reference) | 🔲 Planned | Days 8–16 | — |
+| **Phase 2** | Corpus Pipeline & Retrieval (Chunking, Tagging, FAISS, BM25 Hybrid) | ✅ **Done** | Days 4–9 | 2026-11-06 |
+| **Phase 3** | Agents (LangGraph Research & Verifier, Loop bounds, Cataract reference) | ✅ **Done** | Days 8–16 | 2026-11-06 |
 | **Phase 4** | Reliability & Guardrails (Breaker, Fallback, Injection/Toxicity defense) | 🔲 Planned | Days 14–22 | — |
 | **Phase 5** | Observability (OTel → Jaeger, Prometheus, Grafana, Cost ledger) | 🔲 Planned | Days 18–26 | — |
 | **Phase 6** | Evaluation (20+ scenarios, Groundedness, Faithfulness, Relevance) | 🔲 Planned | Days 22–30 | — |
@@ -90,3 +90,50 @@
 
 ### Next
 - Phase 2: clause-aware PDF parsing, stable chunks, provision tagging, local embeddings, FAISS/BM25 hybrid retrieval, and idempotent incremental ingestion.
+
+---
+
+## Phase 2 — COMPLETE ✅
+
+### Exit Checks (All Passed)
+- [x] Clause-aware PyMuPDF ingestion produced 109 stable chunks from the real 69-page policy.
+- [x] Two consecutive builds produced the same chunk count and stable chunk IDs.
+- [x] MiniLM (`all-MiniLM-L6-v2`) generated local CPU embeddings; FAISS index persisted to the shared volume.
+- [x] BM25 + dense retrieval with reciprocal-rank fusion and exact-term boost returns `C.1.b` for filtered `cataract` search.
+- [x] Cover search returns `B.1.1`.
+- [x] Targeted re-embedding preserves vectors belonging to other documents (unit tested).
+- [x] Index manifest exposes source checksum, build time, throughput, embedding model and chunker version.
+- [x] Indexer is an automatic one-shot Compose service; worker waits for successful indexing.
+
+### Verification Evidence
+- Production index build: 109 chunks, 2.23 seconds, 48.95 chunks/second.
+- Source checksum matched the corpus manifest: `195eb0499db969c6789472e7f87ef1c72da110e2a8c7761ecb5add378fe964c1`.
+- Active index status is available at `GET /v1/index/status`; freshness/chunk/throughput gauges are exported on `/metrics`.
+
+---
+
+## Phase 3 — COMPLETE ✅ (50% Project Milestone)
+
+### Exit Checks (All Passed)
+- [x] LangGraph topology: intake/classifier → Policy Research Agent → Verifier/Router Agent, with bounded retry edge.
+- [x] Typed tools: `search_corpus`, `get_clause`, `get_request_fields`, and `list_sections`.
+- [x] Tool-call, graph-step, tool-time and wall-clock limits are configuration-driven.
+- [x] Research/verifier hand-off uses a typed `EvidenceBundle`.
+- [x] Every claimed citation is deterministically resolved against evidence retrieved in the same run.
+- [x] Missing/fabricated citations are caught and safely routed to `medical-review`.
+- [x] Versioned prompt artifacts are recorded in results and traces.
+- [x] Run steps/tool calls/results/verification are persisted and returned by `GET /v1/runs/{id}/trace`.
+- [x] 11-month cataract case returned `medical-review`, `waiting_period_not_served`, verified citations `B.1.1` and `C.1.b`.
+- [x] 30-month cataract variant flipped to `approve-recommended` / `waiting_period_served`.
+- [x] Out-of-corpus procedure returned `medical-review` with verification false and no fabricated provision.
+
+### Verification Evidence
+- Full unit suite: 24 tests passed.
+- 11-month end-to-end run: `11f3a430-2749-4295-899a-6e2272d6a847`; 19 persisted trace steps across three agent roles.
+- Final post-fix smoke run: `8718c4b4-d136-46a1-8b49-3e9f9178baa6`; verified `B.1.1` + `C.1.b` and 19 trace steps.
+- 30-month flip run: `387c08b4-06f1-4e57-a49b-5d2b9a65d349`.
+- Out-of-corpus run: `842304a8-eb4c-44fd-9880-80bb104a4405`.
+- The cataract clause interpretation remains subject to the existing lecturer-confirmation note; it has not been represented as lecturer-approved.
+
+### Next
+- Phase 4: prompt-injection/toxicity guardrails, provider retries, circuit breaker, fault-mode degradation, and rate limiting.

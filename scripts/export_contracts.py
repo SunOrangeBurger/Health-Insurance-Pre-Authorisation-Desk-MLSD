@@ -11,6 +11,7 @@ from preauth.api.schemas import (
     RunResponse,
     SubmissionResponse,
 )
+from preauth.agents.tools import GetClauseInput, GetRequestFieldsInput, SearchCorpusInput
 
 OUTPUT = Path("contracts")
 OUTPUT.mkdir(exist_ok=True)
@@ -23,6 +24,9 @@ schemas = {
     "feedback_request.schema.json": FeedbackRequest.model_json_schema(),
     "llm_request.schema.json": LLMRequest.model_json_schema(),
     "llm_response.schema.json": LLMResponse.model_json_schema(),
+    "tool_search_corpus.schema.json": SearchCorpusInput.model_json_schema(),
+    "tool_get_clause.schema.json": GetClauseInput.model_json_schema(),
+    "tool_get_request_fields.schema.json": GetRequestFieldsInput.model_json_schema(),
     "openapi.json": app.openapi(),
 }
 

@@ -169,19 +169,19 @@ POST /v1/preauth
 |---|---|---|---|---|
 | F1 | P0 | `POST /v1/preauth` with published contract, OpenAPI at `/docs` | ✅ | Phase 1; JSON Schema and OpenAPI exported |
 | F2 | P0 | Schema + range + categorical + cross-field validation; quarantine | ✅ | Phase 1; verified 422 and quarantine-only write |
-| F3 | P0 | Admission classifier; entity extraction; stored per run | 🔲 | Phase 3 |
-| F4 | P0 | Retrieve cover + waiting periods + exclusions in same run | 🔲 | Phase 2–3 |
-| F5 | P0 | Coverage position + indicative limit + clause-level citations | 🔲 | Phase 3 |
-| F6 | P0 | Route: `approve-recommended` / `query-to-hospital` / `medical-review` | 🔲 | Phase 3 |
-| F7 | P1 | Escalate on conflict / possible PED / out-of-corpus | 🔲 | Phase 3–4 |
+| F3 | P0 | Admission classifier; entity extraction; stored per run | ✅ | Phase 3 classifier and persisted trace |
+| F4 | P0 | Retrieve cover + waiting periods + exclusions in same run | ✅ | Cataract E2E retrieves B.1.1 + C.1.b and modifying searches |
+| F5 | P0 | Coverage position + indicative limit + clause-level citations | ✅ | Verified structured result |
+| F6 | P0 | Route: `approve-recommended` / `query-to-hospital` / `medical-review` | ✅ | Deterministic verifier/router |
+| F7 | P1 | Escalate on conflict / possible PED / out-of-corpus | 🟡 | PED/out-of-corpus complete; broader conflict suite remains Phase 4/6 |
 | F8 | P1 | Health, metrics, structured logs on every service | 🔲 | Phase 1+5 |
 
 ### Agent System (A)
 | ID | Pri | Requirement | Status | Notes |
 |---|---|---|---|---|
-| A1 | P0 | LangGraph, ≥ 3 tools, loop bounded | 🔲 | Phase 3 |
-| A2 | P1 | ≥ 2 agents, distinct responsibilities, hand-off | 🔲 | Phase 3 |
-| A3 | P0 | Verify every answer; citation resolution; fail → re-search | 🔲 | Phase 3 |
+| A1 | P0 | LangGraph, ≥ 3 tools, loop bounded | ✅ | Four typed tools; step/tool/time bounds tested |
+| A2 | P1 | ≥ 2 agents, distinct responsibilities, hand-off | ✅ | Researcher + verifier/router with EvidenceBundle |
+| A3 | P0 | Verify every answer; citation resolution; fail → re-search | ✅ | Fake citation and bounded retry tests pass |
 | A4 | P0 | FastAPI async; 202 + `run_id`; poll endpoint; Redis + arq | ✅ | Phase 1 end-to-end path verified |
 | A5 | P1 | Timeouts, retry+backoff, circuit breaker, graceful degradation | 🔲 | Phase 4 |
 | A6 | P2 | Per-agent Grafana dashboard | 🔲 | Phase 5 |
@@ -191,8 +191,8 @@ POST /v1/preauth
 ### LLMOps (L)
 | ID | Pri | Requirement | Status | Notes |
 |---|---|---|---|---|
-| L1 | P0 | LangChain orchestration; FAISS/Chroma; chunking+embed strategy; incremental re-embed | 🔲 | Phase 2 |
-| L2 | P1 | Versioned prompt artifacts; compare ≥ 2 variants | 🔲 | Phase 3+6 |
+| L1 | P0 | LangChain orchestration; FAISS/Chroma; chunking+embed strategy; incremental re-embed | ✅ | MiniLM + FAISS/BM25, stable hash, targeted re-embed |
+| L2 | P1 | Versioned prompt artifacts; compare ≥ 2 variants | 🟡 | v1/v2 artifacts and recording complete; comparison is Phase 6 |
 | L3 | P1 | ≥ 20 eval scenarios; batch CLI; 4 metrics; deliberate change | 🔲 | Phase 6 |
 | L4 | P1 | Prompt-injection defence; output filter; toxicity detection | 🔲 | Phase 4 |
 | L5 | P2 | Token + cost recorded per call; cost per 100 runs | 🔲 | Phase 5 |
@@ -202,7 +202,7 @@ POST /v1/preauth
 | ID | Pri | Requirement | Status | Notes |
 |---|---|---|---|---|
 | D1 | P0 | Published data contract for every interface; validated before agent starts | ✅ | Phase 1 schemas cover REST, queue and LLM adapter interfaces |
-| D2 | P0 | Idempotent ingest CLI; freshness metrics | 🔲 | Phase 2 |
+| D2 | P0 | Idempotent ingest CLI; freshness metrics | ✅ | 109 stable chunks across repeated runs; manifest + gauges |
 | D3 | P0 | ≥ 4 services in Compose; one `docker compose up`; healthchecks | ✅ | Five healthy services verified on 2026-11-06 |
 | D4 | P0 | No credentials in repo; `.env.example`; `check_secrets.sh` | ✅ | Phase 0 complete |
 | D5 | P1 | OTel → Jaeger; Prometheus; Grafana; run reconstruction | 🔲 | Phase 5 |

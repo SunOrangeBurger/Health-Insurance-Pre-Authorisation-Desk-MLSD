@@ -1,0 +1,15 @@
+{
+  "properties": {
+    "clause_id": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Clause Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "clause_id"
+  ],
+  "title": "GetClauseInput",
+  "type": "object"
+}

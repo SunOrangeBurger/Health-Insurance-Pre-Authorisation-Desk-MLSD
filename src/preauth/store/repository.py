@@ -4,7 +4,7 @@ from typing import Any
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from preauth.store.models import Quarantine, Run
+from preauth.store.models import Quarantine, Run, RunStep
 
 
 async def create_run(
@@ -76,3 +76,24 @@ async def create_quarantine(
     session.add(record)
     await session.commit()
     return record
+
+
+async def add_run_steps(session: AsyncSession, run_id: str, events: list[dict[str, Any]]) -> None:
+    for sequence, event in enumerate(events, start=1):
+        session.add(
+            RunStep(
+                run_id=run_id,
+                sequence=sequence,
+                agent=event["agent"],
+                kind=event["kind"],
+                payload=event.get("payload", {}),
+            )
+        )
+    await session.commit()
+
+
+async def get_run_steps(session: AsyncSession, run_id: str) -> list[RunStep]:
+    result = await session.scalars(
+        select(RunStep).where(RunStep.run_id == run_id).order_by(RunStep.sequence)
+    )
+    return list(result)

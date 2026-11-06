@@ -32,7 +32,7 @@ COPY --from=builder /install /usr/local
 
 # Create non-root user and directories
 RUN groupadd -r appuser && useradd -r -g appuser -d /app -s /sbin/nologin appuser \
-    && mkdir -p /app/corpus/raw /app/index_data /app/evals/results /app/loadtest/results \
+    && mkdir -p /app/corpus/raw /app/index_data /app/model_cache /app/evals/results /app/loadtest/results \
     && chown -R appuser:appuser /app
 
 # Copy application source and assets
@@ -41,6 +41,7 @@ COPY src/ ./src/
 COPY contracts/ ./contracts/
 COPY prompts/ ./prompts/
 COPY web/ ./web/
+COPY corpus/MANIFEST.md ./corpus/MANIFEST.md
 COPY scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
 
 RUN chmod +x /usr/local/bin/entrypoint.sh \

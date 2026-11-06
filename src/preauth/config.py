@@ -22,6 +22,15 @@ class Settings(BaseSettings):
     stub_delay_ms: int = Field(default=250, ge=0)
     stub_jitter_ms: int = Field(default=50, ge=0)
     fault_mode: str = "none"
+    corpus_raw_dir: str = "/app/corpus/raw"
+    index_storage_dir: str = "/app/index_data"
+    local_embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
+    max_steps: int = Field(default=12, ge=3)
+    max_tool_calls: int = Field(default=10, ge=1)
+    run_timeout_s: float = Field(default=90, gt=0)
+    llm_timeout_s: float = Field(default=20, gt=0)
+    tool_timeout_s: float = Field(default=5, gt=0)
+    max_replans: int = Field(default=2, ge=0)
 
 
 @lru_cache

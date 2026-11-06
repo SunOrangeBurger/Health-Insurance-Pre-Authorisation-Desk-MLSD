@@ -91,3 +91,31 @@ This log records **genuine failures and issues** encountered during development,
 | **Root Cause** | PostgreSQL and Redis used unqualified image names, which Podman would not resolve non-interactively. |
 | **Fix** | Changed them to `docker.io/library/postgres:16-alpine` and `docker.io/library/redis:7-alpine`. |
 | **Prevention** | Use fully qualified public image references in Compose files intended to support both Docker and Podman. |
+
+---
+
+## INC-007 — SELinux denied the indexer access to the corpus bind mount (2026-11-06, Phase 2)
+
+| Field | Detail |
+|---|---|
+| **Date** | 2026-11-06 |
+| **Phase** | Phase 2 |
+| **Symptom** | The indexer reported no PDFs; direct inspection returned `Permission denied` for `/app/corpus/raw`. |
+| **Detection** | First production MiniLM ingestion through `docker compose run indexer`. |
+| **Root Cause** | Rootless Podman on an SELinux host required a private label on the host bind mount. |
+| **Fix** | Added the Compose `Z` mount option while retaining read-only access. |
+| **Prevention** | Exercise bind mounts through the target container runtime, not only host-side tests. |
+
+---
+
+## INC-008 — adjacent PED text contaminated the cataract waiting-period month value (2026-11-06, Phase 3)
+
+| Field | Detail |
+|---|---|
+| **Date** | 2026-11-06 |
+| **Phase** | Phase 3 |
+| **Symptom** | The 30-month cataract variant incorrectly remained `waiting_period_not_served`. |
+| **Detection** | End-to-end flip acceptance case after the 11-month case passed. |
+| **Root Cause** | The PDF page chunk for `C.1.b` retained the tail of `C.1.a`, so a generic month regex read the preceding 36-month PED value before the 24-month specific value. |
+| **Fix** | Trim canonical chunks to their exact heading and make the verifier extract the month value specifically following the Specified Disease/Procedure heading. |
+| **Prevention** | Keep flip/boundary cases in the unit and end-to-end suites; assert that canonical chunks exclude adjacent clause values. |

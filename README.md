@@ -47,6 +47,10 @@ cp .env.example .env
 # Edit .env with your LLM configuration or use LLM_PROVIDER=stub for offline dev
 ```
 
+Place the policy wording PDF listed in `corpus/MANIFEST.md` at
+`corpus/raw/optima_secure_policy_wording.pdf`. Raw policy documents are intentionally
+not committed to GitHub.
+
 ### 2. Launch the System
 ```bash
 docker compose up --build -d
@@ -90,7 +94,9 @@ curl -sS -X POST http://localhost:8000/v1/preauth \
   }"
 ```
 
-Poll the returned `poll_url` until the status is terminal. During Phase 1 the worker deliberately returns a conservative `medical-review` placeholder; policy research is added in Phases 2–3.
+Poll the returned `poll_url` until the status is terminal. The worker runs the bounded
+research and verifier/router graph, returns clause-level citations, and conservatively
+routes unverified or out-of-corpus cases to `medical-review`.
 
 ### Local Tests with uv
 

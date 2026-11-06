@@ -18,6 +18,7 @@ langchain-core==0.2.35
 
 # Embeddings, Vector Index, Retrieval
 torch==2.2.2+cpu
+numpy==1.26.4
 sentence-transformers==2.7.0
 faiss-cpu==1.8.0.post1
 rank-bm25==0.2.2

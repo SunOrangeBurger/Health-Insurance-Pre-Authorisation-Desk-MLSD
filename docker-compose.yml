@@ -57,6 +57,8 @@ services:
       retries: 20
     ports:
       - "8000:8000"
+    volumes:
+      - index_data:/app/index_data:ro
 
   worker:
     image: localhost/preauth-desk:dev
@@ -69,11 +71,31 @@ services:
         condition: service_healthy
       llm-stub:
         condition: service_healthy
+      indexer:
+        condition: service_completed_successfully
     healthcheck:
       test: ["CMD", "curl", "-fsS", "http://localhost:8001/metrics"]
       interval: 5s
       timeout: 3s
       retries: 20
+    volumes:
+      - index_data:/app/index_data:ro
+      - model_cache:/app/model_cache
+    environment:
+      HF_HOME: /app/model_cache
+
+  indexer:
+    image: localhost/preauth-desk:dev
+    command: ["ingest"]
+    env_file: .env
+    volumes:
+      - ./corpus/raw:/app/corpus/raw:ro,Z
+      - index_data:/app/index_data
+      - model_cache:/app/model_cache
+    environment:
+      HF_HOME: /app/model_cache
 
 volumes:
   postgres_data:
+  index_data:
+  model_cache:

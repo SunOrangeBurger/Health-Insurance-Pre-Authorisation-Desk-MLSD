@@ -1,0 +1,34 @@
+{
+  "properties": {
+    "query": {
+      "maxLength": 500,
+      "minLength": 2,
+      "title": "Query",
+      "type": "string"
+    },
+    "provision_type": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Provision Type"
+    },
+    "top_k": {
+      "default": 5,
+      "maximum": 10,
+      "minimum": 1,
+      "title": "Top K",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "query"
+  ],
+  "title": "SearchCorpusInput",
+  "type": "object"
+}

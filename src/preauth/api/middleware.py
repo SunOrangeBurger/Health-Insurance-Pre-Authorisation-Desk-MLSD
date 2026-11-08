@@ -1,6 +1,7 @@
 from uuid import uuid4
 
 import structlog.contextvars
+from opentelemetry import trace
 from starlette.middleware.base import BaseHTTPMiddleware
 
 
@@ -10,6 +11,7 @@ class CorrelationIdMiddleware(BaseHTTPMiddleware):
         request.state.correlation_id = correlation_id
         structlog.contextvars.clear_contextvars()
         structlog.contextvars.bind_contextvars(correlation_id=correlation_id)
+        trace.get_current_span().set_attribute("correlation_id", correlation_id)
         response = await call_next(request)
         response.headers["X-Correlation-ID"] = correlation_id
         return response

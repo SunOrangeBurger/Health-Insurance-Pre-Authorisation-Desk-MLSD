@@ -8,8 +8,8 @@
 | **Phase 1** | Walking Skeleton (Compose, API, Queue, Worker, Contracts, Web Client) | ✅ **Done** | Days 2–5 | 2026-11-06 |
 | **Phase 2** | Corpus Pipeline & Retrieval (Chunking, Tagging, FAISS, BM25 Hybrid) | ✅ **Done** | Days 4–9 | 2026-11-06 |
 | **Phase 3** | Agents (LangGraph Research & Verifier, Loop bounds, Cataract reference) | ✅ **Done** | Days 8–16 | 2026-11-06 |
-| **Phase 4** | Reliability & Guardrails (Breaker, Fallback, Injection/Toxicity defense) | 🔲 Planned | Days 14–22 | — |
-| **Phase 5** | Observability (OTel → Jaeger, Prometheus, Grafana, Cost ledger) | 🔲 Planned | Days 18–26 | — |
+| **Phase 4** | Reliability & Guardrails (Breaker, Fallback, Injection/Toxicity defense) | ✅ **Done** | Days 14–22 | 2026-11-08 |
+| **Phase 5** | Observability (OTel → Jaeger, Prometheus, Grafana, Cost ledger) | ✅ **Done** | Days 18–26 | 2026-11-08 |
 | **Phase 6** | Evaluation (20+ scenarios, Groundedness, Faithfulness, Relevance) | 🔲 Planned | Days 22–30 | — |
 | **Phase 7** | SLO & Load Testing (Locust, Stub scaling, Caching benchmarks) | 🔲 Planned | Days 26–34 | — |
 | **Phase 8** | Docs, Runbook, Hardening, Clean-clone verification | 🔲 Planned | Days 32–38 | — |
@@ -137,3 +137,43 @@
 
 ### Next
 - Phase 4: prompt-injection/toxicity guardrails, provider retries, circuit breaker, fault-mode degradation, and rate limiting.
+
+---
+
+## Phase 4 — COMPLETE ✅
+
+### Exit Checks (All Passed)
+- [x] LLM calls have configurable timeouts and retry only retryable transport, timeout, 429, 5xx and malformed-response failures.
+- [x] Retry is bounded and uses exponential backoff with jitter.
+- [x] Circuit breaker implements closed, open and single-probe half-open states with a Prometheus state gauge.
+- [x] `FAULT_MODE=provider_down` produced an honest retrieval-only result with terminal status `degraded`, `medical-review`, preserved citations and no HTTP 500.
+- [x] Injection detection runs over every free-text field before model access; flagged text is replaced in the stored run payload and the run escalates without agent, tool or cost events.
+- [x] Twelve hostile prompt variants and toxicity/output-filter cases pass.
+- [x] Redis token bucket returns 429 with `Retry-After` per client; inputs and tool arguments remain typed and tool results are marked untrusted.
+
+### Verification Evidence
+- Prompt-injection run `63fb3a3c-26b8-417a-ad69-43b44d1ac4c3`: `escalated`, `guardrail_blocked`, empty steps and costs.
+- Provider-down run `d21f389e-1efd-4f5f-b118-9b674df15d08`: `degraded`, retrieval-only `medical-review`; `llm_circuit_breaker_state{provider="stub"}=1`.
+- Reproducible commands are in `scripts/demo_07_prompt_injection.sh` and `scripts/demo_08_circuit_breaker.sh`.
+
+---
+
+## Phase 5 — COMPLETE ✅ (75% Project Milestone)
+
+### Exit Checks (All Passed)
+- [x] OpenTelemetry spans cover FastAPI, worker runs, provider calls, graph nodes and retrieval tools.
+- [x] Jaeger received services `preauth-api` and `preauth-worker` from real synthetic traffic.
+- [x] Prometheus scrapes API, worker, LLM stub, Redis exporter and itself; application/process CPU and RSS metrics require no privileged host mount.
+- [x] Provisioned Grafana dashboard includes p50/p95 latency, throughput/outcomes, retries, breaker state, index freshness, agent/tool metrics, notional cost and process resources.
+- [x] Cost ledger records provider/model, step, prompt/completion tokens and configured notional cost per call.
+- [x] `scripts/show_run.py` reconstructs tool arguments, result IDs, prompt versions, latency, verification and cost entries.
+
+### Verification Evidence
+- Successful provider run `6efe7802-ed6a-44b0-b8a9-a40276da5d2d`: completed with 19 persisted steps and a `provider_advisory` cost entry (72 prompt tokens, 1 completion token, configured cost $0).
+- Final rebuilt-stack run `1c979a5b-e165-43e2-82da-d2aac4bb6f00`: `completed`, `approve-recommended`, verification passed, citations `B.1.1` + `C.1.b`, verbatim citation text preserved, 19 steps and one cost entry.
+- Grafana health, Prometheus readiness and Jaeger UI/API were verified locally on 2026-11-08.
+- Prometheus reported healthy targets for API, worker, stub, Redis and Prometheus.
+- The `host-metrics` cAdvisor profile is intentionally opt-in because it requires privileged host access; it was not started during verification. The default dashboard uses safer service-process CPU/RSS metrics.
+
+### Next
+- Phase 6: build and execute the 20+ scenario evaluation set, compare prompt variants, and publish groundedness, relevance, faithfulness, hallucination and routing metrics from real runs.

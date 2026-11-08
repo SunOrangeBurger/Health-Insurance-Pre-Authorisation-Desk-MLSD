@@ -11,12 +11,14 @@ from fastapi import Depends, FastAPI, HTTPException, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
+from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 from prometheus_client import CONTENT_TYPE_LATEST, Counter, Gauge, generate_latest
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.responses import Response
 
 from preauth.api.middleware import CorrelationIdMiddleware
+from preauth.api.rate_limit import consume_token
 from preauth.api.schemas import (
     CONTRACT_VERSION,
     PreauthRequest,
@@ -25,9 +27,12 @@ from preauth.api.schemas import (
     SubmissionResponse,
 )
 from preauth.config import get_settings
+from preauth.guardrails.detectors import inspect_request
 from preauth.obs.logging import configure_logging, get_logger
+from preauth.obs.metrics import GUARDRAIL_HITS, RATE_LIMITED
+from preauth.obs.tracing import configure_tracing
 from preauth.store.database import close_database, get_session, init_database
-from preauth.store.repository import create_quarantine, create_run, get_run, get_run_steps, update_run
+from preauth.store.repository import create_quarantine, create_run, get_cost_entries, get_run, get_run_steps, update_run
 
 configure_logging()
 logger = get_logger(__name__)
@@ -52,6 +57,7 @@ def _read_index_manifest() -> dict[str, Any] | None:
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    configure_tracing("preauth-api", settings.otel_exporter_endpoint, settings.otel_enabled)
     await init_database()
     _read_index_manifest()
     app.state.redis = await create_pool(RedisSettings.from_dsn(settings.redis_url))
@@ -66,6 +72,7 @@ app = FastAPI(
     lifespan=lifespan,
 )
 app.add_middleware(CorrelationIdMiddleware)
+FastAPIInstrumentor.instrument_app(app)
 
 
 def _serializable_body(body: Any) -> dict[str, Any]:
@@ -141,10 +148,33 @@ async def submit_preauth(
     request: Request,
     session: AsyncSession = Depends(get_session),
 ) -> SubmissionResponse:
+    client_id = request.headers.get("X-Client-ID") or (request.client.host if request.client else "unknown")
+    decision = await consume_token(
+        request.app.state.redis,
+        client_id,
+        settings.rate_limit_capacity,
+        settings.rate_limit_refill_per_second,
+    )
+    if not decision.allowed:
+        RATE_LIMITED.inc()
+        raise HTTPException(
+            status_code=429,
+            detail="submission rate limit exceeded",
+            headers={"Retry-After": str(decision.retry_after)},
+        )
     run_id = str(uuid4())
     correlation_id = request.state.correlation_id
     stored_payload = payload.model_dump(mode="json")
     stored_payload["validation_flags"] = payload.validation_flags
+    findings = inspect_request(stored_payload) if settings.guardrails_enabled else []
+    if findings:
+        stored_payload["guardrail_findings"] = [
+            {"field": finding.field, "categories": finding.categories} for finding in findings
+        ]
+        for finding in findings:
+            stored_payload[finding.field] = "[BLOCKED BY INPUT GUARDRAIL]"
+            for category in finding.categories:
+                GUARDRAIL_HITS.labels(category=category, field=finding.field).inc()
     await create_run(
         session,
         run_id=run_id,
@@ -193,6 +223,7 @@ async def read_run_trace(run_id: str, session: AsyncSession = Depends(get_sessio
     if run is None:
         raise HTTPException(status_code=404, detail="run not found")
     steps = await get_run_steps(session, run_id)
+    costs = await get_cost_entries(session, run_id)
     return {
         "run_id": run_id,
         "correlation_id": run.correlation_id,
@@ -205,6 +236,17 @@ async def read_run_trace(run_id: str, session: AsyncSession = Depends(get_sessio
                 "created_at": step.created_at.isoformat(),
             }
             for step in steps
+        ],
+        "costs": [
+            {
+                "step": item.step_name,
+                "provider": item.provider,
+                "model": item.model,
+                "prompt_tokens": item.prompt_tokens,
+                "completion_tokens": item.completion_tokens,
+                "notional_cost_usd": item.notional_cost_usd,
+            }
+            for item in costs
         ],
     }
 

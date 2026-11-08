@@ -119,3 +119,31 @@ This log records **genuine failures and issues** encountered during development,
 | **Root Cause** | The PDF page chunk for `C.1.b` retained the tail of `C.1.a`, so a generic month regex read the preceding 36-month PED value before the 24-month specific value. |
 | **Fix** | Trim canonical chunks to their exact heading and make the verifier extract the month value specifically following the Specified Disease/Procedure heading. |
 | **Prevention** | Keep flip/boundary cases in the unit and end-to-end suites; assert that canonical chunks exclude adjacent clause values. |
+
+---
+
+## INC-009 — Podman Compose selected-service recreation disturbed dependencies (2026-11-08, Phase 5)
+
+| Field | Detail |
+|---|---|
+| **Date** | 2026-11-08 |
+| **Phase** | Phase 5 |
+| **Symptom** | Recreating only `llm-stub worker` for a fault test emitted dependent-container and pod-removal errors and temporarily stopped the worker. |
+| **Detection** | Live `FAULT_MODE=provider_down` circuit-breaker rehearsal. |
+| **Root Cause** | `podman-compose` expanded service dependencies and attempted to replace containers while observability-profile containers in the shared pod were still running. |
+| **Fix** | Inspected the complete profile with `docker compose --profile observability ps`; Compose completed dependency recovery and all required services returned healthy before testing continued. |
+| **Prevention** | Prefer recreating the full active profile for configuration changes under Podman, and always check service health after selected-service operations. |
+
+---
+
+## INC-010 — privileged cAdvisor verification rejected by host safety boundary (2026-11-08, Phase 5)
+
+| Field | Detail |
+|---|---|
+| **Date** | 2026-11-08 |
+| **Phase** | Phase 5 |
+| **Symptom** | Starting cAdvisor was rejected because it requested privileged execution and read mounts over host root, runtime and container storage. |
+| **Detection** | Attempt to validate the optional container-resource dashboard target. |
+| **Root Cause** | cAdvisor's standard deployment needs a host-access boundary that is disproportionate for the default development stack. |
+| **Fix** | Kept cAdvisor behind the explicit `host-metrics` profile and changed the default dashboard to safe Prometheus process CPU/RSS metrics. |
+| **Prevention** | Do not make privileged host-monitoring agents part of the default stack; require explicit operator review and approval. |

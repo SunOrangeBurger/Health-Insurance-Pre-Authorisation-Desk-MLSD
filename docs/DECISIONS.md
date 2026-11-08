@@ -123,3 +123,30 @@ This document logs every significant technical decision made throughout the proj
 - **Context:** Unsupported coverage statements are more harmful than conservative escalation, and an LLM must not be trusted to validate its own citation IDs.
 - **Decision:** Use separate research and verifier/router agents in LangGraph. Resolve citation IDs deterministically against the run's `EvidenceBundle`, require a mandatory-provision search checklist, and enforce step/tool/time/replan limits. Failed verification always routes to `medical-review`.
 - **Rejected Alternatives:** One monolithic prompt and verifier-only natural-language citation checking.
+
+---
+
+## ADR-012: Layered Guardrails with Safe Escalation
+- **Status:** Accepted
+- **Date:** 2026-11-08 (Phase 4)
+- **Context:** Free-text clinical fields can contain prompt injection or abusive content. Those values must not reach a model or tool-using agent as instructions, while false positives must not produce a coverage determination.
+- **Decision:** Run a deterministic, LLM-free detector on every free-text field at the API boundary. Replace flagged fields in the stored agent payload, record category/field metrics, and end the run as `guardrail_blocked` / `medical-review` before any model or tool call. Keep typed, read-only tools and label retrieved policy text as untrusted data. Apply the determination-language/toxicity filter only to generated narrative fields, never to verbatim citations or structured route values.
+- **Rejected Alternatives:** Prompt-only defence (an injected instruction has already reached the model) and silently deleting suspicious text while continuing to a confident recommendation.
+
+---
+
+## ADR-013: Bounded Provider Resilience and Retrieval-Only Fallback
+- **Status:** Accepted
+- **Date:** 2026-11-08 (Phase 4)
+- **Context:** Provider outages, timeouts, 429s and malformed responses must not turn into API 500s or unverified confident recommendations.
+- **Decision:** Use at most three attempts with exponential backoff and jitter, then a closed/open/half-open breaker. When the provider is unavailable, finish deterministic retrieval, preserve evidence, force `verification.passed=false`, route to `medical-review`, and store terminal status `degraded`. Export provider outcomes, retries, latency and breaker state.
+- **Rejected Alternatives:** Unbounded retries (queue amplification) and returning the deterministic result as fully verified when the configured model stage did not run.
+
+---
+
+## ADR-014: OTel, Prometheus and Non-Privileged Default Metrics
+- **Status:** Accepted
+- **Date:** 2026-11-08 (Phase 5)
+- **Context:** Run reconstruction requires traces and metrics, but cAdvisor requires a privileged container with broad host mounts under Podman.
+- **Decision:** Export application spans through OTLP to Jaeger and scrape service metrics with Prometheus. Provision Grafana from source-controlled configuration. Use standard process CPU/RSS metrics by default; keep cAdvisor behind an explicit `host-metrics` profile for environments that accept its host-access boundary.
+- **Rejected Alternatives:** Making privileged cAdvisor a default dependency, and logs-only observability without span linkage or quantitative dashboards.

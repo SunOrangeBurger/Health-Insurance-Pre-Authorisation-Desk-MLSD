@@ -31,6 +31,18 @@ class Settings(BaseSettings):
     llm_timeout_s: float = Field(default=20, gt=0)
     tool_timeout_s: float = Field(default=5, gt=0)
     max_replans: int = Field(default=2, ge=0)
+    llm_max_attempts: int = Field(default=3, ge=1, le=5)
+    retry_base_delay_s: float = Field(default=0.5, ge=0)
+    circuit_failure_threshold: int = Field(default=5, ge=1)
+    circuit_cooldown_s: float = Field(default=30, gt=0)
+    rate_limit_capacity: int = Field(default=10, ge=1)
+    rate_limit_refill_per_second: float = Field(default=1.0, gt=0)
+    guardrails_enabled: bool = True
+    otel_enabled: bool = True
+    otel_exporter_endpoint: str = "http://jaeger:4317"
+    service_name: str = "preauth-api"
+    llm_input_cost_per_1k: float = Field(default=0, ge=0)
+    llm_output_cost_per_1k: float = Field(default=0, ge=0)
 
 
 @lru_cache

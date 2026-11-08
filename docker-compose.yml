@@ -22,6 +22,15 @@ services:
       timeout: 3s
       retries: 20
 
+  redis-exporter:
+    image: docker.io/oliver006/redis_exporter:v1.66.0
+    environment:
+      REDIS_ADDR: redis://redis:6379
+    depends_on:
+      redis:
+        condition: service_healthy
+    profiles: ["observability"]
+
   llm-stub:
     image: localhost/preauth-desk:dev
     command: ["stub"]
@@ -57,6 +66,14 @@ services:
       retries: 20
     ports:
       - "8000:8000"
+    environment:
+      LLM_PROVIDER: ${LLM_PROVIDER:-stub}
+      LLM_BASE_URL: ${LLM_BASE_URL:-http://llm-stub:8080}
+      OTEL_ENABLED: ${OTEL_ENABLED:-true}
+      OTEL_EXPORTER_ENDPOINT: ${OTEL_EXPORTER_ENDPOINT:-http://jaeger:4317}
+      RATE_LIMIT_CAPACITY: ${RATE_LIMIT_CAPACITY:-10}
+      RATE_LIMIT_REFILL_PER_SECOND: ${RATE_LIMIT_REFILL_PER_SECOND:-1.0}
+      GUARDRAILS_ENABLED: ${GUARDRAILS_ENABLED:-true}
     volumes:
       - index_data:/app/index_data:ro
 
@@ -83,6 +100,16 @@ services:
       - model_cache:/app/model_cache
     environment:
       HF_HOME: /app/model_cache
+      LLM_PROVIDER: ${LLM_PROVIDER:-stub}
+      LLM_BASE_URL: ${LLM_BASE_URL:-http://llm-stub:8080}
+      LLM_MODEL: ${LLM_MODEL:-}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      OTEL_ENABLED: ${OTEL_ENABLED:-true}
+      OTEL_EXPORTER_ENDPOINT: ${OTEL_EXPORTER_ENDPOINT:-http://jaeger:4317}
+      LLM_MAX_ATTEMPTS: ${LLM_MAX_ATTEMPTS:-3}
+      RETRY_BASE_DELAY_S: ${RETRY_BASE_DELAY_S:-0.5}
+      CIRCUIT_FAILURE_THRESHOLD: ${CIRCUIT_FAILURE_THRESHOLD:-5}
+      CIRCUIT_COOLDOWN_S: ${CIRCUIT_COOLDOWN_S:-30}
 
   indexer:
     image: localhost/preauth-desk:dev
@@ -95,7 +122,55 @@ services:
     environment:
       HF_HOME: /app/model_cache
 
+  jaeger:
+    image: docker.io/jaegertracing/all-in-one:1.60
+    environment:
+      COLLECTOR_OTLP_ENABLED: "true"
+    ports:
+      - "16686:16686"
+      - "4317:4317"
+    profiles: ["observability"]
+
+  prometheus:
+    image: docker.io/prom/prometheus:v2.55.0
+    command: ["--config.file=/etc/prometheus/prometheus.yml", "--storage.tsdb.path=/prometheus"]
+    volumes:
+      - ./ops/prometheus.yml:/etc/prometheus/prometheus.yml:ro,Z
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+    profiles: ["observability"]
+
+  grafana:
+    image: docker.io/grafana/grafana:11.2.2
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+    volumes:
+      - ./ops/grafana/provisioning:/etc/grafana/provisioning:ro,Z
+      - ./ops/grafana/dashboards:/var/lib/grafana/dashboards:ro,Z
+      - grafana_data:/var/lib/grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    profiles: ["observability"]
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.49.1
+    privileged: true
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/containers:/var/lib/containers:ro
+    profiles: ["host-metrics"]
+
 volumes:
   postgres_data:
   index_data:
   model_cache:
+  prometheus_data:
+  grafana_data:

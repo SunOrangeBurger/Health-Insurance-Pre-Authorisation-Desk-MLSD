@@ -11,6 +11,8 @@ from preauth.agents.verifier import VerifierRouterAgent
 from preauth.config import Settings
 from preauth.rag.embeddings import Embedder
 from preauth.rag.retriever import HybridRetriever
+from preauth.obs.metrics import AGENT_REPLANS, AGENT_STEP_LATENCY
+from preauth.obs.tracing import span
 
 
 class AgentState(TypedDict, total=False):
@@ -53,12 +55,16 @@ class PreauthAgentSystem:
             raise TimeoutError("agent wall-clock limit reached")
 
     def _classify(self, state: AgentState) -> dict[str, Any]:
+        started = time.perf_counter()
         self._guard(state)
-        admission_class = state["request"].get("admission_type", "unknown")
+        with span("agent.classify"):
+            admission_class = state["request"].get("admission_type", "unknown")
+        AGENT_STEP_LATENCY.labels("intake-classifier", "classification").observe(time.perf_counter() - started)
         event = AgentTraceEvent(agent="intake-classifier", kind="classification", payload={"admission_class": admission_class})
         return {"admission_class": admission_class, "steps": state.get("steps", 0) + 1, "trace": state.get("trace", []) + [event]}
 
     def _research(self, state: AgentState) -> dict[str, Any]:
+        started = time.perf_counter()
         self._guard(state)
         tools = PolicyTools(
             self.retriever,
@@ -67,7 +73,9 @@ class PreauthAgentSystem:
             timeout_seconds=self.settings.tool_timeout_s,
             initial_calls=state.get("tool_calls", 0),
         )
-        bundle = self.researcher.run(state["request"], tools, state.get("retry_directive"))
+        with span("agent.policy_research"):
+            bundle = self.researcher.run(state["request"], tools, state.get("retry_directive"))
+        AGENT_STEP_LATENCY.labels("policy-research", "research").observe(time.perf_counter() - started)
         return {
             "bundle": bundle,
             "tool_calls": tools.calls,
@@ -77,11 +85,16 @@ class PreauthAgentSystem:
         }
 
     def _verify(self, state: AgentState) -> dict[str, Any]:
+        started = time.perf_counter()
         self._guard(state)
         replan_count = state.get("replan_count", 0)
-        result = self.verifier.run(state["request"], state["bundle"], allow_retry=replan_count < self.settings.max_replans)
+        with span("agent.verify_and_route"):
+            result = self.verifier.run(state["request"], state["bundle"], allow_retry=replan_count < self.settings.max_replans)
+        AGENT_STEP_LATENCY.labels("verifier-router", "verification").observe(time.perf_counter() - started)
         event = AgentTraceEvent(agent="verifier-router", kind="verification", payload={"passed": result.verification.passed, "route": result.route, "checks": result.verification.checks, "prompt_version": self.verifier.prompt_version})
         retry = result.verification.retry_directive
+        if retry:
+            AGENT_REPLANS.inc()
         return {
             "result": result,
             "steps": state.get("steps", 0) + 1,

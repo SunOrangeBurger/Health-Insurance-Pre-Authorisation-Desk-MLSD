@@ -4,7 +4,7 @@ from typing import Any
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from preauth.store.models import Quarantine, Run, RunStep
+from preauth.store.models import CostLedger, Quarantine, Run, RunStep
 
 
 async def create_run(
@@ -38,6 +38,7 @@ async def update_run(
     status: str,
     result: dict[str, Any] | None = None,
     error_message: str | None = None,
+    prompt_versions: dict[str, str] | None = None,
 ) -> Run | None:
     run = await get_run(session, run_id)
     if run is None:
@@ -45,6 +46,8 @@ async def update_run(
     run.status = status
     run.result = result
     run.error_message = error_message
+    if prompt_versions is not None:
+        run.prompt_versions = prompt_versions
     now = datetime.now(timezone.utc)
     if status == "running":
         run.started_at = now
@@ -95,5 +98,37 @@ async def add_run_steps(session: AsyncSession, run_id: str, events: list[dict[st
 async def get_run_steps(session: AsyncSession, run_id: str) -> list[RunStep]:
     result = await session.scalars(
         select(RunStep).where(RunStep.run_id == run_id).order_by(RunStep.sequence)
+    )
+    return list(result)
+
+
+async def add_cost_entry(
+    session: AsyncSession,
+    *,
+    run_id: str,
+    step_name: str,
+    provider: str,
+    model: str,
+    prompt_tokens: int,
+    completion_tokens: int,
+    notional_cost_usd: float,
+) -> None:
+    session.add(
+        CostLedger(
+            run_id=run_id,
+            step_name=step_name,
+            provider=provider,
+            model=model,
+            prompt_tokens=prompt_tokens,
+            completion_tokens=completion_tokens,
+            notional_cost_usd=notional_cost_usd,
+        )
+    )
+    await session.commit()
+
+
+async def get_cost_entries(session: AsyncSession, run_id: str) -> list[CostLedger]:
+    result = await session.scalars(
+        select(CostLedger).where(CostLedger.run_id == run_id).order_by(CostLedger.id)
     )
     return list(result)

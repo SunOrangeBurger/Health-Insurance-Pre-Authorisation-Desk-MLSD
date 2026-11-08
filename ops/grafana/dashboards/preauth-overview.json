@@ -1,0 +1,24 @@
+{
+  "annotations": {"list": []},
+  "editable": false,
+  "graphTooltip": 1,
+  "panels": [
+    {"type":"timeseries","title":"End-to-end worker p50 / p95","gridPos":{"x":0,"y":0,"w":12,"h":8},"targets":[{"expr":"histogram_quantile(0.50, sum(rate(preauth_worker_run_seconds_bucket[5m])) by (le))","legendFormat":"p50"},{"expr":"histogram_quantile(0.95, sum(rate(preauth_worker_run_seconds_bucket[5m])) by (le))","legendFormat":"p95"}]},
+    {"type":"timeseries","title":"Run throughput by status","gridPos":{"x":12,"y":0,"w":12,"h":8},"targets":[{"expr":"sum(rate(preauth_worker_runs_total[5m])) by (status)","legendFormat":"{{status}}"}]},
+    {"type":"timeseries","title":"Provider latency / retry rate","gridPos":{"x":0,"y":8,"w":12,"h":8},"targets":[{"expr":"histogram_quantile(0.95, sum(rate(llm_call_seconds_bucket[5m])) by (le, provider))","legendFormat":"p95 {{provider}}"},{"expr":"sum(rate(llm_retries_total[5m])) by (provider)","legendFormat":"retries {{provider}}"}]},
+    {"type":"stat","title":"Circuit breaker state","gridPos":{"x":12,"y":8,"w":6,"h":4},"targets":[{"expr":"max by (provider) (llm_circuit_breaker_state)","legendFormat":"{{provider}}"}]},
+    {"type":"stat","title":"Index chunks / age","gridPos":{"x":18,"y":8,"w":6,"h":4},"targets":[{"expr":"index_chunks_total","legendFormat":"chunks"},{"expr":"time() - index_built_timestamp","legendFormat":"age seconds"}]},
+    {"type":"timeseries","title":"Agent outcomes and tool calls","gridPos":{"x":12,"y":12,"w":12,"h":8},"targets":[{"expr":"sum(rate(agent_runs_total[5m])) by (outcome, route)","legendFormat":"{{outcome}} {{route}}"},{"expr":"rate(agent_tool_calls_sum[5m]) / rate(agent_tool_calls_count[5m])","legendFormat":"mean tool calls"}]},
+    {"type":"timeseries","title":"Notional cost","gridPos":{"x":0,"y":16,"w":12,"h":8},"targets":[{"expr":"sum(increase(llm_notional_cost_usd_total[1h])) by (provider, step)","legendFormat":"{{provider}} {{step}}"}]},
+    {"type":"timeseries","title":"Service process CPU / RSS","gridPos":{"x":12,"y":20,"w":12,"h":8},"targets":[{"expr":"sum(rate(process_cpu_seconds_total[5m])) by (job, instance)","legendFormat":"CPU {{job}} {{instance}}"},{"expr":"sum(process_resident_memory_bytes) by (job, instance)","legendFormat":"RSS {{job}} {{instance}}"}]}
+  ],
+  "refresh": "5s",
+  "schemaVersion": 39,
+  "tags": ["preauth", "agentops"],
+  "templating": {"list": []},
+  "time": {"from": "now-1h", "to": "now"},
+  "timezone": "browser",
+  "title": "Pre-Authorisation Desk Overview",
+  "uid": "preauth-overview",
+  "version": 1
+}

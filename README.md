@@ -65,6 +65,23 @@ curl http://localhost:8000/readyz
 ### 4. Interactive Web Interface
 Open `http://localhost:8000/` in your browser to submit synthetic pre-authorisation requests and inspect the live agent recommendation, citations, and verification trails.
 
+### Observability
+
+Start the source-controlled monitoring stack with:
+
+```bash
+docker compose --profile observability up --build -d
+```
+
+- Grafana dashboard: `http://localhost:3000` (local default `admin` / `admin`)
+- Prometheus: `http://localhost:9090`
+- Jaeger: `http://localhost:16686`
+- Run reconstruction: `.venv/bin/python scripts/show_run.py <run_id>`
+
+The default dashboard uses non-privileged service-process CPU/RSS metrics. The optional
+`host-metrics` profile contains cAdvisor and should only be enabled after reviewing its
+privileged host mounts.
+
 ### 5. Submit a Synthetic Request
 
 ```bash
@@ -151,3 +168,5 @@ Published contracts are in `contracts/`; regenerate them with `make contracts` f
 - **Corpus Ingestion:** `make ingest`
 - **Run Evaluations:** `make eval`
 - **Run Load Test:** `make load`
+- **Prompt-Injection Demo:** `scripts/demo_07_prompt_injection.sh`
+- **Circuit-Breaker Demo:** `scripts/demo_08_circuit_breaker.sh`

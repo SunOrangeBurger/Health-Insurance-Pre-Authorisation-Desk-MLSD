@@ -6,6 +6,8 @@ from pydantic import BaseModel, Field
 from preauth.agents.models import AgentTraceEvent
 from preauth.rag.models import SearchResult
 from preauth.rag.retriever import HybridRetriever
+from preauth.obs.metrics import AGENT_STEP_LATENCY
+from preauth.obs.tracing import span
 
 
 class SearchCorpusInput(BaseModel):
@@ -54,17 +56,20 @@ class PolicyTools:
         elapsed = time.perf_counter() - started
         if elapsed > self.timeout_seconds:
             raise TimeoutError(f"{name} exceeded {self.timeout_seconds}s")
-        self.trace.append(AgentTraceEvent(agent="policy-research", kind="tool_result", payload={"tool": name, "result_count": count, "result_ids": result_ids or [], "elapsed_ms": round(elapsed * 1000, 3)}))
+        self.trace.append(AgentTraceEvent(agent="policy-research", kind="tool_result", payload={"tool": name, "result_count": count, "result_ids": result_ids or [], "elapsed_ms": round(elapsed * 1000, 3), "trust": "untrusted_policy_data"}))
 
     def search_corpus(self, arguments: SearchCorpusInput) -> list[SearchResult]:
         started = self._before("search_corpus", arguments.model_dump())
-        results = self.retriever.search(arguments.query, arguments.provision_type, arguments.top_k)
+        with span("tool.search_corpus", provision_type=arguments.provision_type, top_k=arguments.top_k):
+            results = self.retriever.search(arguments.query, arguments.provision_type, arguments.top_k)
         self._after("search_corpus", started, len(results), [result.chunk_id for result in results])
+        AGENT_STEP_LATENCY.labels("policy-research", "search_corpus").observe(time.perf_counter() - started)
         return results
 
     def get_clause(self, arguments: GetClauseInput) -> list[SearchResult]:
         started = self._before("get_clause", arguments.model_dump())
-        results = self.retriever.get_clause(arguments.clause_id)
+        with span("tool.get_clause", clause_id=arguments.clause_id):
+            results = self.retriever.get_clause(arguments.clause_id)
         self._after("get_clause", started, len(results), [result.chunk_id for result in results])
         return results
 

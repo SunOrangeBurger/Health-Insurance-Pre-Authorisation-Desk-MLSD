@@ -48,3 +48,38 @@ docker compose --env-file ops/stub.compose --profile observability up -d --force
 ```
 
 Detailed index and provider recovery procedures are in `docs/RUNBOOK.md`.
+
+## Persistent live-dashboard mode
+
+For a presentation where the charts should visibly move as requests arrive, run:
+
+```bash
+make demo-live
+```
+
+Open Grafana at `http://localhost:3000/d/preauth-overview` before or after starting
+the generator. The dashboard refreshes every five seconds. The terminal prints each
+accepted request and its eventual status/route, while the generator continuously
+rotates through safe approvals, waiting-period cases, room queries, possible PED,
+maternity, out-of-corpus, prompt injection and quarantined malformed input. It also
+posts periodic synthetic feedback so the quality panel changes live.
+
+Controls are environment variables:
+
+| Variable | Default | Meaning |
+|---|---:|---|
+| `RATE` | `1` | New submissions per second |
+| `MAX_IN_FLIGHT` | `20` | Bound on runs being polled concurrently |
+| `DURATION_SECONDS` | `0` | Stop after N seconds; `0` means until Ctrl+C |
+| `FEEDBACK_EVERY` | `5` | Add feedback to every Nth accepted sequence |
+| `BASE_URL` | `http://localhost:8000` | API endpoint |
+
+Example five-minute presentation at two requests per second:
+
+```bash
+RATE=2 MAX_IN_FLIGHT=30 DURATION_SECONDS=300 make demo-live
+```
+
+Ctrl+C stops new traffic and briefly drains in-flight polling. Containers remain up,
+so the final dashboard state is still available. Shut everything down afterward with
+`docker compose --env-file ops/stub.compose --profile observability down`.

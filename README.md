@@ -140,6 +140,26 @@ escalation, fabricated-citation rejection, prompt-injection blocking, provider-o
 degradation and breaker recovery, the declared Locust SLO, and the 11/30-month
 cataract flip. See [`docs/DEMO.md`](docs/DEMO.md) for expected output and manual commands.
 
+### Persistent live-dashboard demo
+
+To keep synthetic requests flowing while presenting Grafana and Jaeger, run:
+
+```bash
+make demo-live
+```
+
+The generator runs until Ctrl+C, continuously mixes successful, waiting-period,
+room-query, PED, maternity, out-of-corpus, injection and malformed scenarios, polls
+accepted runs to terminal state, and periodically records synthetic feedback. Grafana
+refreshes every five seconds at `http://localhost:3000/d/preauth-overview`. Stopping
+the generator intentionally leaves the stack and dashboards running.
+
+Tune it without editing code:
+
+```bash
+RATE=2 MAX_IN_FLIGHT=30 DURATION_SECONDS=300 make demo-live
+```
+
 ### Evaluation and performance
 
 ```bash
@@ -199,6 +219,7 @@ in `contracts/feedback_response.schema.json` and the endpoint is visible at `/do
 - **Run Evaluations:** `make eval`
 - **Run Load Test:** `make load`
 - **Run Full Demo:** `make demo`
+- **Run Persistent Dashboard Demo:** `make demo-live`
 - **Prompt-Injection Demo:** `scripts/demo_07_prompt_injection.sh`
 - **Circuit-Breaker Demo:** `scripts/demo_08_circuit_breaker.sh`
 

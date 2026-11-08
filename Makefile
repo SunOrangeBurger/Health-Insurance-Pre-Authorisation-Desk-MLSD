@@ -1,4 +1,4 @@
-.PHONY: all build up down restart logs test contracts check-secrets ingest eval eval-compare load demo clean
+.PHONY: all build up down restart logs test contracts check-secrets ingest eval eval-compare load demo demo-live clean
 
 SHELL := /usr/bin/env bash
 COMPOSE ?= docker compose
@@ -44,6 +44,9 @@ load:
 
 demo:
 	./scripts/demo_full.sh
+
+demo-live:
+	./scripts/demo_live.sh
 
 clean:
 	find . -type d -name "__pycache__" -exec rm -rf {} +

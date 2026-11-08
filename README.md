@@ -51,9 +51,9 @@ Place the policy wording PDF listed in `corpus/MANIFEST.md` at
 `corpus/raw/optima_secure_policy_wording.pdf`. Raw policy documents are intentionally
 not committed to GitHub.
 
-### 2. Launch the System
+### 2. Launch the System (deterministic offline profile)
 ```bash
-docker compose up --build -d
+docker compose --env-file ops/stub.compose --profile observability up --build -d
 ```
 
 ### 3. Verify Health
@@ -126,6 +126,36 @@ uv pip install --python .venv/bin/python -r requirements.txt \
 
 Published contracts are in `contracts/`; regenerate them with `make contracts` from the activated environment.
 
+### Full acceptance demo
+
+After placing the policy PDF and creating the uv environment above, run:
+
+```bash
+./scripts/demo_full.sh
+```
+
+The script builds the stack and proves all ten acceptance paths: health, a verified
+recommendation, durable trace/Jaeger, malformed-input quarantine, out-of-corpus
+escalation, fabricated-citation rejection, prompt-injection blocking, provider-outage
+degradation and breaker recovery, the declared Locust SLO, and the 11/30-month
+cataract flip. See [`docs/DEMO.md`](docs/DEMO.md) for expected output and manual commands.
+
+### Evaluation and performance
+
+```bash
+make eval-compare                 # same 24 cases against prompt v1 and v2
+make load                         # 10-user SLO check
+```
+
+Committed evidence is in `evals/results/` and `loadtest/results/`. The measured local
+stub deployment passes its 10-user SLO at p95 0.98 s, first misses the 10 s threshold
+at 80 users (p95 11 s), and improves from 8.93 to 28.76 completed runs/s at 40 users
+when scaling from one to three workers. These are development-machine results, not
+production capacity claims.
+
+Submit human feedback with `POST /v1/runs/{run_id}/feedback`; the schema is published
+in `contracts/feedback_response.schema.json` and the endpoint is visible at `/docs`.
+
 ---
 
 ## Project Structure
@@ -168,5 +198,11 @@ Published contracts are in `contracts/`; regenerate them with `make contracts` f
 - **Corpus Ingestion:** `make ingest`
 - **Run Evaluations:** `make eval`
 - **Run Load Test:** `make load`
+- **Run Full Demo:** `make demo`
 - **Prompt-Injection Demo:** `scripts/demo_07_prompt_injection.sh`
 - **Circuit-Breaker Demo:** `scripts/demo_08_circuit_breaker.sh`
+
+Operational recovery procedures are in [`docs/RUNBOOK.md`](docs/RUNBOOK.md). If the
+API is not ready, first inspect `docker compose ps`, the one-shot `indexer` logs and
+`GET /v1/index/status`; for provider failures, inspect the worker breaker metric and
+restore the normal `ops/stub.compose` profile.

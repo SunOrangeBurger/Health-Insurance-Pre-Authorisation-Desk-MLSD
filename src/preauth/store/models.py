@@ -64,3 +64,13 @@ class CostLedger(Base):
     completion_tokens: Mapped[int] = mapped_column(Integer, default=0)
     notional_cost_usd: Mapped[float] = mapped_column(Float, default=0)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)
+
+
+class Feedback(Base):
+    __tablename__ = "feedback"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    run_id: Mapped[str] = mapped_column(String(36), index=True)
+    satisfactory: Mapped[bool] = mapped_column(default=False)
+    reason: Mapped[str | None] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)

@@ -25,3 +25,7 @@ The SLO applies to this development machine and configuration. Later results mus
 ## Error definition
 
 An error is a submission or terminal-state failure caused by the system under test. Deliberately malformed requests used to verify quarantine are reported separately and do not count against the valid-run SLO. Safe `escalated` and `degraded` outcomes are successful terminal responses when their triggering condition is intentional.
+
+## Measured result (2026-11-08)
+
+On an Intel i7-13620H (10 cores/16 threads), 15 GiB RAM, one worker and the declared stub profile, the 10-user measurement completed 135 runs at 9.64 runs/s, p50 850 ms, p95 980 ms and 0% terminal errors: **SLO met**. The first tested miss was 80 users at p95 11.0 s. Results for every tested concurrency are committed in `loadtest/results/summary.json`; raw Locust CSVs are retained beside it.

@@ -147,3 +147,36 @@ This log records **genuine failures and issues** encountered during development,
 | **Root Cause** | cAdvisor's standard deployment needs a host-access boundary that is disproportionate for the default development stack. |
 | **Fix** | Kept cAdvisor behind the explicit `host-metrics` profile and changed the default dashboard to safe Prometheus process CPU/RSS metrics. |
 | **Prevention** | Do not make privileged host-monitoring agents part of the default stack; require explicit operator review and approval. |
+
+---
+
+## INC-011 — retrieval cache tests lacked an index manifest (2026-11-08, Phase 7)
+
+| Field | Detail |
+|---|---|
+| **Symptom** | Five existing retrieval tests failed after cache versioning was introduced. |
+| **Root Cause** | Unit fixtures build chunks without the production index manifest used as the cache version. |
+| **Fix** | Fall back to the chunk artifact modification time when a manifest is absent. |
+| **Prevention** | Keep cache invalidation tests for both production manifests and minimal test fixtures. |
+
+---
+
+## INC-012 — evaluation exposed unsafe applicability inheritance (2026-11-08, Phase 6)
+
+| Field | Detail |
+|---|---|
+| **Symptom** | Initial V2 evaluation produced a 0.2500 false-approval rate on ambiguous exclusions, maternity and room eligibility. |
+| **Root Cause** | Relevant-looking retrieved clauses were treated as applicable without enough request-specific evidence. |
+| **Fix** | Added conservative applicability gates and explicit medical-review/query routes. Final false-approval rate is 0.0000. |
+| **Prevention** | Retain exclusion, maternity, room and out-of-corpus cases in every fixed-set regression run. |
+
+---
+
+## INC-013 — invalid provider environment contaminated an intermediate evaluation (2026-11-08, Phase 6)
+
+| Field | Detail |
+|---|---|
+| **Symptom** | An intermediate post-change evaluation collapsed position accuracy while escalation rose to 100%. |
+| **Root Cause** | Podman Compose precedence left the worker using an unintended Ollama URL instead of the fault-free stub. |
+| **Fix** | Discarded the invalid comparison, removed implicit service `env_file` inheritance, added explicit profiles, confirmed `LLM_PROVIDER=stub` and reran all 24 cases. |
+| **Prevention** | Record and verify effective provider, URL, model, delay and fault mode before evaluation or load evidence. |

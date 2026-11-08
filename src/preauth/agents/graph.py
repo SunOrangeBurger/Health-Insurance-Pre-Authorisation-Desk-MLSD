@@ -32,7 +32,7 @@ class PreauthAgentSystem:
     def __init__(self, retriever: HybridRetriever, settings: Settings) -> None:
         self.retriever = retriever
         self.settings = settings
-        self.researcher = PolicyResearchAgent()
+        self.researcher = PolicyResearchAgent(settings.research_prompt_version)
         self.verifier = VerifierRouterAgent()
         graph = StateGraph(AgentState)
         graph.add_node("classify", self._classify)
@@ -46,7 +46,15 @@ class PreauthAgentSystem:
 
     @classmethod
     def from_index(cls, index_dir: Path, embedder: Embedder, settings: Settings) -> "PreauthAgentSystem":
-        return cls(HybridRetriever(index_dir, embedder), settings)
+        return cls(
+            HybridRetriever(
+                index_dir,
+                embedder,
+                cache_enabled=settings.enable_retrieval_cache,
+                cache_size=settings.retrieval_cache_size,
+            ),
+            settings,
+        )
 
     def _guard(self, state: AgentState) -> None:
         if state.get("steps", 0) >= self.settings.max_steps:
@@ -74,13 +82,17 @@ class PreauthAgentSystem:
             initial_calls=state.get("tool_calls", 0),
         )
         with span("agent.policy_research"):
-            bundle = self.researcher.run(state["request"], tools, state.get("retry_directive"))
+            requested_version = state["request"].get("_research_prompt_version")
+            active_version = f"research/{requested_version}" if requested_version else self.researcher.prompt_version
+            bundle = self.researcher.run(
+                state["request"], tools, state.get("retry_directive"), active_version
+            )
         AGENT_STEP_LATENCY.labels("policy-research", "research").observe(time.perf_counter() - started)
         return {
             "bundle": bundle,
             "tool_calls": tools.calls,
             "steps": state.get("steps", 0) + 1,
-            "trace": state.get("trace", []) + tools.trace + [AgentTraceEvent(agent="policy-research", kind="handoff", payload={"passages": len(bundle.passages), "passage_ids": [item.chunk_id for item in bundle.passages], "incomplete": bundle.incomplete, "prompt_version": self.researcher.prompt_version})],
+            "trace": state.get("trace", []) + tools.trace + [AgentTraceEvent(agent="policy-research", kind="handoff", payload={"passages": len(bundle.passages), "passage_ids": [item.chunk_id for item in bundle.passages], "incomplete": bundle.incomplete, "prompt_version": active_version})],
             "retry_directive": None,
         }
 
@@ -90,6 +102,10 @@ class PreauthAgentSystem:
         replan_count = state.get("replan_count", 0)
         with span("agent.verify_and_route"):
             result = self.verifier.run(state["request"], state["bundle"], allow_retry=replan_count < self.settings.max_replans)
+        requested_version = state["request"].get("_research_prompt_version")
+        result.prompt_versions["research"] = (
+            f"research/{requested_version}" if requested_version else self.researcher.prompt_version
+        )
         AGENT_STEP_LATENCY.labels("verifier-router", "verification").observe(time.perf_counter() - started)
         event = AgentTraceEvent(agent="verifier-router", kind="verification", payload={"passed": result.verification.passed, "route": result.route, "checks": result.verification.checks, "prompt_version": self.verifier.prompt_version})
         retry = result.verification.retry_directive

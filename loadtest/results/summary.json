@@ -1,0 +1,56 @@
+[
+  {
+    "label": "u1",
+    "completed_runs": 23,
+    "rps": 1.6529408261219674,
+    "p50_ms": 430.0,
+    "p95_ms": 800.0,
+    "error_rate": 0.0,
+    "slo_met": true
+  },
+  {
+    "label": "u5",
+    "completed_runs": 98,
+    "rps": 7.001363185223455,
+    "p50_ms": 480.0,
+    "p95_ms": 850.0,
+    "error_rate": 0.0,
+    "slo_met": true
+  },
+  {
+    "label": "u10",
+    "completed_runs": 135,
+    "rps": 9.638335581672731,
+    "p50_ms": 850.0,
+    "p95_ms": 980.0,
+    "error_rate": 0.0,
+    "slo_met": true
+  },
+  {
+    "label": "u20",
+    "completed_runs": 131,
+    "rps": 9.387706647493975,
+    "p50_ms": 1900.0,
+    "p95_ms": 2100.0,
+    "error_rate": 0.0,
+    "slo_met": true
+  },
+  {
+    "label": "u40",
+    "completed_runs": 125,
+    "rps": 8.929526269358316,
+    "p50_ms": 3900.0,
+    "p95_ms": 4800.0,
+    "error_rate": 0.0,
+    "slo_met": true
+  },
+  {
+    "label": "u80",
+    "completed_runs": 100,
+    "rps": 7.135683576160364,
+    "p50_ms": 7900.0,
+    "p95_ms": 11000.0,
+    "error_rate": 0.0,
+    "slo_met": false
+  }
+]

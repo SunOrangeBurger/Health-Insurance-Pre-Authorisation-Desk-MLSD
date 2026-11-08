@@ -193,6 +193,55 @@
           }
         }
       }
+    },
+    "/v1/runs/{run_id}/feedback": {
+      "post": {
+        "summary": "Submit Feedback",
+        "operationId": "submit_feedback_v1_runs__run_id__feedback_post",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedbackRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -206,6 +255,54 @@
           "maternity"
         ],
         "title": "AdmissionType"
+      },
+      "FeedbackRequest": {
+        "properties": {
+          "satisfactory": {
+            "type": "boolean",
+            "title": "Satisfactory"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          }
+        },
+        "type": "object",
+        "required": [
+          "satisfactory"
+        ],
+        "title": "FeedbackRequest"
+      },
+      "FeedbackResponse": {
+        "properties": {
+          "feedback_id": {
+            "type": "string",
+            "title": "Feedback Id"
+          },
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "satisfactory": {
+            "type": "boolean",
+            "title": "Satisfactory"
+          }
+        },
+        "type": "object",
+        "required": [
+          "feedback_id",
+          "run_id",
+          "satisfactory"
+        ],
+        "title": "FeedbackResponse"
       },
       "HTTPValidationError": {
         "properties": {

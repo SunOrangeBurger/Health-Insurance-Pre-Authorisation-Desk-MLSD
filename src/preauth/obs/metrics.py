@@ -10,4 +10,5 @@ RATE_LIMITED = Counter("preauth_rate_limited_total", "Submissions rejected by cl
 GUARDRAIL_HITS = Counter("guardrail_findings_total", "Guardrail findings", ["category", "field"])
 WORKER_UP = Gauge("preauth_worker_up", "Worker process is running")
 COST_USD = Counter("llm_notional_cost_usd_total", "Configured notional LLM cost", ["provider", "step"])
+FEEDBACK = Counter("preauth_feedback_total", "Run feedback", ["satisfactory"])
 

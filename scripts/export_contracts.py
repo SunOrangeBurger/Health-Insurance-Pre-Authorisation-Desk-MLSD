@@ -4,6 +4,7 @@ from pathlib import Path
 from preauth.api.main import app
 from preauth.api.schemas import (
     FeedbackRequest,
+    FeedbackResponse,
     LLMRequest,
     LLMResponse,
     PreauthRequest,
@@ -22,6 +23,7 @@ schemas = {
     "run_response.schema.json": RunResponse.model_json_schema(),
     "queue_job.schema.json": QueueJobMessage.model_json_schema(),
     "feedback_request.schema.json": FeedbackRequest.model_json_schema(),
+    "feedback_response.schema.json": FeedbackResponse.model_json_schema(),
     "llm_request.schema.json": LLMRequest.model_json_schema(),
     "llm_response.schema.json": LLMResponse.model_json_schema(),
     "tool_search_corpus.schema.json": SearchCorpusInput.model_json_schema(),

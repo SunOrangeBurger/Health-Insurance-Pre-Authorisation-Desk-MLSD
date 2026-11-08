@@ -118,6 +118,12 @@ class FeedbackRequest(BaseModel):
     reason: Annotated[str, StringConstraints(strip_whitespace=True, max_length=500)] | None = None
 
 
+class FeedbackResponse(BaseModel):
+    feedback_id: str
+    run_id: str
+    satisfactory: bool
+
+
 class LLMRequest(BaseModel):
     messages: list[dict[str, str]]
     temperature: float = Field(default=0, ge=0, le=2)

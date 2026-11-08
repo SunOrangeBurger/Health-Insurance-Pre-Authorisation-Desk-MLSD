@@ -18,6 +18,7 @@ class EvidenceBundle(BaseModel):
     claimed_citation_ids: list[str] = Field(default_factory=list)
     searched_provision_types: list[str] = Field(default_factory=list)
     procedure_supported: bool = False
+    possible_exclusion: bool = False
     incomplete: bool = False
     tool_calls: int = 0
 

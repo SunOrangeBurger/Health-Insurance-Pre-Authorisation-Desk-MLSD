@@ -150,3 +150,30 @@ This document logs every significant technical decision made throughout the proj
 - **Context:** Run reconstruction requires traces and metrics, but cAdvisor requires a privileged container with broad host mounts under Podman.
 - **Decision:** Export application spans through OTLP to Jaeger and scrape service metrics with Prometheus. Provision Grafana from source-controlled configuration. Use standard process CPU/RSS metrics by default; keep cAdvisor behind an explicit `host-metrics` profile for environments that accept its host-access boundary.
 - **Rejected Alternatives:** Making privileged cAdvisor a default dependency, and logs-only observability without span linkage or quantitative dashboards.
+
+---
+
+## ADR-015: Fixed Evaluation Set and Deterministic Scoring
+- **Status:** Accepted
+- **Date:** 2026-11-08 (Phase 6)
+- **Context:** Prompt variants and safety changes need comparable evidence without using a model to judge itself.
+- **Decision:** Run both prompt versions against the same 24 versioned scenarios through the live API. Score structured route/position expectations, citation resolution, required-clause recall, groundedness, relevance, faithfulness, escalation and false approvals deterministically from persisted results and evidence.
+- **Rejected Alternatives:** Ad-hoc hand-picked demos and an unversioned LLM-only judge.
+
+---
+
+## ADR-016: Version-Aware In-Process Retrieval Cache
+- **Status:** Accepted
+- **Date:** 2026-11-08 (Phase 7)
+- **Context:** Repeated policy questions recomputed the same FAISS/BM25 search and saturated a single worker.
+- **Decision:** Add a bounded LRU keyed by query, provision type, top-k and index version. Index replacement changes the version and prevents stale reuse; cache behavior is configurable and observable.
+- **Rejected Alternatives:** An unbounded cache and keys without an index version, both of which risk stale or uncontrolled state.
+
+---
+
+## ADR-017: Explicit Compose Environment Profiles
+- **Status:** Accepted
+- **Date:** 2026-11-08 (Phase 8)
+- **Context:** Podman Compose environment precedence made an evaluation worker inherit an unintended local provider URL.
+- **Decision:** Keep deterministic `ops/stub.compose`, `ops/fault.compose`, and benchmark-only `ops/cache-off.compose` files, enumerate service environment variables in Compose, and verify the effective worker environment before collecting evidence.
+- **Rejected Alternatives:** Implicit `.env` inheritance and accepting measurements without checking the container's effective provider configuration.

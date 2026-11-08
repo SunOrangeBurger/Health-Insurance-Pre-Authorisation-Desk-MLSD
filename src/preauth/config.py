@@ -43,6 +43,10 @@ class Settings(BaseSettings):
     service_name: str = "preauth-api"
     llm_input_cost_per_1k: float = Field(default=0, ge=0)
     llm_output_cost_per_1k: float = Field(default=0, ge=0)
+    research_prompt_version: str = Field(default="v2", pattern=r"^v[12]$")
+    enable_retrieval_cache: bool = True
+    retrieval_cache_size: int = Field(default=512, ge=1)
+    demo_force_bad_citation: bool = False
 
 
 @lru_cache

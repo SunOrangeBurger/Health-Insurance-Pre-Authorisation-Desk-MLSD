@@ -10,9 +10,9 @@
 | **Phase 3** | Agents (LangGraph Research & Verifier, Loop bounds, Cataract reference) | ✅ **Done** | Days 8–16 | 2026-11-06 |
 | **Phase 4** | Reliability & Guardrails (Breaker, Fallback, Injection/Toxicity defense) | ✅ **Done** | Days 14–22 | 2026-11-08 |
 | **Phase 5** | Observability (OTel → Jaeger, Prometheus, Grafana, Cost ledger) | ✅ **Done** | Days 18–26 | 2026-11-08 |
-| **Phase 6** | Evaluation (20+ scenarios, Groundedness, Faithfulness, Relevance) | 🔲 Planned | Days 22–30 | — |
-| **Phase 7** | SLO & Load Testing (Locust, Stub scaling, Caching benchmarks) | 🔲 Planned | Days 26–34 | — |
-| **Phase 8** | Docs, Runbook, Hardening, Clean-clone verification | 🔲 Planned | Days 32–38 | — |
+| **Phase 6** | Evaluation (20+ scenarios, Groundedness, Faithfulness, Relevance) | ✅ Complete | Days 22–30 | 2026-11-08 |
+| **Phase 7** | SLO & Load Testing (Locust, Stub scaling, Caching benchmarks) | ✅ Complete | Days 26–34 | 2026-11-08 |
+| **Phase 8** | Docs, Runbook, Hardening, Clean-clone verification | ✅ Complete | Days 32–38 | 2026-11-08 |
 
 ---
 
@@ -175,5 +175,21 @@
 - Prometheus reported healthy targets for API, worker, stub, Redis and Prometheus.
 - The `host-metrics` cAdvisor profile is intentionally opt-in because it requires privileged host access; it was not started during verification. The default dashboard uses safer service-process CPU/RSS metrics.
 
-### Next
-- Phase 6: build and execute the 20+ scenario evaluation set, compare prompt variants, and publish groundedness, relevance, faithfulness, hallucination and routing metrics from real runs.
+## Phases 6–8 — COMPLETE ✅ (100% Project Milestone)
+
+### Exit Checks (All Passed)
+- [x] Fixed 24-scenario evaluation set exercised the live asynchronous API.
+- [x] V1/V2 prompt comparison and a deliberate conservative-routing change were measured.
+- [x] Final routing accuracy is 1.0000; false-approval and hallucination rates are 0.0000.
+- [x] End-to-end SLO was declared and committed before the 1–80 user Locust matrix.
+- [x] First tested SLO miss identified at 80 users; worker bottleneck documented.
+- [x] One/three-worker and retrieval-cache on/off comparisons measured.
+- [x] Feedback API, response contract and quality metric implemented.
+- [x] Full ten-step demo script, demo guide and two-mode operational runbook completed.
+- [x] Final suite passes 44 tests and contracts were regenerated.
+
+### Evidence
+- Evaluation: `evals/results/eval_v1.json`, `eval_v2.json`, `eval_v2_final.json`.
+- Load: `loadtest/results/summary.json` and `comparisons.json` plus raw CSVs.
+- One-command demonstration: `scripts/demo_full.sh`.
+- Final completion date: 2026-11-08.

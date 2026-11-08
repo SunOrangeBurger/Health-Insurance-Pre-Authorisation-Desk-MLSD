@@ -34,7 +34,6 @@ services:
   llm-stub:
     image: localhost/preauth-desk:dev
     command: ["stub"]
-    env_file: .env
     environment:
       FAULT_MODE: ${FAULT_MODE:-none}
       STUB_DELAY_MS: ${STUB_DELAY_MS:-250}
@@ -51,7 +50,6 @@ services:
     build: .
     image: localhost/preauth-desk:dev
     command: ["api"]
-    env_file: .env
     depends_on:
       postgres:
         condition: service_healthy
@@ -67,6 +65,9 @@ services:
     ports:
       - "8000:8000"
     environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql+asyncpg://postgres:postgres@postgres:5432/preauth_db}
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379/0}
+      INDEX_STORAGE_DIR: ${INDEX_STORAGE_DIR:-/app/index_data}
       LLM_PROVIDER: ${LLM_PROVIDER:-stub}
       LLM_BASE_URL: ${LLM_BASE_URL:-http://llm-stub:8080}
       OTEL_ENABLED: ${OTEL_ENABLED:-true}
@@ -80,7 +81,6 @@ services:
   worker:
     image: localhost/preauth-desk:dev
     command: ["worker"]
-    env_file: .env
     depends_on:
       postgres:
         condition: service_healthy
@@ -100,6 +100,16 @@ services:
       - model_cache:/app/model_cache
     environment:
       HF_HOME: /app/model_cache
+      DATABASE_URL: ${DATABASE_URL:-postgresql+asyncpg://postgres:postgres@postgres:5432/preauth_db}
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379/0}
+      INDEX_STORAGE_DIR: ${INDEX_STORAGE_DIR:-/app/index_data}
+      LOCAL_EMBEDDING_MODEL: ${LOCAL_EMBEDDING_MODEL:-sentence-transformers/all-MiniLM-L6-v2}
+      MAX_STEPS: ${MAX_STEPS:-12}
+      MAX_TOOL_CALLS: ${MAX_TOOL_CALLS:-10}
+      RUN_TIMEOUT_S: ${RUN_TIMEOUT_S:-90}
+      LLM_TIMEOUT_S: ${LLM_TIMEOUT_S:-20}
+      TOOL_TIMEOUT_S: ${TOOL_TIMEOUT_S:-5}
+      MAX_REPLANS: ${MAX_REPLANS:-2}
       LLM_PROVIDER: ${LLM_PROVIDER:-stub}
       LLM_BASE_URL: ${LLM_BASE_URL:-http://llm-stub:8080}
       LLM_MODEL: ${LLM_MODEL:-}
@@ -110,17 +120,22 @@ services:
       RETRY_BASE_DELAY_S: ${RETRY_BASE_DELAY_S:-0.5}
       CIRCUIT_FAILURE_THRESHOLD: ${CIRCUIT_FAILURE_THRESHOLD:-5}
       CIRCUIT_COOLDOWN_S: ${CIRCUIT_COOLDOWN_S:-30}
+      ENABLE_RETRIEVAL_CACHE: ${ENABLE_RETRIEVAL_CACHE:-true}
+      RETRIEVAL_CACHE_SIZE: ${RETRIEVAL_CACHE_SIZE:-512}
+      DEMO_FORCE_BAD_CITATION: ${DEMO_FORCE_BAD_CITATION:-false}
 
   indexer:
     image: localhost/preauth-desk:dev
     command: ["ingest"]
-    env_file: .env
     volumes:
       - ./corpus/raw:/app/corpus/raw:ro,Z
       - index_data:/app/index_data
       - model_cache:/app/model_cache
     environment:
       HF_HOME: /app/model_cache
+      CORPUS_RAW_DIR: ${CORPUS_RAW_DIR:-/app/corpus/raw}
+      INDEX_STORAGE_DIR: ${INDEX_STORAGE_DIR:-/app/index_data}
+      LOCAL_EMBEDDING_MODEL: ${LOCAL_EMBEDDING_MODEL:-sentence-transformers/all-MiniLM-L6-v2}
 
   jaeger:
     image: docker.io/jaegertracing/all-in-one:1.60

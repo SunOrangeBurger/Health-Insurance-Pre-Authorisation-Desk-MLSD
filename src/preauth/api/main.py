@@ -21,6 +21,8 @@ from preauth.api.middleware import CorrelationIdMiddleware
 from preauth.api.rate_limit import consume_token
 from preauth.api.schemas import (
     CONTRACT_VERSION,
+    FeedbackRequest,
+    FeedbackResponse,
     PreauthRequest,
     QuarantineResponse,
     RunResponse,
@@ -29,10 +31,10 @@ from preauth.api.schemas import (
 from preauth.config import get_settings
 from preauth.guardrails.detectors import inspect_request
 from preauth.obs.logging import configure_logging, get_logger
-from preauth.obs.metrics import GUARDRAIL_HITS, RATE_LIMITED
+from preauth.obs.metrics import FEEDBACK, GUARDRAIL_HITS, RATE_LIMITED
 from preauth.obs.tracing import configure_tracing
 from preauth.store.database import close_database, get_session, init_database
-from preauth.store.repository import create_quarantine, create_run, get_cost_entries, get_run, get_run_steps, update_run
+from preauth.store.repository import create_feedback, create_quarantine, create_run, get_cost_entries, get_run, get_run_steps, update_run
 
 configure_logging()
 logger = get_logger(__name__)
@@ -166,6 +168,15 @@ async def submit_preauth(
     correlation_id = request.state.correlation_id
     stored_payload = payload.model_dump(mode="json")
     stored_payload["validation_flags"] = payload.validation_flags
+    requested_prompt_version = request.headers.get("X-Research-Prompt-Version")
+    if requested_prompt_version:
+        if requested_prompt_version not in {"v1", "v2"}:
+            raise HTTPException(status_code=400, detail="X-Research-Prompt-Version must be v1 or v2")
+        stored_payload["_research_prompt_version"] = requested_prompt_version
+    if request.headers.get("X-Demo-Force-Bad-Citation") == "1":
+        if settings.environment == "production":
+            raise HTTPException(status_code=403, detail="demo fault injection is disabled")
+        stored_payload["_force_bad_citation"] = True
     findings = inspect_request(stored_payload) if settings.guardrails_enabled else []
     if findings:
         stored_payload["guardrail_findings"] = [
@@ -249,6 +260,30 @@ async def read_run_trace(run_id: str, session: AsyncSession = Depends(get_sessio
             for item in costs
         ],
     }
+
+
+@app.post("/v1/runs/{run_id}/feedback", response_model=FeedbackResponse, status_code=201)
+async def submit_feedback(
+    run_id: str,
+    payload: FeedbackRequest,
+    session: AsyncSession = Depends(get_session),
+) -> FeedbackResponse:
+    if await get_run(session, run_id) is None:
+        raise HTTPException(status_code=404, detail="run not found")
+    feedback_id = str(uuid4())
+    await create_feedback(
+        session,
+        feedback_id=feedback_id,
+        run_id=run_id,
+        satisfactory=payload.satisfactory,
+        reason=payload.reason,
+    )
+    FEEDBACK.labels(satisfactory=str(payload.satisfactory).lower()).inc()
+    return FeedbackResponse(
+        feedback_id=feedback_id,
+        run_id=run_id,
+        satisfactory=payload.satisfactory,
+    )
 
 
 app.mount("/", StaticFiles(directory="web", html=True), name="web")

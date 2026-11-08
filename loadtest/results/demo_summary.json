@@ -1,0 +1,11 @@
+[
+  {
+    "label": "demo_u10",
+    "completed_runs": 134,
+    "rps": 9.566368128115867,
+    "p50_ms": 870.0,
+    "p95_ms": 1100.0,
+    "error_rate": 0.0,
+    "slo_met": true
+  }
+]

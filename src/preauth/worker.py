@@ -103,9 +103,12 @@ async def process_preauth(ctx, run_id: str, correlation_id: str) -> None:
                 except (ProviderUnavailable, CircuitOpenError):
                     provider_degraded = True
                     logger.warning("llm_provider_degraded", fallback="retrieval-only")
+                agent_request = dict(run.request_payload)
+                if settings.demo_force_bad_citation:
+                    agent_request["_force_bad_citation"] = True
                 with span("agent.run", run_id=run_id, correlation_id=correlation_id):
                     result_model, trace = await asyncio.wait_for(
-                        agent_system.run(run.request_payload), timeout=settings.run_timeout_s
+                        agent_system.run(agent_request), timeout=settings.run_timeout_s
                     )
                 result = result_model.model_dump(mode="json")
                 if llm_response is not None:

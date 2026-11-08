@@ -1,0 +1,23 @@
+{
+  "properties": {
+    "feedback_id": {
+      "title": "Feedback Id",
+      "type": "string"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "satisfactory": {
+      "title": "Satisfactory",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "feedback_id",
+    "run_id",
+    "satisfactory"
+  ],
+  "title": "FeedbackResponse",
+  "type": "object"
+}

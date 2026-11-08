@@ -25,6 +25,8 @@ class VerifierRouterAgent:
             checks.append("research incomplete")
         if not bundle.procedure_supported:
             checks.append("procedure not found in condition-specific corpus text")
+        if bundle.possible_exclusion:
+            checks.append("possible exclusion requires human applicability review")
         retry = None
         if allow_retry and (not citations_ok or missing_searches):
             retry = "Resolve missing citations with direct clause lookup and repeat mandatory searches"
@@ -36,7 +38,17 @@ class VerifierRouterAgent:
         waiting_months = self._waiting_months(bundle)
         tenure_months = self._tenure_months(request)
         prior_conditions = request.get("prior_conditions") or []
-        if verified and prior_conditions:
+        if verified and bundle.possible_exclusion:
+            position = "possible_exclusion"
+            reason = "A potentially applicable exclusion requires medical review."
+        elif verified and request.get("admission_type") == "maternity":
+            position = "maternity_requires_review"
+            reason = "Maternity and newborn entitlement requires schedule and benefit confirmation."
+        elif verified and request.get("room_category_requested") == "deluxe":
+            position = "room_eligibility_required"
+            route = "query-to-hospital"
+            reason = "Confirm the Policy Schedule room eligibility before applying proportionate deduction."
+        elif verified and prior_conditions:
             position = "possible_pre_existing_condition"
             reason = "A possible pre-existing condition requires medical review under the PED provision."
         elif verified and waiting_months is not None and tenure_months < waiting_months:

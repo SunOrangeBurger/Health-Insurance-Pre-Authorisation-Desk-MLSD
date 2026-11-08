@@ -3,7 +3,7 @@
 **Course:** UE24AM342AA5 (ML System Design & AgentOps), PESU  
 **Project:** Mini Project 03 — Health Insurance Pre-Authorisation Desk
 **Insurer / Product:** HDFC ERGO my: Optima Secure (UIN: HDFHLIP26058V082526)
-**Report Status:** In Progress — implementation through the 75% milestone; evaluation and load-test results remain pending.
+**Report Status:** Complete — all planned phases and acceptance evidence finished on 2026-11-08.
 
 ---
 
@@ -128,11 +128,9 @@ Verified synthetic runs on 2026-11-08:
 | Prompt injection | `63fb3a3c-26b8-417a-ad69-43b44d1ac4c3` | `escalated`; blocked before model/tool access |
 | Provider down | `d21f389e-1efd-4f5f-b118-9b674df15d08` | `degraded`; retrieval-only medical review; breaker open |
 
-*(To be filled after Phase 6. All numbers will come from real runs.)*
-
 ### Scenario Set
 - File: `evals/set_v1.jsonl`
-- Target: ≥ 20 scenarios across waiting periods, exclusions, sub-limits, day-care, maternity, emergency, out-of-corpus, adversarial.
+- 24 fixed scenarios across waiting periods, exclusions, room limits, day-care, maternity, emergency, out-of-corpus, and adversarial inputs.
 - Reference case (Section 4.1): cataract at 11 months and 30 months (flip).
 
 ### Metrics Definitions
@@ -142,23 +140,49 @@ Verified synthetic runs on 2026-11-08:
 - **Hallucination Rate:** proportion of responses with ≥ 1 unsupported claim; separately counts invented provisions.
 
 ### Prompt Variant Comparison (v1 vs v2)
-*(To be filled after Phase 6.)*
+
+Both variants ran against the same 24-case set and live asynchronous API. V2 adds provision-type-filtered retrieval.
+
+| Metric | v1 | v2 |
+|---|---:|---:|
+| Routing accuracy | 0.7083 | 0.7500 |
+| Coverage-position accuracy | 0.7500 | 0.7917 |
+| Groundedness / faithfulness | 1.0000 / 1.0000 | 1.0000 / 1.0000 |
+| Context relevance | 0.6250 | 0.6250 |
+| Clause recall / citation resolution | 1.0000 / 1.0000 | 1.0000 / 1.0000 |
+| Correct escalation | 0.6111 | 0.6667 |
+| False-approval rate | 0.2917 | 0.2500 |
+
+V2 was retained because it improved routing and reduced the costly false-approval error without reducing citation quality.
 
 ### Deliberate Change: Before vs After
-*(To be filled after Phase 6.)*
+
+A conservative applicability gate was added after reviewing V2 failures: unmatched exclusion terms, maternity ambiguity and room-schedule eligibility must escalate rather than inherit unrelated retrieved text. On the same set, routing accuracy improved from 0.7500 to 1.0000, position accuracy from 0.7917 to 0.9167, correct escalation from 0.6667 to 1.0000, and false approvals fell from 0.2500 to 0.0000. Groundedness, faithfulness, clause recall and citation resolution remained 1.0000. Results are committed as `eval_v2.json` and `eval_v2_final.json`.
 
 ---
 
 ## 6. Performance & SLO
 
-*(To be filled after Phase 7. All numbers will come from real Locust runs with the stub LLM.)*
+- **Declared SLO:** committed in `docs/SLO.md` before measurement: p95 ≤ 10 s at 10 users and valid-run errors < 1%.
+- **Machine/profile:** Intel i7-13620H, 10 cores/16 threads, 15 GiB RAM; one worker unless stated; stub delay 250 ms + up to 50 ms jitter.
 
-- **Declared SLO:** See `docs/SLO.md` (to be written and committed before any load test).
-- **Locust Results:** RPS, p50, p95 at concurrencies: 1, 5, 10, 20, 40, 80.
-- **Failing Concurrency & Bottleneck Component:** *(from Grafana + Locust.)*
-- **Scaling Effect (`--scale worker=3`):** *(table: workers, RPS, p50, p95.)*
-- **Caching Effect:** p95 and cost before/after retrieval cache.
-- **Cost per 100 runs and largest driver:** *(notional cost using Ollama equivalent or published price.)*
+| Users | Completed RPS | p50 ms | p95 ms | Error rate | SLO |
+|---:|---:|---:|---:|---:|---|
+| 1 | 1.65 | 430 | 800 | 0% | pass |
+| 5 | 7.00 | 480 | 850 | 0% | pass |
+| 10 | 9.64 | 850 | 980 | 0% | pass |
+| 20 | 9.39 | 1,900 | 2,100 | 0% | pass |
+| 40 | 8.93 | 3,900 | 4,800 | 0% | pass |
+| 80 | 7.14 | 7,900 | 11,000 | 0% | **fail** |
+
+The first tested miss is 80 users. Throughput plateaus near one-worker capacity while queueing raises end-to-end latency; POST and polling remain comparatively responsive, identifying worker-side retrieval/agent processing as the bottleneck.
+
+| 40-user configuration | Completed RPS | p50 | p95 |
+|---|---:|---:|---:|
+| 1 worker | 8.93 | 3.90 s | 4.80 s |
+| 3 workers | 28.76 | 1.20 s | 1.50 s |
+
+At 10 users, disabling the retrieval LRU cache produced 5.36 completed runs/s and p95 2.00 s; enabling it produced 9.64 runs/s and p95 0.96 s. The stub price configuration is intentionally $0, so the measured cost is $0 per 100 runs; the ledger and configurable pricing map are implemented, but no paid-provider price is claimed. Retrieval/embedding CPU and provider calls are the principal real resource drivers.
 
 ---
 
@@ -199,18 +223,18 @@ Verified synthetic runs on 2026-11-08:
 | A4 | P0 | FastAPI async; 202 + `run_id`; poll endpoint; Redis + arq | ✅ | Phase 1 end-to-end path verified |
 | A5 | P1 | Timeouts, retry+backoff, circuit breaker, graceful degradation | ✅ | Phase 4; live provider-down fault test passed |
 | A6 | P2 | Per-agent Grafana dashboard | ✅ | Provisioned dashboard populated by real synthetic traffic |
-| A7 | P2 | `--scale worker=3`; Locust throughput; bottleneck ID | 🔲 | Phase 7 |
-| A8 | P2 | Web client: submit, show recommendation + citations | 🟡 | Phase 1 submit/poll UI; citation presentation waits for Phase 3 |
+| A7 | P2 | `--scale worker=3`; Locust throughput; bottleneck ID | ✅ | 3.22× RPS at 40 users; worker saturation identified |
+| A8 | P2 | Web client: submit, show recommendation + citations | ✅ | Submit/poll UI renders the structured recommendation and citations |
 
 ### LLMOps (L)
 | ID | Pri | Requirement | Status | Notes |
 |---|---|---|---|---|
 | L1 | P0 | LangChain orchestration; FAISS/Chroma; chunking+embed strategy; incremental re-embed | ✅ | MiniLM + FAISS/BM25, stable hash, targeted re-embed |
-| L2 | P1 | Versioned prompt artifacts; compare ≥ 2 variants | 🟡 | v1/v2 artifacts and recording complete; comparison is Phase 6 |
-| L3 | P1 | ≥ 20 eval scenarios; batch CLI; 4 metrics; deliberate change | 🔲 | Phase 6 |
+| L2 | P1 | Versioned prompt artifacts; compare ≥ 2 variants | ✅ | Same-set v1/v2 comparison committed |
+| L3 | P1 | ≥ 20 eval scenarios; batch CLI; 4 metrics; deliberate change | ✅ | 24 cases; nine metrics; before/after gate measured |
 | L4 | P1 | Prompt-injection defence; output filter; toxicity detection | ✅ | Boundary detector, 12-case corpus, pre-model escalation, narrative filter |
-| L5 | P2 | Token + cost recorded per call; cost per 100 runs | 🟡 | Per-call ledger complete; aggregate cost-per-100 awaits Phase 6/7 runs |
-| L6 | P3 | Feedback endpoint; live scoring sample; quality chart | 🔲 | Phase 8 (if time) |
+| L5 | P2 | Token + cost recorded per call; cost per 100 runs | ✅ | Ledger plus measured $0/100 stub-profile cost |
+| L6 | P3 | Feedback endpoint; live scoring sample; quality chart | ✅ | Persisted feedback API and Prometheus quality metric |
 
 ### Platform (D)
 | ID | Pri | Requirement | Status | Notes |
@@ -220,6 +244,6 @@ Verified synthetic runs on 2026-11-08:
 | D3 | P0 | ≥ 4 services in Compose; one `docker compose up`; healthchecks | ✅ | Five healthy services verified on 2026-11-06 |
 | D4 | P0 | No credentials in repo; `.env.example`; `check_secrets.sh` | ✅ | Phase 0 complete |
 | D5 | P1 | OTel → Jaeger; Prometheus; Grafana; run reconstruction | ✅ | Both trace services visible; healthy scrape targets; `show_run.py` |
-| D6 | P1 | SLO declared before measurement; Locust; RPS/p50/p95 | 🔲 | Phase 7 |
-| D7 | P2 | Caching; rate limiting (429 + `Retry-After`) | 🟡 | Redis token bucket complete; caching benchmarks remain Phase 7 |
-| D8 | P1 | Runbook (2 failure modes); incident log (≥ 1 real entry) | 🟡 | INCIDENTS.md has 3 real entries; RUNBOOK.md pending Phase 8 |
+| D6 | P1 | SLO declared before measurement; Locust; RPS/p50/p95 | ✅ | Predeclared SLO and 1–80 user matrix committed |
+| D7 | P2 | Caching; rate limiting (429 + `Retry-After`) | ✅ | Redis token bucket and paired cache benchmark complete |
+| D8 | P1 | Runbook (2 failure modes); incident log (≥ 1 real entry) | ✅ | Provider/index recovery runbook plus real incident log |

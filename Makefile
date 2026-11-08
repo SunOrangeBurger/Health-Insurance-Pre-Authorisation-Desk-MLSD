@@ -1,4 +1,4 @@
-.PHONY: all build up down restart logs test contracts check-secrets ingest eval load clean
+.PHONY: all build up down restart logs test contracts check-secrets ingest eval eval-compare load demo clean
 
 SHELL := /usr/bin/env bash
 COMPOSE ?= docker compose
@@ -27,16 +27,23 @@ test:
 	pytest tests/ -v
 
 contracts:
-	python scripts/export_contracts.py
+	PYTHONPATH=src python scripts/export_contracts.py
 
 ingest:
 	$(COMPOSE) run --rm indexer ingest
 
 eval:
-	python -m evals.run --set evals/set_v1.jsonl
+	python -m evals.run --set evals/set_v1.jsonl --prompt-version v2
+
+eval-compare:
+	python -m evals.run --set evals/set_v1.jsonl --prompt-version v1 --out evals/results/eval_v1.json
+	python -m evals.run --set evals/set_v1.jsonl --prompt-version v2 --out evals/results/eval_v2.json
 
 load:
-	locust -f loadtest/locustfile.py --headless -u 10 -r 2 --run-time 1m --host http://localhost:8000
+	locust -f loadtest/locustfile.py --headless -u 10 -r 10 --run-time 30s --host http://localhost:8000 --csv loadtest/results/u10
+
+demo:
+	./scripts/demo_full.sh
 
 clean:
 	find . -type d -name "__pycache__" -exec rm -rf {} +

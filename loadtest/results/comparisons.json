@@ -1,0 +1,38 @@
+[
+  {
+    "label": "u40",
+    "completed_runs": 125,
+    "rps": 8.929526269358316,
+    "p50_ms": 3900.0,
+    "p95_ms": 4800.0,
+    "error_rate": 0.0,
+    "slo_met": true
+  },
+  {
+    "label": "workers3_u40",
+    "completed_runs": 403,
+    "rps": 28.757821475364345,
+    "p50_ms": 1200.0,
+    "p95_ms": 1500.0,
+    "error_rate": 0.0,
+    "slo_met": true
+  },
+  {
+    "label": "cache_off_u10",
+    "completed_runs": 75,
+    "rps": 5.357275693644966,
+    "p50_ms": 1800.0,
+    "p95_ms": 2000.0,
+    "error_rate": 0.0,
+    "slo_met": true
+  },
+  {
+    "label": "cache_on_u10",
+    "completed_runs": 135,
+    "rps": 9.636202743713216,
+    "p50_ms": 860.0,
+    "p95_ms": 960.0,
+    "error_rate": 0.0,
+    "slo_met": true
+  }
+]

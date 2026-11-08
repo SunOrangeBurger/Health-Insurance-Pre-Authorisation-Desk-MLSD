@@ -84,3 +84,25 @@ def test_actual_policy_reference_clauses_are_extracted() -> None:
     assert "expiry of 24 months" in by_clause["C.1.b"].text.lower()
     assert "expiry of 36 months" not in by_clause["C.1.b"].text.lower()
     assert by_clause["C.1.b"].provision_type == "waiting_period"
+
+
+def test_retrieval_cache_avoids_duplicate_embedding(tmp_path: Path) -> None:
+    class CountingEmbedder(HashingEmbedder):
+        def __init__(self) -> None:
+            super().__init__()
+            self.calls = 0
+
+        def encode(self, texts):
+            self.calls += 1
+            return super().encode(texts)
+
+    policy = tmp_path / "policy.pdf"
+    make_pdf(policy, ["SECTION C. WAITING PERIODS\nCataract waiting period is 24 months."])
+    output = tmp_path / "index"
+    IndexBuilder(output, HashingEmbedder()).build([policy])
+    embedder = CountingEmbedder()
+    retriever = HybridRetriever(output, embedder, cache_enabled=True)
+    first = retriever.search("cataract", "waiting_period")
+    second = retriever.search("cataract", "waiting_period")
+    assert [item.chunk_id for item in first] == [item.chunk_id for item in second]
+    assert embedder.calls == 1

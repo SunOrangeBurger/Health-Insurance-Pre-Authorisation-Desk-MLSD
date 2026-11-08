@@ -4,7 +4,7 @@ from typing import Any
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from preauth.store.models import CostLedger, Quarantine, Run, RunStep
+from preauth.store.models import CostLedger, Feedback, Quarantine, Run, RunStep
 
 
 async def create_run(
@@ -132,3 +132,22 @@ async def get_cost_entries(session: AsyncSession, run_id: str) -> list[CostLedge
         select(CostLedger).where(CostLedger.run_id == run_id).order_by(CostLedger.id)
     )
     return list(result)
+
+
+async def create_feedback(
+    session: AsyncSession,
+    *,
+    feedback_id: str,
+    run_id: str,
+    satisfactory: bool,
+    reason: str | None,
+) -> Feedback:
+    item = Feedback(
+        id=feedback_id,
+        run_id=run_id,
+        satisfactory=satisfactory,
+        reason=reason,
+    )
+    session.add(item)
+    await session.commit()
+    return item

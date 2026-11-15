@@ -69,6 +69,9 @@ def stage(label, users, seconds=180):
         code = process.wait()
     result = {'label': label, 'users': users, 'duration_seconds': seconds, 'exit_code': code, 'guard_stop': stopped,
               'minimum_available_bytes': min(s['available_bytes'] for s in samples), 'samples': samples}
+    for artifact in OUT.glob(label+'*.csv'):
+        raw = artifact.read_bytes()
+        artifact.write_bytes(raw.replace(b'\r\r\n', b'\n').replace(b'\r\n', b'\n'))
     if Path(str(prefix)+'_stats.csv').exists():
         rows = list(csv.DictReader(Path(str(prefix)+'_stats.csv').open()))
         result['stats'] = rows

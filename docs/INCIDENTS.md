@@ -180,3 +180,16 @@ This log records **genuine failures and issues** encountered during development,
 | **Root Cause** | Podman Compose precedence left the worker using an unintended Ollama URL instead of the fault-free stub. |
 | **Fix** | Discarded the invalid comparison, removed implicit service `env_file` inheritance, added explicit profiles, confirmed `LLM_PROVIDER=stub` and reran all 24 cases. |
 | **Prevention** | Record and verify effective provider, URL, model, delay and fault mode before evaluation or load evidence. |
+
+
+## 2026-11-15: Host prompt-cache growth stops local capacity tests
+
+**Symptom:** guarded Locust runs exhausted the host RAM reserve despite healthy containers and models that fit GPU memory. Smaller models and non-mapped loading alone did not resolve sustained growth.
+
+**Evidence:** each distinct prompt added approximately 363 MiB to llama-server RSS. Identical repeated prompts hid the problem. Runner logs showed prompt-cache growth toward an 8192 MiB budget outside the application's container limits. See the stopped stage artifacts, schema/prefill probes and model-memory-cache0.json.
+
+**Resolution:** start the project-owned Ollama server with LLAMA_ARG_CACHE_RAM=0. This disables the optional host conversation snapshot cache, not the application's retrieval cache or the active GPU context. Ten varied real API cases then held runner RSS near 769 MB with over 5 GiB available RAM. Sustained load/soak validation is recorded separately.
+
+**Related primary sources:** [Ollama prompt-cache issue](https://github.com/ollama/ollama/issues/18264), [llama.cpp server options](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md).
+
+**Additional hardening:** reserve-aware benchmark preflight; queue-age and monitoring-failure stops; preserve guard-stopped samples; export final Locust statistics after task draining. Provider decoding uses shape/enums while Pydantic retains full response validation.

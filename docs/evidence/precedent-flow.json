@@ -9,7 +9,7 @@
   ],
   "cases": [
     {
-      "case_id": "b27d174a-e11e-4948-bb68-4a1084586c1d",
+      "case_id": "46403cc4-9c4d-48b2-89cc-941d508c7bd6",
       "status": "awaiting_review",
       "decision": null,
       "assessment": {
@@ -20,21 +20,21 @@
           "C.1.b"
         ],
         "exception_flags": [],
-        "model_rationale": "The policy covers cataract treatments, and the waiting period has been served. The procedure is within the covered scope.",
+        "model_rationale": "The policy's waiting period for cataract (24 months) is served as of 2026-11-22 (policy start 2024-05-29 + 24 months = 2026-05-29; 2026-11-22 > 2026-05-29). No pre-existing conditions declared. Procedure is covered under day care treatments (B.1.1.g). Room category requested is single, which aligns with policy's 'At Actuals' room rent basis.",
         "prompt_version": "claims-reviewer/v1",
-        "model": "qwen2.5-coder:7b",
-        "inference_seconds": 3.5797,
-        "prompt_tokens": 2544,
-        "completion_tokens": 65
+        "model": "qwen3:4b",
+        "inference_seconds": 3.8301,
+        "prompt_tokens": 2569,
+        "completion_tokens": 168
       }
     },
     {
-      "case_id": "248d0859-bac5-41fc-b676-0c877982d458",
+      "case_id": "4be12890-a3de-4071-a944-4fedfb8bd190",
       "status": "approved",
       "decision": {
         "outcome": "approved",
         "source": "precedent",
-        "precedent_id": "489495b6-6fba-471f-853a-958c6e0c039b",
+        "precedent_id": "32d47fdc-81d5-4639-bad5-ddeef3c9c0af",
         "reason": "Retrieved provisions are verified and the applicable specific waiting period is served.",
         "revision": 1
       },
@@ -46,16 +46,16 @@
           "C.1.b"
         ],
         "exception_flags": [],
-        "model_rationale": "The policy covers cataract treatments, and the waiting period has been served. The procedure is within the covered scope.",
+        "model_rationale": "The policy's waiting period for cataract treatment is served (coverage_position: waiting_period_served), and no pre-existing conditions or exceptions were declared. The procedure (phacoemulsification) is covered under day-care treatments per clause B.1.1.g and B.1.1.i, with no room rent issues as it's day-care. No contradictions in evidence.",
         "prompt_version": "claims-reviewer/v1",
-        "model": "qwen2.5-coder:7b",
-        "inference_seconds": 3.434,
-        "prompt_tokens": 2547,
-        "completion_tokens": 65
+        "model": "qwen3:4b",
+        "inference_seconds": 2.7135,
+        "prompt_tokens": 2573,
+        "completion_tokens": 119
       }
     },
     {
-      "case_id": "071c6103-c2cb-4155-812c-7ae3732264e7",
+      "case_id": "03ef7ef9-965d-4b9f-8088-37cb28df1f69",
       "status": "awaiting_review",
       "decision": null,
       "assessment": {
@@ -66,16 +66,16 @@
           "C.1.b"
         ],
         "exception_flags": [],
-        "model_rationale": "The policy covers cataract treatments, and the waiting period has been served. The procedure is within the covered scope.",
+        "model_rationale": "Policy covers day-care cataract treatment with waiting period served (24 months continuous coverage from policy inception), no pre-existing conditions, and procedure within scope per B.1.1.1.iii (Day Care Treatments).",
         "prompt_version": "claims-reviewer/v1",
-        "model": "qwen2.5-coder:7b",
-        "inference_seconds": 3.3811,
-        "prompt_tokens": 2547,
-        "completion_tokens": 65
+        "model": "qwen3:4b",
+        "inference_seconds": 2.2795,
+        "prompt_tokens": 2576,
+        "completion_tokens": 89
       }
     },
     {
-      "case_id": "f6c5245f-fbe0-4e92-a7ea-43a28097161c",
+      "case_id": "f5cbdd84-016e-4c6a-bdb9-f12f865a07ce",
       "status": "awaiting_review",
       "decision": null,
       "assessment": {
@@ -86,16 +86,16 @@
           "C.1.b"
         ],
         "exception_flags": [],
-        "model_rationale": "The policy covers cataract treatments, and the waiting period for cataract has been served.",
+        "model_rationale": "Policy covers day-care cataract treatment with waiting period served (24 months continuous coverage from policy inception), no pre-existing conditions, and procedure within scope per B.1.1.1.iii (Day Care Treatments).",
         "prompt_version": "claims-reviewer/v1",
-        "model": "qwen2.5-coder:7b",
-        "inference_seconds": 3.2241,
-        "prompt_tokens": 2541,
-        "completion_tokens": 61
+        "model": "qwen3:4b",
+        "inference_seconds": 2.2278,
+        "prompt_tokens": 2568,
+        "completion_tokens": 89
       }
     },
     {
-      "case_id": "794d687e-7335-472d-804d-a22531f08e09",
+      "case_id": "1e83b3f4-530b-4568-831c-411e5c434b81",
       "status": "awaiting_review",
       "decision": null,
       "assessment": {
@@ -106,16 +106,16 @@
           "C.1.b"
         ],
         "exception_flags": [],
-        "model_rationale": "The policy covers cataract treatments, and the waiting period has been served. The procedure is within the covered scope.",
+        "model_rationale": "The policy's waiting period for cataract (24 months) is served as of 2026-11-22 (policy start 2024-05-29 + 24 months = 2026-05-29), and no pre-existing conditions or exceptions declared. Coverage_position confirms waiting_period_served with no contradictions.",
         "prompt_version": "claims-reviewer/v1",
-        "model": "qwen2.5-coder:7b",
-        "inference_seconds": 3.3665,
-        "prompt_tokens": 2541,
-        "completion_tokens": 65
+        "model": "qwen3:4b",
+        "inference_seconds": 2.7667,
+        "prompt_tokens": 2568,
+        "completion_tokens": 122
       }
     },
     {
-      "case_id": "87badde1-3d2a-4523-85fa-fe990032666a",
+      "case_id": "eaa6a06b-3136-455b-8e51-5bbf6fc5b302",
       "status": "awaiting_review",
       "decision": null,
       "assessment": {
@@ -125,21 +125,21 @@
           "C.1.b"
         ],
         "exception_flags": [],
-        "model_rationale": "The specific waiting period for cataract treatment has not been served (11.1 months elapsed). The policy requires a continuous coverage of at least 24 months before claims related to specified diseases like cataract can be made.",
+        "model_rationale": "The policy's waiting period clause (C.1.b) excludes cataract treatment for 24 months post-policy inception. The 11.1-month elapsed period is insufficient, so waiting period not served. No exceptions declared, thus reject based on waiting period clause.",
         "prompt_version": "claims-reviewer/v1",
-        "model": "qwen2.5-coder:7b",
-        "inference_seconds": 4.1002,
-        "prompt_tokens": 2549,
-        "completion_tokens": 82
+        "model": "qwen3:4b",
+        "inference_seconds": 2.2478,
+        "prompt_tokens": 2572,
+        "completion_tokens": 90
       }
     },
     {
-      "case_id": "9fddfffa-ae5c-45f0-a30d-ad5574f97653",
+      "case_id": "222ece44-2091-48db-b8a1-9b1416e8b9b4",
       "status": "rejected",
       "decision": {
         "outcome": "rejected",
         "source": "precedent",
-        "precedent_id": "b752f368-003d-4427-a1e5-bbff14c754e9",
+        "precedent_id": "0e59b27e-bddb-490f-a438-d34bb4013a7e",
         "reason": "The 24-month specific waiting period has not been served (11.1 months elapsed).",
         "revision": 1
       },
@@ -147,16 +147,15 @@
         "recommendation": "reject",
         "rationale": "The 24-month specific waiting period has not been served (11.1 months elapsed).",
         "clause_ids": [
-          "B.1.1",
           "C.1.b"
         ],
         "exception_flags": [],
-        "model_rationale": "The specific waiting period for cataract treatment has not been served (11.1 months elapsed). The policy requires a continuous coverage of at least 24 months before claims related to specified diseases like cataract are covered.",
+        "model_rationale": "The policy's 24-month waiting period for cataract treatment (clause C.1.b) has not been served (11.1 months elapsed), per route_reason. No exceptions declared, so reject based on waiting period clause.",
         "prompt_version": "claims-reviewer/v1",
-        "model": "qwen2.5-coder:7b",
-        "inference_seconds": 4.182,
-        "prompt_tokens": 2553,
-        "completion_tokens": 88
+        "model": "qwen3:4b",
+        "inference_seconds": 2.1652,
+        "prompt_tokens": 2580,
+        "completion_tokens": 83
       }
     }
   ]

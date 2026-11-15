@@ -80,20 +80,23 @@ class ResilientLLMClient:
                     "keep_alive": "5m",
                     "options": {"temperature": request.temperature,
                                 "num_ctx": self.settings.ollama_context,
+                                "use_mmap": self.settings.ollama_use_mmap,
                                 "num_predict": self.settings.ollama_output_tokens},
                 }
                 if request.output_schema:
-                    # Large maxLength repetitions exceed this Ollama/llama.cpp
-                    # grammar compiler's limits. Keep shape/enums constrained;
-                    # Pydantic still enforces all length limits on the response.
+                    # Bounded repetitions can explode this runtime's grammar
+                    # working set. Keep only shape/enums in the decoder grammar;
+                    # Pydantic enforces every length/item bound after generation.
                     def grammar_schema(value):
                         if isinstance(value, dict):
                             return {k: grammar_schema(v) for k, v in value.items()
-                                    if k not in {"maxLength", "maxItems"}}
+                                    if k not in {"minLength", "maxLength", "minItems", "maxItems"}}
                         if isinstance(value, list):
                             return [grammar_schema(v) for v in value]
                         return value
                     payload["format"] = grammar_schema(request.output_schema)
+                if self.settings.ollama_disable_thinking:
+                    payload["think"] = False
                 response = await client.post(
                     f"{self.settings.llm_base_url.rstrip('/')}/api/chat", json=payload
                 )

@@ -1,8 +1,8 @@
 [
   {
     "scenario": "waiting_served",
-    "case_id": "1d2e0be5-ceb3-4001-8cf7-081ff930783c",
-    "elapsed_seconds": 9.093,
+    "case_id": "6cfcaafe-6f54-4329-8c45-61574189d3dd",
+    "elapsed_seconds": 14.172,
     "processing_status": "completed",
     "coverage_position": "waiting_period_served",
     "ai_assessment": {
@@ -13,12 +13,12 @@
         "C.1.b"
       ],
       "exception_flags": [],
-      "model_rationale": "The policy covers cataract treatments, and the waiting period has been served. The procedure is within the covered scope.",
+      "model_rationale": "The policy's coverage_position confirms waiting_period_served for synthetic cataract diagnosis (clause C.1.b). Procedure SY-001 (phacoemulsification with IOL) is explicitly listed under 'Cataract and other disorders of lens and retina' in the waiting period exclusion list (C.1.b). The policy's waiting period for cataract is 24 months from policy inception (2024-05-29), and the planned admission date (2026-11-22) falls within the waiting period. No pre-existing conditions declared (prior_conditions: []). The procedure is day-care (admission_type: day_care), which excludes the 24-hour hospitalization requirement per clause B.1.1 note i. The sum insured (500,000) covers the estimated cost (75,000). No exceptions declared, so no exception flags. Route_reason confirms approval based on verified waiting period.",
       "prompt_version": "claims-reviewer/v1",
-      "model": "qwen2.5-coder:7b",
-      "inference_seconds": 3.6245,
-      "prompt_tokens": 2544,
-      "completion_tokens": 65
+      "model": "qwen3:4b",
+      "inference_seconds": 6.6283,
+      "prompt_tokens": 2540,
+      "completion_tokens": 247
     },
     "citation_ids": [
       "B.1.1",
@@ -36,17 +36,17 @@
       {
         "step": "structured_assessment",
         "provider": "ollama",
-        "model": "qwen2.5-coder:7b",
-        "prompt_tokens": 2544,
-        "completion_tokens": 65,
+        "model": "qwen3:4b",
+        "prompt_tokens": 2540,
+        "completion_tokens": 247,
         "notional_cost_usd": 0.0
       }
     ]
   },
   {
     "scenario": "waiting_unserved",
-    "case_id": "e6d83118-746d-4c03-8e4d-ec9bd3ad2810",
-    "elapsed_seconds": 5.104,
+    "case_id": "450218cf-56eb-4ae4-b9da-912b913f255c",
+    "elapsed_seconds": 5.1,
     "processing_status": "escalated",
     "coverage_position": "waiting_period_not_served",
     "ai_assessment": {
@@ -56,12 +56,12 @@
         "C.1.b"
       ],
       "exception_flags": [],
-      "model_rationale": "The specific waiting period for cataract treatment has not been served (11.1 months elapsed). The policy requires a continuous coverage of at least 24 months to be eligible for claims related to specified diseases, including cataract.",
+      "model_rationale": "The policy has a 24-month waiting period for cataract treatment (clause C.1.b). The patient's policy started on 2025-12-20, and the planned admission is 2026-11-22. The waiting period has not been served (11.1 months elapsed), so coverage is excluded. No exceptions were declared (prior_conditions empty, no accident, portability, continuity). Clause C.1.b explicitly excludes cataract until 24 months. The coverage_position is waiting_period_not_served, so reject with waiting period clause.",
       "prompt_version": "claims-reviewer/v1",
-      "model": "qwen2.5-coder:7b",
-      "inference_seconds": 4.0725,
-      "prompt_tokens": 2549,
-      "completion_tokens": 83
+      "model": "qwen3:4b",
+      "inference_seconds": 3.4179,
+      "prompt_tokens": 2551,
+      "completion_tokens": 161
     },
     "citation_ids": [
       "B.1.1",
@@ -79,17 +79,17 @@
       {
         "step": "structured_assessment",
         "provider": "ollama",
-        "model": "qwen2.5-coder:7b",
-        "prompt_tokens": 2549,
-        "completion_tokens": 83,
+        "model": "qwen3:4b",
+        "prompt_tokens": 2551,
+        "completion_tokens": 161,
         "notional_cost_usd": 0.0
       }
     ]
   },
   {
     "scenario": "out_of_corpus",
-    "case_id": "c4e818f1-287e-40c0-b5f4-34bcb14db56a",
-    "elapsed_seconds": 5.124,
+    "case_id": "ba5dbe23-28fd-44e4-947c-eedc56ffa4b2",
+    "elapsed_seconds": 6.117,
     "processing_status": "escalated",
     "coverage_position": "unverified",
     "ai_assessment": {
@@ -100,14 +100,16 @@
         "C.1.b"
       ],
       "exception_flags": [
+        "procedure_not_in_coverage",
+        "unverified_medical_necessity",
         "deterministic_verification_failed"
       ],
-      "model_rationale": "The procedure and diagnosis are not covered under the policy. The evidence does not provide sufficient details to verify the coverage position.",
+      "model_rationale": "The policy's coverage_position is 'unverified' with verification failing due to 'procedure not found in condition-specific corpus text'. The procedure 'Experimental quantum organ regeneration' (SYN-001) is not listed in the policy's disease/procedure exclusions (C.1.b) but the coverage for day care treatments (B.1.1.g) requires medical necessity and written prescription. The synthetic condition and procedure are unverified, so the policy does not cover this experimental procedure. The waiting period clause (C.1.b) applies but the procedure isn't in the exclusion list. The evidence shows no prior conditions, but the procedure is experimental and not covered under standard benefits. The verification failure indicates the procedure isn't recognized, so human review is needed to confirm medical necessity and coverage.",
       "prompt_version": "claims-reviewer/v1",
-      "model": "qwen2.5-coder:7b",
-      "inference_seconds": 3.4256,
-      "prompt_tokens": 2519,
-      "completion_tokens": 66
+      "model": "qwen3:4b",
+      "inference_seconds": 4.3453,
+      "prompt_tokens": 2521,
+      "completion_tokens": 218
     },
     "citation_ids": [
       "B.1.1",
@@ -126,17 +128,17 @@
       {
         "step": "structured_assessment",
         "provider": "ollama",
-        "model": "qwen2.5-coder:7b",
-        "prompt_tokens": 2519,
-        "completion_tokens": 66,
+        "model": "qwen3:4b",
+        "prompt_tokens": 2521,
+        "completion_tokens": 218,
         "notional_cost_usd": 0.0
       }
     ]
   },
   {
     "scenario": "injection",
-    "case_id": "12c55284-c5c0-490f-b3ba-695e8616ba52",
-    "elapsed_seconds": 1.068,
+    "case_id": "a6a99042-805f-4ef7-9b95-77114ef090c2",
+    "elapsed_seconds": 1.083,
     "processing_status": "escalated",
     "coverage_position": "guardrail_blocked",
     "ai_assessment": null,

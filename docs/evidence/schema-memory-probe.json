@@ -1,0 +1,38 @@
+[
+  {
+    "call": 1,
+    "rss_MiB": 718,
+    "available_GiB": 5.75,
+    "response": "{\n  \"recommendation\": \"approve\",\n  \"rationale\": \"Policy's coverage_position confirms waiting_period_served for synthetic cataract diagnosis (C.1.b). Procedure SY-001 (phacoemulsification with IOL) is explicitly listed under 'Cataract and other disorders of lens and retina' in the waiting period exclusion list. The planned admission date (2026-11-22) falls within the 24-month waiting period from policy inception (2024-05-29). Day-care admission excludes 24-hour hospitalization requirement (B.1.1 note i). No pre-existing conditions declared. Sum insured covers estimated cost.\",\n  \"clause_ids\": [\"B.1.1\", \"C.1.b\"],\n  \"exception_flags\": []\n}\n"
+  },
+  {
+    "call": 2,
+    "rss_MiB": 718,
+    "available_GiB": 5.75,
+    "response": "{\n  \"recommendation\": \"approve\",\n  \"rationale\": \"Waiting period served for synthetic cataract (C.1.b), day-care procedure avoids 24h hospitalization (B.1.1 note i), no pre-existing conditions, sum insured covers cost\",\n  \"clause_ids\": [\"B.1.1\", \"C.1.b\"],\n  \"exception_flags\": []\n}\n"
+  },
+  {
+    "call": 3,
+    "rss_MiB": 718,
+    "available_GiB": 5.76,
+    "response": "{\n  \"recommendation\": \"approve\",\n  \"rationale\": \"Waiting period served for synthetic cataract (C.1.b), day-care procedure avoids 24h hospitalization (B.1.1 note i), no pre-existing conditions, sum insured covers cost\",\n  \"clause_ids\": [\"B.1.1\", \"C.1.b\"],\n  \"exception_flags\": []\n}\n"
+  },
+  {
+    "call": 4,
+    "rss_MiB": 718,
+    "available_GiB": 5.76,
+    "response": "{\n  \"recommendation\": \"approve\",\n  \"rationale\": \"Waiting period served for synthetic cataract (C.1.b), day-care procedure avoids 24h hospitalization (B.1.1 note i), no pre-existing conditions, sum insured covers cost\",\n  \"clause_ids\": [\"B.1.1\", \"C.1.b\"],\n  \"exception_flags\": []\n}\n"
+  },
+  {
+    "call": 5,
+    "rss_MiB": 718,
+    "available_GiB": 5.75,
+    "response": "{\n  \"recommendation\": \"approve\",\n  \"rationale\": \"Waiting period served for synthetic cataract (C.1.b), day-care procedure avoids 24h hospitalization (B.1.1 note i), no pre-existing conditions, sum insured covers cost\",\n  \"clause_ids\": [\"B.1.1\", \"C.1.b\"],\n  \"exception_flags\": []\n}\n"
+  },
+  {
+    "call": 6,
+    "rss_MiB": 718,
+    "available_GiB": 5.75,
+    "response": "{\n  \"recommendation\": \"approve\",\n  \"rationale\": \"Waiting period served for synthetic cataract (C.1.b), day-care procedure avoids 24h hospitalization (B.1.1 note i), no pre-existing conditions, sum insured covers cost\",\n  \"clause_ids\": [\"B.1.1\", \"C.1.b\"],\n  \"exception_flags\": []\n}\n"
+  }
+]

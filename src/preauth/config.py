@@ -21,6 +21,8 @@ class Settings(BaseSettings):
     llm_base_url: str = "http://llm-stub:8080"
     ollama_context: int = Field(default=4096, ge=1024, le=8192)
     ollama_output_tokens: int = Field(default=512, ge=64, le=2048)
+    ollama_use_mmap: bool = True
+    ollama_disable_thinking: bool = False
     stub_delay_ms: int = Field(default=250, ge=0)
     stub_jitter_ms: int = Field(default=50, ge=0)
     fault_mode: str = "none"

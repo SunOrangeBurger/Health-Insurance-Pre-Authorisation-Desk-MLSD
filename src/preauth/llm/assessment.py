@@ -9,7 +9,8 @@ from preauth.api.schemas import LLMRequest
 
 class Assessment(BaseModel):
     recommendation: Literal["approve", "reject", "needs_information"]
-    rationale: str = Field(min_length=10, max_length=3000)
+    rationale: str = Field(min_length=10, max_length=3000,
+                           description="One brief sentence stating the policy reason; at most 60 words, no step-by-step reasoning")
     clause_ids: list[str] = Field(max_length=20)
     exception_flags: list[str] = Field(max_length=20)
 

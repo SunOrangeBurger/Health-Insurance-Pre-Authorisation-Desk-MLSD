@@ -80,3 +80,7 @@ Earn checkpoint weights only after all exit checks pass. Record actual evidence 
 - Locust was stopped by the RAM guard. First run: three completed observations, zero observed failures, one unobserved assessment. Recovery: two completed observations, zero observed failures, one unobserved assessment. Both stopped; neither is a capacity pass.
 - Returned to one worker. Benchmark supervisor now refuses both initial and recovery load below the reserve; guard regression test passes.
 - Application implementation committed as 1ed9eb8 and pushed to GitHub branch codex/internal-policy-desk. Benchmark evidence and supervisor correction follow in a separate commit. Pre-existing script permission changes remain unstaged.
+
+## Continued capacity validation
+
+The user freed RAM and testing resumed. Varied prompts still grew runner memory with 7B and 4B models; loading/grammar-only changes did not establish stability. Logs identified the optional 8192 MiB host prompt cache, which grew about 363 MiB per distinct prompt. The project launcher now sets LLAMA_ARG_CACHE_RAM=0. Ten varied real API cases held runner RSS near 769 MB. Qwen3 4B passed grounded/precedent acceptance and is the local default. Sustained reruns are in loadtest/results/desk/cache0; percentage remains 85% until their exit checks pass.

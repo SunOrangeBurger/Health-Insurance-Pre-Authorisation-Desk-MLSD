@@ -19,6 +19,26 @@ class FakeRedis:
 
 
 @pytest.mark.asyncio
+async def test_ollama_uses_shape_only_grammar_and_bounded_non_thinking_generation(monkeypatch):
+    async def post(self, url, **kwargs):
+        payload = kwargs['json']
+        assert payload['think'] is False
+        assert payload['options']['use_mmap'] is False
+        assert payload['options']['num_predict'] == 512
+        assert payload['format']['properties']['reason'] == {'type': 'string'}
+        assert payload['format']['properties']['items'] == {'type': 'array', 'items': {'type': 'string'}}
+        return httpx.Response(200, json={'message': {'content': '{"reason":"valid response"}'},
+                                        'prompt_eval_count': 10, 'eval_count': 5}, request=httpx.Request('POST', url))
+    monkeypatch.setattr(httpx.AsyncClient, 'post', post)
+    settings = Settings(_env_file=None, llm_provider='ollama', llm_base_url='http://model',
+                        llm_model='fixture', ollama_use_mmap=False, ollama_disable_thinking=True)
+    response = await ResilientLLMClient(settings).complete(LLMRequest(messages=[], output_schema={
+        'type': 'object', 'properties': {'reason': {'type': 'string', 'minLength': 10, 'maxLength': 3000},
+                                       'items': {'type': 'array', 'maxItems': 20, 'minItems': 1, 'items': {'type': 'string'}}}}))
+    assert response.completion_tokens == 5
+
+
+@pytest.mark.asyncio
 async def test_rate_limiter_returns_retry_after() -> None:
     redis = FakeRedis([(1, b"2.0"), (0, b"0.25")])
     first = await consume_token(redis, "client-a", 3, 1)

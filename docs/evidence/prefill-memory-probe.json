@@ -1,0 +1,58 @@
+[
+  {
+    "call": 1,
+    "rss_MiB": 705,
+    "available_GiB": 5.82,
+    "duration_s": 6.3928811,
+    "recommendation": "approve"
+  },
+  {
+    "call": 2,
+    "rss_MiB": 1071,
+    "available_GiB": 5.43,
+    "duration_s": 2.9938042,
+    "recommendation": "approve"
+  },
+  {
+    "call": 3,
+    "rss_MiB": 1435,
+    "available_GiB": 5.08,
+    "duration_s": 2.9255243,
+    "recommendation": "approve"
+  },
+  {
+    "call": 4,
+    "rss_MiB": 1798,
+    "available_GiB": 4.72,
+    "duration_s": 2.7663113,
+    "recommendation": "approve"
+  },
+  {
+    "call": 5,
+    "rss_MiB": 2161,
+    "available_GiB": 4.38,
+    "duration_s": 2.9233371,
+    "recommendation": "approve"
+  },
+  {
+    "call": 6,
+    "rss_MiB": 2524,
+    "available_GiB": 4.01,
+    "duration_s": 3.2828699,
+    "recommendation": "approve"
+  },
+  {
+    "call": 7,
+    "rss_MiB": 2890,
+    "available_GiB": 3.66,
+    "duration_s": 3.1504743,
+    "recommendation": "approve"
+  },
+  {
+    "call": 8,
+    "rss_MiB": 3256,
+    "available_GiB": 3.31,
+    "duration_s": 2.9542623,
+    "recommendation": "approve"
+  }
+]

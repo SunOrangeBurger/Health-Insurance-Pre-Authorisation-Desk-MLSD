@@ -1,15 +1,35 @@
 """Authenticated real-model case workload. Credentials come from environment."""
 import os
 import time
+import csv
+from pathlib import Path
 from datetime import date, timedelta
 from uuid import uuid4
 
 import gevent
-from locust import HttpUser, between, events, task
+from locust import HttpUser, between, constant_throughput, events, task
 from gevent.lock import Semaphore
 
 _login_lock = Semaphore()
 _session = None
+_environment = None
+
+
+@events.init.add_listener
+def remember_environment(environment, **kwargs):
+    global _environment
+    _environment = environment
+
+
+@events.quit.add_listener
+def write_drained_stats(exit_code, **kwargs):
+    # Locust's periodic CSV can precede stop-timeout task draining. This event
+    # runs after runner.quit(), so preserve a separate final authoritative file.
+    from locust.stats import StatsCSV, PERCENTILES_TO_REPORT
+    prefix = os.environ.get('DESK_FINAL_STATS_PREFIX') or getattr(getattr(_environment, 'parsed_options', None), 'csv_prefix', None)
+    if prefix and _environment is not None:
+        with Path(prefix+'_final_stats.csv').open('w', newline='', encoding='utf-8') as handle:
+            StatsCSV(_environment, PERCENTILES_TO_REPORT).requests_csv(csv.writer(handle))
 
 
 class HospitalUser(HttpUser):
@@ -67,3 +87,11 @@ class HospitalUser(HttpUser):
         events.request.fire(request_type='E2E', name='machine assessment',
                             response_time=(time.perf_counter() - start) * 1000,
                             response_length=0, exception=error, context={})
+
+
+if os.environ.get('DESK_SOAK_RPS'):
+    # Deliberately paced submission-only soak; no random browse task can dilute
+    # the intended assessment arrival rate. Actual achieved rate is reported.
+    HospitalUser.tasks = [HospitalUser.submit]
+    HospitalUser.wait_time = constant_throughput(float(os.environ['DESK_SOAK_RPS']) /
+                                               int(os.environ.get('DESK_SOAK_USERS', '2')))

@@ -84,3 +84,23 @@ Earn checkpoint weights only after all exit checks pass. Record actual evidence 
 ## Continued capacity validation
 
 The user freed RAM and testing resumed. Varied prompts still grew runner memory with 7B and 4B models; loading/grammar-only changes did not establish stability. Logs identified the optional 8192 MiB host prompt cache, which grew about 363 MiB per distinct prompt. The project launcher now sets LLAMA_ARG_CACHE_RAM=0. Ten varied real API cases held runner RSS near 769 MB. Qwen3 4B passed grounded/precedent acceptance and is the local default. Sustained reruns are in loadtest/results/desk/cache0; percentage remains 85% until their exit checks pass.
+
+## End-of-day checkpoint — paused by user
+
+**Verified completion remains 85%.** All project workloads stopped at the user's request. Docker volumes, database, index and model downloads were preserved. No queued/running database cases or Redis jobs remained at shutdown.
+
+- Stable cache0 configuration: Qwen3 4B, non-thinking, one inference slot, LLAMA_ARG_CACHE_RAM=0, provider shape-only JSON grammar and full Pydantic/application checks. The earlier memory growth was traced to the runner's default 8192 MiB host prompt cache; changing model size or memory mapping alone was insufficient.
+- Completed cache0 one-user 180-second stage: 15 assessments, zero failures, p50 4.1s, p95/p99 5.2s, no unobserved assessments, no resource stop, minimum available RAM about 4.6 GiB.
+- Two-user stage was explicitly interrupted by the user before completion. Its periodic CSV contains 24 observations, zero observed failures and p95/p99 7.1s; these are partial results, not a passed complete stage.
+- Higher-load stages, worker comparison and the real 30-minute soak remain unfinished. Do not mark 90% or 100% until the remaining tests run.
+- Checkpoint artifact: docs/evidence/checkpoint-2026-11-15.json. Stable-profile raw files: loadtest/results/desk/cache0. Earlier failed variants are retained in root/nommap/qwen3/qwen3-shape directories.
+
+### Resume next session
+
+1. Open Ubuntu WSL and keep it active. Set the two demo password environment variables from INTERNAL_TOOL_DEMO.md.
+2. Run scripts/start_ollama_wsl.ps1 to start the bounded server, then use scripts/compose_wsl.ps1 to start postgres/redis/api/worker and the observability profile. Never start an unbounded existing Ollama server silently.
+3. Preserve the interrupted run, and rerun the remaining stages into a new directory: `.venv/Scripts/python.exe scripts/benchmark_desk.py --workers 1 --users 2 4 8 16 --output-dir loadtest/results/desk/resume-cache0`.
+4. Perform the worker comparison, then use the measured sustainable rate to run `--soak-minutes 30 --soak-rps <60-percent-of-measured-rate>` in a fresh output directory.
+5. Generate the load/stress and soak reports, complete the handover checks and push updated evidence to codex/internal-policy-desk.
+
+Pre-existing script permission changes remain outside project commits.

@@ -1,0 +1,44 @@
+{
+  "date": "2026-11-15",
+  "verified_completion_percent": 85,
+  "status": "paused_by_user",
+  "completed_stage": {
+    "name": "cache0/workers1-users1",
+    "assessment": {
+      "Request Count": "15",
+      "Failure Count": "0",
+      "50%": "4100",
+      "95%": "5200",
+      "99%": "5200",
+      "Requests/s": "0.08381385000632714"
+    },
+    "guard_stop": null,
+    "unobserved_assessments": 0
+  },
+  "interrupted_stage": {
+    "name": "cache0/workers1-users2",
+    "status": "interrupted_by_user",
+    "partial_assessment": {
+      "Request Count": "24",
+      "Failure Count": "0",
+      "50%": "4100",
+      "95%": "6100",
+      "99%": "7100"
+    },
+    "not_a_completed_capacity_test": true
+  },
+  "pending_queued_or_running_database_cases_at_shutdown": 0,
+  "redis_queued_jobs_at_shutdown": 0,
+  "remaining": [
+    "Complete staged load/stress and recovery",
+    "Compare one and three workers under one inference slot",
+    "Run a real 30-minute soak and evaluate memory/latency",
+    "Finalize runbook and reports"
+  ],
+  "runtime_requirements": {
+    "model": "qwen3:4b",
+    "host_prompt_cache_mib": 0,
+    "inference_slots": 1
+  },
+  "data_preserved": "Docker volumes, policy index, model cache, database and benchmark artifacts"
+}

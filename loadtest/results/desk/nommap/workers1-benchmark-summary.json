@@ -1,0 +1,446 @@
+[
+  {
+    "label": "workers1-users1",
+    "users": 1,
+    "duration_seconds": 180,
+    "exit_code": 0,
+    "guard_stop": null,
+    "minimum_available_bytes": 2440929280,
+    "samples": [
+      {
+        "time": 1794757701.3876522,
+        "available_bytes": 5420216320
+      },
+      {
+        "time": 1794757701.401685,
+        "available_bytes": 5423325184,
+        "cpu_percent": 24.1,
+        "queue_depth_including_running": 0,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757706.604021,
+        "available_bytes": 5385641984,
+        "cpu_percent": 42.0,
+        "queue_depth_including_running": 1,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757711.7396946,
+        "available_bytes": 5244612608,
+        "cpu_percent": 19.8,
+        "queue_depth_including_running": 1,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757716.8645453,
+        "available_bytes": 5402267648,
+        "cpu_percent": 37.6,
+        "queue_depth_including_running": 0,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757721.9625428,
+        "available_bytes": 5394468864,
+        "cpu_percent": 9.1,
+        "queue_depth_including_running": 0,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757727.057926,
+        "available_bytes": 5325074432,
+        "cpu_percent": 10.7,
+        "queue_depth_including_running": 0,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757732.146954,
+        "available_bytes": 5101629440,
+        "cpu_percent": 26.1,
+        "queue_depth_including_running": 1,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757737.273861,
+        "available_bytes": 5059457024,
+        "cpu_percent": 22.0,
+        "queue_depth_including_running": 0,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757742.3658369,
+        "available_bytes": 4990119936,
+        "cpu_percent": 10.0,
+        "queue_depth_including_running": 0,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757747.4624426,
+        "available_bytes": 5197185024,
+        "cpu_percent": 8.2,
+        "queue_depth_including_running": 0,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757752.5609608,
+        "available_bytes": 5227085824,
+        "cpu_percent": 6.9,
+        "queue_depth_including_running": 0,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757757.6602712,
+        "available_bytes": 5014495232,
+        "cpu_percent": 9.7,
+        "queue_depth_including_running": 1,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757762.7558568,
+        "available_bytes": 4942000128,
+        "cpu_percent": 36.7,
+        "queue_depth_including_running": 0,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757767.852166,
+        "available_bytes": 4904132608,
+        "cpu_percent": 8.3,
+        "queue_depth_including_running": 0,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757772.9396944,
+        "available_bytes": 4824842240,
+        "cpu_percent": 8.4,
+        "queue_depth_including_running": 0,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757778.03811,
+        "available_bytes": 4548263936,
+        "cpu_percent": 10.9,
+        "queue_depth_including_running": 1,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757783.137756,
+        "available_bytes": 4539351040,
+        "cpu_percent": 37.7,
+        "queue_depth_including_running": 0,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757788.2377942,
+        "available_bytes": 3105255424,
+        "cpu_percent": 32.8,
+        "queue_depth_including_running": 1,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757793.3618283,
+        "available_bytes": 2984718336,
+        "cpu_percent": 46.3,
+        "queue_depth_including_running": 0,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757798.4486406,
+        "available_bytes": 3039096832,
+        "cpu_percent": 26.5,
+        "queue_depth_including_running": 1,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757803.5709062,
+        "available_bytes": 3068534784,
+        "cpu_percent": 36.0,
+        "queue_depth_including_running": 0,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757808.6647766,
+        "available_bytes": 3253800960,
+        "cpu_percent": 13.1,
+        "queue_depth_including_running": 1,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757813.7698498,
+        "available_bytes": 3205525504,
+        "cpu_percent": 38.1,
+        "queue_depth_including_running": 0,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757818.864767,
+        "available_bytes": 3073622016,
+        "cpu_percent": 26.7,
+        "queue_depth_including_running": 1,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757823.992622,
+        "available_bytes": 2947600384,
+        "cpu_percent": 33.4,
+        "queue_depth_including_running": 0,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757829.080589,
+        "available_bytes": 2916069376,
+        "cpu_percent": 10.1,
+        "queue_depth_including_running": 0,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757834.1675406,
+        "available_bytes": 2837196800,
+        "cpu_percent": 32.4,
+        "queue_depth_including_running": 1,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757839.2874463,
+        "available_bytes": 2594795520,
+        "cpu_percent": 23.4,
+        "queue_depth_including_running": 1,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757844.3809502,
+        "available_bytes": 2559307776,
+        "cpu_percent": 36.6,
+        "queue_depth_including_running": 0,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757849.479893,
+        "available_bytes": 2609999872,
+        "cpu_percent": 7.0,
+        "queue_depth_including_running": 0,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757854.5707424,
+        "available_bytes": 2576453632,
+        "cpu_percent": 8.5,
+        "queue_depth_including_running": 1,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757859.6664896,
+        "available_bytes": 2761547776,
+        "cpu_percent": 42.6,
+        "queue_depth_including_running": 0,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757864.753504,
+        "available_bytes": 2591592448,
+        "cpu_percent": 19.5,
+        "queue_depth_including_running": 1,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757869.8717628,
+        "available_bytes": 2513952768,
+        "cpu_percent": 34.1,
+        "queue_depth_including_running": 0,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757874.9596245,
+        "available_bytes": 2456076288,
+        "cpu_percent": 11.3,
+        "queue_depth_including_running": 0,
+        "oldest_job_age_seconds": 0
+      },
+      {
+        "time": 1794757880.0493908,
+        "available_bytes": 2440929280,
+        "cpu_percent": 27.3,
+        "queue_depth_including_running": 1,
+        "oldest_job_age_seconds": 0
+      }
+    ],
+    "statistics_source": "workers1-users1_final_stats.csv",
+    "stats": [
+      {
+        "Type": "GET",
+        "Name": "case list",
+        "Request Count": "40",
+        "Failure Count": "0",
+        "Median Response Time": "23",
+        "Average Response Time": "23.927314997126814",
+        "Min Response Time": "20.89970000088215",
+        "Max Response Time": "31.287799996789545",
+        "Average Content Size": "191649.225",
+        "Requests/s": "0.2227573262503408",
+        "Failures/s": "0.0",
+        "50%": "23",
+        "66%": "24",
+        "75%": "26",
+        "80%": "27",
+        "90%": "27",
+        "95%": "29",
+        "98%": "31",
+        "99%": "31",
+        "99.9%": "31",
+        "99.99%": "31",
+        "100%": "31"
+      },
+      {
+        "Type": "GET",
+        "Name": "case poll",
+        "Request Count": "74",
+        "Failure Count": "0",
+        "Median Response Time": "8",
+        "Average Response Time": "8.14782027147295",
+        "Min Response Time": "6.334600009722635",
+        "Max Response Time": "13.347100000828505",
+        "Average Content Size": "2956.9189189189187",
+        "Requests/s": "0.4121010535631305",
+        "Failures/s": "0.0",
+        "50%": "8",
+        "66%": "8",
+        "75%": "9",
+        "80%": "9",
+        "90%": "11",
+        "95%": "11",
+        "98%": "12",
+        "99%": "13",
+        "99.9%": "13",
+        "99.99%": "13",
+        "100%": "13"
+      },
+      {
+        "Type": "POST",
+        "Name": "case submission",
+        "Request Count": "14",
+        "Failure Count": "0",
+        "Median Response Time": "66",
+        "Average Response Time": "64.66738571803684",
+        "Min Response Time": "54.135800019139424",
+        "Max Response Time": "75.13729998026974",
+        "Average Content Size": "905.0",
+        "Requests/s": "0.07796506418761928",
+        "Failures/s": "0.0",
+        "50%": "66",
+        "66%": "67",
+        "75%": "68",
+        "80%": "71",
+        "90%": "73",
+        "95%": "75",
+        "98%": "75",
+        "99%": "75",
+        "99.9%": "75",
+        "99.99%": "75",
+        "100%": "75"
+      },
+      {
+        "Type": "POST",
+        "Name": "login",
+        "Request Count": "1",
+        "Failure Count": "0",
+        "Median Response Time": "46.635700011393055",
+        "Average Response Time": "46.635700011393055",
+        "Min Response Time": "46.635700011393055",
+        "Max Response Time": "46.635700011393055",
+        "Average Content Size": "211.0",
+        "Requests/s": "0.00556893315625852",
+        "Failures/s": "0.0",
+        "50%": "47",
+        "66%": "47",
+        "75%": "47",
+        "80%": "47",
+        "90%": "47",
+        "95%": "47",
+        "98%": "47",
+        "99%": "47",
+        "99.9%": "47",
+        "99.99%": "47",
+        "100%": "47"
+      },
+      {
+        "Type": "E2E",
+        "Name": "machine assessment",
+        "Request Count": "14",
+        "Failure Count": "0",
+        "Median Response Time": "5108.405000006314",
+        "Average Response Time": "5418.541792857078",
+        "Min Response Time": "5108.405000006314",
+        "Max Response Time": "6158.934300008696",
+        "Average Content Size": "0.0",
+        "Requests/s": "0.07796506418761928",
+        "Failures/s": "0.0",
+        "50%": "5100",
+        "66%": "5100",
+        "75%": "6100",
+        "80%": "6100",
+        "90%": "6100",
+        "95%": "6200",
+        "98%": "6200",
+        "99%": "6200",
+        "99.9%": "6200",
+        "99.99%": "6200",
+        "100%": "6200"
+      },
+      {
+        "Type": "",
+        "Name": "Aggregated",
+        "Request Count": "143",
+        "Failure Count": "0",
+        "Median Response Time": "12",
+        "Average Response Time": "548.0531153848747",
+        "Min Response Time": "6.334600009722635",
+        "Max Response Time": "6158.934300008696",
+        "Average Content Size": "55228.405594405594",
+        "Requests/s": "0.7963574413449684",
+        "Failures/s": "0.0",
+        "50%": "12",
+        "66%": "23",
+        "75%": "27",
+        "80%": "47",
+        "90%": "75",
+        "95%": "5100",
+        "98%": "6100",
+        "99%": "6100",
+        "99.9%": "6200",
+        "99.99%": "6200",
+        "100%": "6200"
+      }
+    ],
+    "assessment": {
+      "Request Count": "14",
+      "Failure Count": "0",
+      "50%": "5100",
+      "95%": "6200",
+      "99%": "6200",
+      "Requests/s": "0.07796506418761928"
+    },
+    "unobserved_assessments": 0
+  },
+  {
+    "label": "workers1-users2",
+    "users": 2,
+    "duration_seconds": 0,
+    "exit_code": null,
+    "guard_stop": "Preflight RAM below reserve; load was not started",
+    "minimum_available_bytes": 2360573952,
+    "required_reserve_bytes": 2530343731.2,
+    "samples": [],
+    "unobserved_assessments": 0
+  },
+  {
+    "label": "workers1-recovery",
+    "users": 1,
+    "duration_seconds": 0,
+    "exit_code": null,
+    "guard_stop": "Preflight RAM below reserve; load was not started",
+    "minimum_available_bytes": 2353352704,
+    "required_reserve_bytes": 2530343731.2,
+    "samples": [],
+    "unobserved_assessments": 0
+  }
+]

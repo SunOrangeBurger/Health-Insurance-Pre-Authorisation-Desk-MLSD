@@ -11,7 +11,10 @@ from preauth.api.schemas import LLMRequest
 from preauth.guardrails.detectors import sanitize_output
 from preauth.llm.circuit_breaker import CircuitOpenError
 from preauth.llm.client import ProviderUnavailable, ResilientLLMClient
+from preauth.llm.assessment import assess
+from preauth.automation import apply_precedent
 from preauth.agents.graph import PreauthAgentSystem
+from preauth.agents.models import AgentTraceEvent
 from preauth.rag.embeddings import MiniLMEmbedder
 from preauth.obs.logging import configure_logging, get_logger
 from preauth.obs.metrics import AGENT_RUNS, AGENT_STEPS, AGENT_TOOL_CALLS, COST_USD, WORKER_UP
@@ -23,7 +26,8 @@ configure_logging()
 logger = get_logger(__name__)
 settings = get_settings()
 RUNS = Counter("preauth_worker_runs_total", "Worker runs", ["status"])
-RUN_TIME = Histogram("preauth_worker_run_seconds", "Worker run duration")
+RUN_TIME = Histogram("preauth_worker_run_seconds", "Worker processing duration, excluding queue wait",
+                     buckets=(.05, .1, .25, .5, 1, 2, 5, 10, 20, 30, 60, 90, 120))
 
 
 async def startup(ctx) -> None:
@@ -33,6 +37,7 @@ async def startup(ctx) -> None:
     index_dir = Path(settings.index_storage_dir)
     if (index_dir / "index.faiss").exists():
         embedder = MiniLMEmbedder(settings.local_embedding_model)
+        ctx["embedder"] = embedder
         ctx["agent_system"] = PreauthAgentSystem.from_index(index_dir, embedder, settings)
         logger.info("agent_system_ready", index_dir=str(index_dir))
     else:
@@ -99,7 +104,8 @@ async def process_preauth(ctx, run_id: str, correlation_id: str) -> None:
                 )
                 try:
                     with span("llm.advisory", run_id=run_id, provider=settings.llm_provider):
-                        llm_response = await ctx["llm_client"].complete(advisory_request)
+                        if settings.llm_provider != "ollama":
+                            llm_response = await ctx["llm_client"].complete(advisory_request)
                 except (ProviderUnavailable, CircuitOpenError):
                     provider_degraded = True
                     logger.warning("llm_provider_degraded", fallback="retrieval-only")
@@ -111,6 +117,32 @@ async def process_preauth(ctx, run_id: str, correlation_id: str) -> None:
                         agent_system.run(agent_request), timeout=settings.run_timeout_s
                     )
                 result = result_model.model_dump(mode="json")
+                if settings.llm_provider == "ollama":
+                    try:
+                        # One distributed slot across all worker replicas; lease exceeds
+                        # the bounded request/retry budget, including backoff.
+                        budget = settings.llm_timeout_s * settings.llm_max_attempts + 30
+                        lock = ctx["redis"].lock("desk:ollama:inference", timeout=budget + 30,
+                                                 blocking_timeout=10)
+                        async with lock:
+                            result["ai_assessment"] = await asyncio.wait_for(
+                                assess(ctx["llm_client"], agent_request, result), timeout=budget)
+                    except Exception:
+                        provider_degraded = True
+                        logger.exception("structured_assessment_unavailable")
+                assessment = result.get("ai_assessment")
+                if assessment:
+                    result.setdefault("prompt_versions", {})["assessment"] = assessment["prompt_version"]
+                    trace.append(AgentTraceEvent(agent="claims-assessment", kind="model_recommendation", payload={
+                        "model": settings.llm_model, "recommendation": assessment["recommendation"],
+                        "clause_ids": assessment["clause_ids"], "exception_flags": assessment["exception_flags"],
+                        "inference_seconds": assessment["inference_seconds"],
+                    }))
+                    await add_cost_entry(session, run_id=run_id, step_name="structured_assessment",
+                                         provider="ollama", model=settings.llm_model,
+                                         prompt_tokens=assessment["prompt_tokens"],
+                                         completion_tokens=assessment["completion_tokens"], notional_cost_usd=0)
+                    COST_USD.labels("ollama", "structured_assessment").inc(0)
                 if llm_response is not None:
                     cost = (
                         llm_response.prompt_tokens * settings.llm_input_cost_per_1k
@@ -139,6 +171,8 @@ async def process_preauth(ctx, run_id: str, correlation_id: str) -> None:
                 result = sanitize_output(result)
                 await add_run_steps(session, run_id, [event.model_dump(mode="json") for event in trace])
                 terminal = "degraded" if provider_degraded else ("escalated" if result["route"] == "medical-review" else "completed")
+                if not provider_degraded and settings.precedent_automation_enabled:
+                    await apply_precedent(session, run_id, agent_request, result, ctx["embedder"])
                 await update_run(
                     session,
                     run_id,

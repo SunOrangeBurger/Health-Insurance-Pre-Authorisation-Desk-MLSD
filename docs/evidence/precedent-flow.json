@@ -1,0 +1,163 @@
+{
+  "passed": true,
+  "checks": [
+    "Human approval enables semantic-paraphrase automatic approval",
+    "Mitigating notes and material cost changes force review",
+    "Revoked precedent cannot decide future cases",
+    "Human rejection enables semantic-paraphrase automatic rejection",
+    "Human override preserves history and disables source precedent"
+  ],
+  "cases": [
+    {
+      "case_id": "b27d174a-e11e-4948-bb68-4a1084586c1d",
+      "status": "awaiting_review",
+      "decision": null,
+      "assessment": {
+        "recommendation": "approve",
+        "rationale": "Retrieved provisions are verified and the applicable specific waiting period is served.",
+        "clause_ids": [
+          "B.1.1",
+          "C.1.b"
+        ],
+        "exception_flags": [],
+        "model_rationale": "The policy covers cataract treatments, and the waiting period has been served. The procedure is within the covered scope.",
+        "prompt_version": "claims-reviewer/v1",
+        "model": "qwen2.5-coder:7b",
+        "inference_seconds": 3.5797,
+        "prompt_tokens": 2544,
+        "completion_tokens": 65
+      }
+    },
+    {
+      "case_id": "248d0859-bac5-41fc-b676-0c877982d458",
+      "status": "approved",
+      "decision": {
+        "outcome": "approved",
+        "source": "precedent",
+        "precedent_id": "489495b6-6fba-471f-853a-958c6e0c039b",
+        "reason": "Retrieved provisions are verified and the applicable specific waiting period is served.",
+        "revision": 1
+      },
+      "assessment": {
+        "recommendation": "approve",
+        "rationale": "Retrieved provisions are verified and the applicable specific waiting period is served.",
+        "clause_ids": [
+          "B.1.1",
+          "C.1.b"
+        ],
+        "exception_flags": [],
+        "model_rationale": "The policy covers cataract treatments, and the waiting period has been served. The procedure is within the covered scope.",
+        "prompt_version": "claims-reviewer/v1",
+        "model": "qwen2.5-coder:7b",
+        "inference_seconds": 3.434,
+        "prompt_tokens": 2547,
+        "completion_tokens": 65
+      }
+    },
+    {
+      "case_id": "071c6103-c2cb-4155-812c-7ae3732264e7",
+      "status": "awaiting_review",
+      "decision": null,
+      "assessment": {
+        "recommendation": "approve",
+        "rationale": "Retrieved provisions are verified and the applicable specific waiting period is served.",
+        "clause_ids": [
+          "B.1.1",
+          "C.1.b"
+        ],
+        "exception_flags": [],
+        "model_rationale": "The policy covers cataract treatments, and the waiting period has been served. The procedure is within the covered scope.",
+        "prompt_version": "claims-reviewer/v1",
+        "model": "qwen2.5-coder:7b",
+        "inference_seconds": 3.3811,
+        "prompt_tokens": 2547,
+        "completion_tokens": 65
+      }
+    },
+    {
+      "case_id": "f6c5245f-fbe0-4e92-a7ea-43a28097161c",
+      "status": "awaiting_review",
+      "decision": null,
+      "assessment": {
+        "recommendation": "approve",
+        "rationale": "Retrieved provisions are verified and the applicable specific waiting period is served.",
+        "clause_ids": [
+          "B.1.1",
+          "C.1.b"
+        ],
+        "exception_flags": [],
+        "model_rationale": "The policy covers cataract treatments, and the waiting period for cataract has been served.",
+        "prompt_version": "claims-reviewer/v1",
+        "model": "qwen2.5-coder:7b",
+        "inference_seconds": 3.2241,
+        "prompt_tokens": 2541,
+        "completion_tokens": 61
+      }
+    },
+    {
+      "case_id": "794d687e-7335-472d-804d-a22531f08e09",
+      "status": "awaiting_review",
+      "decision": null,
+      "assessment": {
+        "recommendation": "approve",
+        "rationale": "Retrieved provisions are verified and the applicable specific waiting period is served.",
+        "clause_ids": [
+          "B.1.1",
+          "C.1.b"
+        ],
+        "exception_flags": [],
+        "model_rationale": "The policy covers cataract treatments, and the waiting period has been served. The procedure is within the covered scope.",
+        "prompt_version": "claims-reviewer/v1",
+        "model": "qwen2.5-coder:7b",
+        "inference_seconds": 3.3665,
+        "prompt_tokens": 2541,
+        "completion_tokens": 65
+      }
+    },
+    {
+      "case_id": "87badde1-3d2a-4523-85fa-fe990032666a",
+      "status": "awaiting_review",
+      "decision": null,
+      "assessment": {
+        "recommendation": "reject",
+        "rationale": "The 24-month specific waiting period has not been served (11.1 months elapsed).",
+        "clause_ids": [
+          "C.1.b"
+        ],
+        "exception_flags": [],
+        "model_rationale": "The specific waiting period for cataract treatment has not been served (11.1 months elapsed). The policy requires a continuous coverage of at least 24 months before claims related to specified diseases like cataract can be made.",
+        "prompt_version": "claims-reviewer/v1",
+        "model": "qwen2.5-coder:7b",
+        "inference_seconds": 4.1002,
+        "prompt_tokens": 2549,
+        "completion_tokens": 82
+      }
+    },
+    {
+      "case_id": "9fddfffa-ae5c-45f0-a30d-ad5574f97653",
+      "status": "rejected",
+      "decision": {
+        "outcome": "rejected",
+        "source": "precedent",
+        "precedent_id": "b752f368-003d-4427-a1e5-bbff14c754e9",
+        "reason": "The 24-month specific waiting period has not been served (11.1 months elapsed).",
+        "revision": 1
+      },
+      "assessment": {
+        "recommendation": "reject",
+        "rationale": "The 24-month specific waiting period has not been served (11.1 months elapsed).",
+        "clause_ids": [
+          "B.1.1",
+          "C.1.b"
+        ],
+        "exception_flags": [],
+        "model_rationale": "The specific waiting period for cataract treatment has not been served (11.1 months elapsed). The policy requires a continuous coverage of at least 24 months before claims related to specified diseases like cataract are covered.",
+        "prompt_version": "claims-reviewer/v1",
+        "model": "qwen2.5-coder:7b",
+        "inference_seconds": 4.182,
+        "prompt_tokens": 2553,
+        "completion_tokens": 88
+      }
+    }
+  ]
+}

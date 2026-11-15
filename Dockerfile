@@ -43,9 +43,12 @@ COPY prompts/ ./prompts/
 COPY web/ ./web/
 COPY corpus/MANIFEST.md ./corpus/MANIFEST.md
 COPY scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY scripts/seed_accounts.py ./scripts/seed_accounts.py
+COPY scripts/calibrate_precedents.py ./scripts/calibrate_precedents.py
+COPY evals/precedent_pairs.json ./evals/precedent_pairs.json
 
 RUN chmod +x /usr/local/bin/entrypoint.sh \
-    && pip install --no-cache-dir -e . \
+    && pip install --no-cache-dir --no-deps --no-build-isolation -e . \
     && chown -R appuser:appuser /app
 
 USER appuser

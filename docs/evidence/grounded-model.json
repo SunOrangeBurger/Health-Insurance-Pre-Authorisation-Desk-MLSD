@@ -1,0 +1,152 @@
+[
+  {
+    "scenario": "waiting_served",
+    "case_id": "1d2e0be5-ceb3-4001-8cf7-081ff930783c",
+    "elapsed_seconds": 9.093,
+    "processing_status": "completed",
+    "coverage_position": "waiting_period_served",
+    "ai_assessment": {
+      "recommendation": "approve",
+      "rationale": "Retrieved provisions are verified and the applicable specific waiting period is served.",
+      "clause_ids": [
+        "B.1.1",
+        "C.1.b"
+      ],
+      "exception_flags": [],
+      "model_rationale": "The policy covers cataract treatments, and the waiting period has been served. The procedure is within the covered scope.",
+      "prompt_version": "claims-reviewer/v1",
+      "model": "qwen2.5-coder:7b",
+      "inference_seconds": 3.6245,
+      "prompt_tokens": 2544,
+      "completion_tokens": 65
+    },
+    "citation_ids": [
+      "B.1.1",
+      "C.1.b"
+    ],
+    "verification": {
+      "passed": true,
+      "checks": [
+        "all citations resolve",
+        "mandatory provision searches completed"
+      ],
+      "retry_directive": null
+    },
+    "cost_entries": [
+      {
+        "step": "structured_assessment",
+        "provider": "ollama",
+        "model": "qwen2.5-coder:7b",
+        "prompt_tokens": 2544,
+        "completion_tokens": 65,
+        "notional_cost_usd": 0.0
+      }
+    ]
+  },
+  {
+    "scenario": "waiting_unserved",
+    "case_id": "e6d83118-746d-4c03-8e4d-ec9bd3ad2810",
+    "elapsed_seconds": 5.104,
+    "processing_status": "escalated",
+    "coverage_position": "waiting_period_not_served",
+    "ai_assessment": {
+      "recommendation": "reject",
+      "rationale": "The 24-month specific waiting period has not been served (11.1 months elapsed).",
+      "clause_ids": [
+        "C.1.b"
+      ],
+      "exception_flags": [],
+      "model_rationale": "The specific waiting period for cataract treatment has not been served (11.1 months elapsed). The policy requires a continuous coverage of at least 24 months to be eligible for claims related to specified diseases, including cataract.",
+      "prompt_version": "claims-reviewer/v1",
+      "model": "qwen2.5-coder:7b",
+      "inference_seconds": 4.0725,
+      "prompt_tokens": 2549,
+      "completion_tokens": 83
+    },
+    "citation_ids": [
+      "B.1.1",
+      "C.1.b"
+    ],
+    "verification": {
+      "passed": true,
+      "checks": [
+        "all citations resolve",
+        "mandatory provision searches completed"
+      ],
+      "retry_directive": null
+    },
+    "cost_entries": [
+      {
+        "step": "structured_assessment",
+        "provider": "ollama",
+        "model": "qwen2.5-coder:7b",
+        "prompt_tokens": 2549,
+        "completion_tokens": 83,
+        "notional_cost_usd": 0.0
+      }
+    ]
+  },
+  {
+    "scenario": "out_of_corpus",
+    "case_id": "c4e818f1-287e-40c0-b5f4-34bcb14db56a",
+    "elapsed_seconds": 5.124,
+    "processing_status": "escalated",
+    "coverage_position": "unverified",
+    "ai_assessment": {
+      "recommendation": "needs_information",
+      "rationale": "Verification did not pass; a medical officer must review the evidence.",
+      "clause_ids": [
+        "B.1.1",
+        "C.1.b"
+      ],
+      "exception_flags": [
+        "deterministic_verification_failed"
+      ],
+      "model_rationale": "The procedure and diagnosis are not covered under the policy. The evidence does not provide sufficient details to verify the coverage position.",
+      "prompt_version": "claims-reviewer/v1",
+      "model": "qwen2.5-coder:7b",
+      "inference_seconds": 3.4256,
+      "prompt_tokens": 2519,
+      "completion_tokens": 66
+    },
+    "citation_ids": [
+      "B.1.1",
+      "C.1.b"
+    ],
+    "verification": {
+      "passed": false,
+      "checks": [
+        "all citations resolve",
+        "mandatory provision searches completed",
+        "procedure not found in condition-specific corpus text"
+      ],
+      "retry_directive": null
+    },
+    "cost_entries": [
+      {
+        "step": "structured_assessment",
+        "provider": "ollama",
+        "model": "qwen2.5-coder:7b",
+        "prompt_tokens": 2519,
+        "completion_tokens": 66,
+        "notional_cost_usd": 0.0
+      }
+    ]
+  },
+  {
+    "scenario": "injection",
+    "case_id": "12c55284-c5c0-490f-b3ba-695e8616ba52",
+    "elapsed_seconds": 1.068,
+    "processing_status": "escalated",
+    "coverage_position": "guardrail_blocked",
+    "ai_assessment": null,
+    "citation_ids": [],
+    "verification": {
+      "passed": false,
+      "checks": [
+        "Input guardrail triggered."
+      ]
+    },
+    "cost_entries": []
+  }
+]

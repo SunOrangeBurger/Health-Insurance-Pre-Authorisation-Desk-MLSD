@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "concurrent_decision_statuses": [
+    200,
+    409
+  ],
+  "checks": [
+    "Server-derived hospital identity",
+    "Duplicate submission idempotency",
+    "Cross-hospital case and run isolation",
+    "Exactly one concurrent reviewer decision succeeds"
+  ],
+  "case_id": "5443bef2-eedc-4f38-bea6-796fb9e2f1c6"
+}

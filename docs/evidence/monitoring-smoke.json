@@ -1,0 +1,44 @@
+{
+  "passed": true,
+  "targets": [
+    {
+      "job": "api",
+      "health": "up"
+    },
+    {
+      "job": "prometheus",
+      "health": "up"
+    },
+    {
+      "job": "redis",
+      "health": "up"
+    },
+    {
+      "job": "worker",
+      "health": "up"
+    }
+  ],
+  "grafana_health": {
+    "database": "ok",
+    "version": "11.2.2",
+    "commit": "dbf571744d7dd2276e3198b54330e5a561b83953"
+  },
+  "dashboard_uid": "preauth-overview",
+  "p99_panel_present": true,
+  "jaeger_services": [
+    "preauth-api",
+    "preauth-worker",
+    "jaeger-all-in-one"
+  ],
+  "worker_trace_id": "e4457065ee33ad8e8163ef458540ee65",
+  "worker_observations": [
+    {
+      "metric": {},
+      "value": [
+        1794754762.182,
+        "3"
+      ]
+    }
+  ],
+  "limitation": "Startup and ingestion smoke only; not load/stress/soak evidence."
+}

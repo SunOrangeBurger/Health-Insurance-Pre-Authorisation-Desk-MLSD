@@ -1,0 +1,16 @@
+{
+  "calibration": [
+    ["Diagnosis: Cataract. Procedure: Phacoemulsification with intraocular lens implantation.", "Diagnosis: Lens opacity. Procedure: Cataract extraction by phaco with IOL placement.", true],
+    ["Diagnosis: Cataract. Procedure: Phacoemulsification with intraocular lens implantation.", "Diagnosis: Glaucoma. Procedure: Trabeculectomy to reduce intraocular pressure.", false],
+    ["Diagnosis: Gallstones. Procedure: Laparoscopic cholecystectomy.", "Diagnosis: Cholelithiasis. Procedure: Keyhole removal of the gallbladder.", true],
+    ["Diagnosis: Gallstones. Procedure: Laparoscopic cholecystectomy.", "Diagnosis: Appendicitis. Procedure: Laparoscopic appendectomy.", false],
+    ["Diagnosis: Cataract. Procedure: Cataract removal and lens replacement.", "Diagnosis: Cataract. Procedure: Phaco cataract surgery with lens implant.", true],
+    ["Diagnosis: Cataract. Procedure: Cataract removal and lens replacement.", "Diagnosis: Retinal detachment. Procedure: Vitrectomy and retinal repair.", false]
+  ],
+  "held_out": [
+    ["Diagnosis: Senile cataract. Procedure: Phacoemulsification and IOL insertion.", "Diagnosis: Age-related cataract. Procedure: Phaco cataract extraction with intraocular lens.", true],
+    ["Diagnosis: Senile cataract. Procedure: Phacoemulsification and IOL insertion.", "Diagnosis: Corneal scarring. Procedure: Corneal transplantation.", false],
+    ["Diagnosis: Symptomatic gallstones. Procedure: Laparoscopic removal of gallbladder.", "Diagnosis: Symptomatic cholelithiasis. Procedure: Laparoscopic cholecystectomy.", true],
+    ["Diagnosis: Symptomatic gallstones. Procedure: Laparoscopic removal of gallbladder.", "Diagnosis: Gallstones in bile duct. Procedure: ERCP bile duct stone extraction.", false]
+  ]
+}

@@ -37,7 +37,7 @@ Client (REST / Web)
 
 ## Internal tool preview
 
-The hospital/reviewer workspace has reached its verified 80% checkpoint. See [local demo and accounts](docs/INTERNAL_TOOL_DEMO.md) and [progress/evidence](docs/INTERNAL_TOOL_PROGRESS.md). The WSL deployment now uses a restored policy index and local Ollama recommendations. Guarded precedent automation and monitoring are verified; multiworker and performance validation remain pending.
+The hospital/reviewer workspace has reached its verified 85% checkpoint. See [local demo and accounts](docs/INTERNAL_TOOL_DEMO.md) and [progress/evidence](docs/INTERNAL_TOOL_PROGRESS.md). The WSL deployment now uses a restored policy index and local Ollama recommendations. Guarded precedent automation and monitoring are verified; multiworker readiness/recovery is verified; capacity testing is paused by the RAM reserve guard. See [benchmark status](docs/BENCHMARK_LOCAL.md).
 
 ## Quickstart
 

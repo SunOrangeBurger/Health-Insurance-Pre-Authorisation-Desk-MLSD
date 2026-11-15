@@ -7,6 +7,7 @@ import sys
 import time
 from pathlib import Path
 import psutil
+import argparse
 
 ROOT = Path.cwd()
 OUT = ROOT / 'loadtest/results/desk'
@@ -26,10 +27,20 @@ def queue_state():
 
 def stage(label, users, seconds=180):
     prefix = OUT / label
+    memory = psutil.virtual_memory()
+    reserve = max(2*1024**3, memory.total*.15)
+    if memory.available < reserve:
+        result = {'label': label, 'users': users, 'duration_seconds': 0, 'exit_code': None,
+                  'guard_stop': 'Preflight RAM below reserve; load was not started',
+                  'minimum_available_bytes': memory.available, 'required_reserve_bytes': reserve,
+                  'samples': [], 'unobserved_assessments': 0}
+        (OUT/(label+'.json')).write_text(json.dumps(result, indent=2))
+        print(json.dumps(result), flush=True)
+        return result
     command = [sys.executable, '-m', 'locust', '-f', 'loadtest/desk.py', '--headless', '-u', str(users), '-r', '1',
                '--run-time', str(seconds)+'s', '--stop-timeout', '120', '--host', 'http://localhost:8000',
                '--csv', str(prefix), '--csv-full-history', '--only-summary']
-    samples = []
+    samples = [{'time': time.time(), 'available_bytes': memory.available}]
     stopped = None
     low_since = None
     with (OUT/(label+'.log')).open('w') as log:
@@ -73,10 +84,17 @@ def stage(label, users, seconds=180):
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--workers', type=int, choices=[1, 3], default=1)
+    parser.add_argument('--users', type=int, nargs='+', default=[1, 2, 4, 8])
+    parser.add_argument('--seconds', type=int, default=180)
+    args = parser.parse_args()
+    if not all(1 <= n <= 16 for n in args.users) or not 30 <= args.seconds <= 1800:
+        raise SystemExit('Users must be 1–16 and stage duration 30–1800 seconds')
     OUT.mkdir(parents=True, exist_ok=True)
     results = []
-    for users in [1, 2, 4, 8]:
-        result = stage('workers3-users'+str(users), users)
+    for users in args.users:
+        result = stage('workers'+str(args.workers)+'-users'+str(users), users, args.seconds)
         results.append(result)
         if result['guard_stop']:
             break
@@ -88,8 +106,8 @@ def main():
         if queue_state()['queue_depth_including_running'] == 0:
             break
         time.sleep(5)
-    results.append(stage('workers3-recovery', 1, 60))
-    (OUT/'benchmark-summary.json').write_text(json.dumps(results, indent=2))
+    results.append(stage('workers'+str(args.workers)+'-recovery', 1, 60))
+    (OUT/('workers'+str(args.workers)+'-benchmark-summary.json')).write_text(json.dumps(results, indent=2))
 
 
 if __name__ == '__main__':

@@ -1,0 +1,38 @@
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+        "metric": {
+          "instance": "172.18.0.4:8001",
+          "job": "worker"
+        },
+        "value": [
+          1794756024.849,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "instance": "172.18.0.11:8001",
+          "job": "worker"
+        },
+        "value": [
+          1794756024.849,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "instance": "172.18.0.10:8001",
+          "job": "worker"
+        },
+        "value": [
+          1794756024.849,
+          "1"
+        ]
+      }
+    ]
+  }
+}

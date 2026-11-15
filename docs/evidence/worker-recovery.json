@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "independent_inference_lock_clients": 3,
+  "maximum_simultaneous_lock_holders": 1,
+  "queue_depth_before_restart": 0,
+  "worker_health_after_restart": "healthy",
+  "api_readiness": "ready",
+  "persisted_case_after_restart": "248d0859-bac5-41fc-b676-0c877982d458",
+  "persisted_case_status": "approved",
+  "limitation": "Three-replica readiness and mutex/recovery verified; three-worker model capacity was not established because the RAM guard stopped the benchmark."
+}

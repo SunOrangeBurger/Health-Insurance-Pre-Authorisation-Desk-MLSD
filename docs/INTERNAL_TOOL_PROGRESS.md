@@ -2,7 +2,7 @@
 
 Updated: 2026-11-15 (Asia/Calcutta)
 
-**Verified completion: 80%.** This measures the new scope independently of the original project.
+**Verified completion: 85%.** This measures the new scope independently of the original project.
 
 | Checkpoint | Weight | Status | Evidence |
 |---|---:|---|---|
@@ -13,7 +13,7 @@ Updated: 2026-11-15 (Asia/Calcutta)
 | Precedent eligibility and semantic evaluation | 5% | Complete | Guards pass; calibration-only threshold search and held-out artifact |
 | Precedent automation integration | 15% | Complete | Real-model/PostgreSQL automatic approval/rejection; reviewer controls; safety and rollback tests |
 | Deployment and telemetry smoke | 5% | Complete | Eight running services; four healthy scrape targets; provisioned Grafana and Jaeger traces |
-| Multiworker deployment validation | 5% | Not started | Replica readiness, recovery and shared-budget checks pending |
+| Multiworker deployment validation | 5% | Complete | Three replica scrape histories, real Redis mutex check, restart/readiness and persisted-case recovery |
 | Performance validation and handover | 15% | In progress | Locust workload/launcher written; actual runs pending |
 
 ## 40% checkpoint evidence
@@ -65,10 +65,18 @@ The 10% deployment checkpoint is now split into 5% verified telemetry/deployment
 - Keep Ubuntu active during use. Background systemd services alone did not keep this WSL distro alive between commands. Added restart policies and scripts/compose_wsl.ps1.
 - Preserved pre-existing shell/Python script modifications.
 
-## Next checkpoint: 85%
+## Next checkpoint: 90%
 
-Validate multiple worker replicas, shared inference-budget behavior and restart/recovery. Then execute staged load, bounded stress, recovery and the 30-minute soak (optional two-hour profile), report p50/p95/p99 with sample counts and resource limits, and finish the runbook.
+Resume staged load/stress only after host RAM is above the configured reserve. Current benchmark was interrupted by the RAM guard, so 90% has not been earned. See BENCHMARK_LOCAL.md and raw evidence. Soak and handover remain pending.
 
 ## Update convention
 
 Earn checkpoint weights only after all exit checks pass. Record actual evidence and limitations at each checkpoint. Do not treat written code or planned tests as verified completion.
+
+## 85% checkpoint and capacity blocker
+
+- Three worker endpoints were observed healthy by Prometheus. Real independent Redis lock clients confirmed maximum one simultaneous inference-slot holder. Single-worker restart recovered health/readiness and preserved historical case data; queue depth before restart was zero.
+- Evidence: worker-replica-history.json and worker-recovery.json.
+- Locust was stopped by the RAM guard. First run: three completed observations, zero observed failures, one unobserved assessment. Recovery: two completed observations, zero observed failures, one unobserved assessment. Both stopped; neither is a capacity pass.
+- Returned to one worker. Benchmark supervisor now refuses both initial and recovery load below the reserve; guard regression test passes.
+- Application implementation committed as 1ed9eb8 and pushed to GitHub branch codex/internal-policy-desk. Benchmark evidence and supervisor correction follow in a separate commit. Pre-existing script permission changes remain unstaged.

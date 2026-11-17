@@ -62,3 +62,5 @@ Live monitoring: Grafana http://localhost:3000/d/preauth-overview, Prometheus ht
 The desk Prometheus configuration intentionally excludes the unused stub and opt-in host-metrics services. Dashboard worker percentiles exclude queue and human time; current acceptance samples are too small to establish capacity.
 
 Reproduce the complete precedent acceptance by running verify_precedent_flow.py first, then verify_precedent_browser.py (both require the demo password environment variables above). These create and alter synthetic cases/precedents. verify_monitoring.py checks the live targets, provisioned dashboard and received traces.
+
+The sign-in page includes **Hospital Staff** and **Claims Reviewer (Insurer)** demo buttons. Each signs in immediately using the public sample credentials above through the regular login endpoint; it does not bypass sessions, roles or CSRF. If you change the seeded passwords, use the normal sign-in form or update the demo shortcuts to match.

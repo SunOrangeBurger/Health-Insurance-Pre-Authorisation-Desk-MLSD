@@ -132,3 +132,7 @@ The user-requested five-minute stability run replaces the originally planned 30-
 Final evidence: final-deployment-2026-11-17.json, queue-capacity-live.json, workflow-api.json, precedent-flow.json, monitoring-smoke.json and the five-minute soak artifacts. Performance and caveats are in INTERNAL_TOOL_PERFORMANCE.md; operation and restart instructions are in INTERNAL_TOOL_DEMO.md and RUNBOOK.md. Regression: 76 passed. GitHub checkpoints ee1661b (90%) and 4db9723 (95%) were pushed; final handover follows on the same authorized branch.
 
 100% means the agreed synthetic internal-tool scope is implemented and verified under the revised test duration. It does not mean production or clinical readiness: five minutes does not establish long-duration stability, model prose remains imperfect, semantic fixtures are tiny with 50% positive recall, p99 samples are small, and three-worker error SLO failed. One worker is the measured local recommendation. The earlier stub scaling result is not a real-model capacity claim. Pre-existing script permission changes remain untouched and unstaged.
+
+## Demo login shortcuts
+
+Added one-click Hospital Staff and Claims Reviewer (Insurer) buttons using the public synthetic accounts through the existing login endpoint. Rebuilt API/worker images and verified both authenticated roles in Edge, sign-out, no JavaScript errors and 390px mobile layout. Evidence: demo-login.json and desktop/mobile screenshots.

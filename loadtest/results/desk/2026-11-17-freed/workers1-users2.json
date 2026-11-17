@@ -1,0 +1,3308 @@
+{
+  "label": "workers1-users2",
+  "users": 2,
+  "duration_seconds": 180,
+  "elapsed_seconds": 182.4320392999798,
+  "exit_code": 0,
+  "guard_stop": null,
+  "telemetry_before": {
+    "time": 1794889673.3275354,
+    "series": [
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "0.05"
+        },
+        "value": [
+          1794889732.785,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "0.1"
+        },
+        "value": [
+          1794889732.785,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "0.25"
+        },
+        "value": [
+          1794889732.785,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "0.5"
+        },
+        "value": [
+          1794889732.785,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "1.0"
+        },
+        "value": [
+          1794889732.785,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "2.0"
+        },
+        "value": [
+          1794889732.785,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "5.0"
+        },
+        "value": [
+          1794889732.785,
+          "26"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "10.0"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "20.0"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "30.0"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "60.0"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "90.0"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "120.0"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "+Inf"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_count",
+          "instance": "172.18.0.4:8001",
+          "job": "worker"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_sum",
+          "instance": "172.18.0.4:8001",
+          "job": "worker"
+        },
+        "value": [
+          1794889732.785,
+          "83.27467668799946"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "0.05",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889732.785,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "0.1",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889732.785,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "0.25",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889732.785,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "0.5",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889732.785,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "1.0",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889732.785,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "2.0",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889732.785,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "5.0",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889732.785,
+          "26"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "10.0",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "20.0",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "30.0",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "40.0",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "60.0",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "90.0",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "+Inf",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_count",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_sum",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889732.785,
+          "82.2205763370001"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "0.005"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "0.01"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "0.025"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "0.05"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "0.075"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "0.1"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "0.25"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "0.5"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "0.75"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "1.0"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "2.5"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "5.0"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "7.5"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "10.0"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "+Inf"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_count",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_sum",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification"
+        },
+        "value": [
+          1794889732.785,
+          "0.0022835169999382288"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "0.005"
+        },
+        "value": [
+          1794889732.785,
+          "130"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "0.01"
+        },
+        "value": [
+          1794889732.785,
+          "134"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "0.025"
+        },
+        "value": [
+          1794889732.785,
+          "134"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "0.05"
+        },
+        "value": [
+          1794889732.785,
+          "134"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "0.075"
+        },
+        "value": [
+          1794889732.785,
+          "134"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "0.1"
+        },
+        "value": [
+          1794889732.785,
+          "134"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "0.25"
+        },
+        "value": [
+          1794889732.785,
+          "135"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "0.5"
+        },
+        "value": [
+          1794889732.785,
+          "135"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "0.75"
+        },
+        "value": [
+          1794889732.785,
+          "135"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "1.0"
+        },
+        "value": [
+          1794889732.785,
+          "135"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "2.5"
+        },
+        "value": [
+          1794889732.785,
+          "135"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "5.0"
+        },
+        "value": [
+          1794889732.785,
+          "135"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "7.5"
+        },
+        "value": [
+          1794889732.785,
+          "135"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "10.0"
+        },
+        "value": [
+          1794889732.785,
+          "135"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "+Inf"
+        },
+        "value": [
+          1794889732.785,
+          "135"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_count",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus"
+        },
+        "value": [
+          1794889732.785,
+          "135"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_sum",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus"
+        },
+        "value": [
+          1794889732.785,
+          "0.16691001700019115"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "0.005"
+        },
+        "value": [
+          1794889732.785,
+          "26"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "0.01"
+        },
+        "value": [
+          1794889732.785,
+          "26"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "0.025"
+        },
+        "value": [
+          1794889732.785,
+          "26"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "0.05"
+        },
+        "value": [
+          1794889732.785,
+          "26"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "0.075"
+        },
+        "value": [
+          1794889732.785,
+          "26"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "0.1"
+        },
+        "value": [
+          1794889732.785,
+          "26"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "0.25"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "0.5"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "0.75"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "1.0"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "2.5"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "5.0"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "7.5"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "10.0"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "+Inf"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_count",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_sum",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research"
+        },
+        "value": [
+          1794889732.785,
+          "0.1792931409999028"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "0.005"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "0.01"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "0.025"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "0.05"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "0.075"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "0.1"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "0.25"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "0.5"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "0.75"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "1.0"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "2.5"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "5.0"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "7.5"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "10.0"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "+Inf"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_count",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_sum",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification"
+        },
+        "value": [
+          1794889732.785,
+          "0.002931521000078874"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_runs_total",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "outcome": "completed",
+          "route": "approve-recommended"
+        },
+        "value": [
+          1794889732.785,
+          "27"
+        ]
+      }
+    ]
+  },
+  "telemetry_after": {
+    "time": 1794889855.705992,
+    "series": [
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "0.05"
+        },
+        "value": [
+          1794889913.106,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "0.1"
+        },
+        "value": [
+          1794889913.106,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "0.25"
+        },
+        "value": [
+          1794889913.106,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "0.5"
+        },
+        "value": [
+          1794889913.106,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "1.0"
+        },
+        "value": [
+          1794889913.106,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "2.0"
+        },
+        "value": [
+          1794889913.106,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "5.0"
+        },
+        "value": [
+          1794889913.106,
+          "53"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "10.0"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "20.0"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "30.0"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "60.0"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "90.0"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "120.0"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "+Inf"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_count",
+          "instance": "172.18.0.4:8001",
+          "job": "worker"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "preauth_worker_run_seconds_sum",
+          "instance": "172.18.0.4:8001",
+          "job": "worker"
+        },
+        "value": [
+          1794889913.106,
+          "162.1900785759988"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "0.05",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889913.106,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "0.1",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889913.106,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "0.25",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889913.106,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "0.5",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889913.106,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "1.0",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889913.106,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "2.0",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889913.106,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "5.0",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889913.106,
+          "53"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "10.0",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "20.0",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "30.0",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "40.0",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "60.0",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "90.0",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_bucket",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "le": "+Inf",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_count",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "llm_call_seconds_sum",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "provider": "ollama"
+        },
+        "value": [
+          1794889913.106,
+          "160.1352595090004"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "0.005"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "0.01"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "0.025"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "0.05"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "0.075"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "0.1"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "0.25"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "0.5"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "0.75"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "1.0"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "2.5"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "5.0"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "7.5"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "10.0"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification",
+          "le": "+Inf"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_count",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_sum",
+          "agent": "intake-classifier",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "classification"
+        },
+        "value": [
+          1794889913.106,
+          "0.004399913999947103"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "0.005"
+        },
+        "value": [
+          1794889913.106,
+          "265"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "0.01"
+        },
+        "value": [
+          1794889913.106,
+          "269"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "0.025"
+        },
+        "value": [
+          1794889913.106,
+          "269"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "0.05"
+        },
+        "value": [
+          1794889913.106,
+          "269"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "0.075"
+        },
+        "value": [
+          1794889913.106,
+          "269"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "0.1"
+        },
+        "value": [
+          1794889913.106,
+          "269"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "0.25"
+        },
+        "value": [
+          1794889913.106,
+          "270"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "0.5"
+        },
+        "value": [
+          1794889913.106,
+          "270"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "0.75"
+        },
+        "value": [
+          1794889913.106,
+          "270"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "1.0"
+        },
+        "value": [
+          1794889913.106,
+          "270"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "2.5"
+        },
+        "value": [
+          1794889913.106,
+          "270"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "5.0"
+        },
+        "value": [
+          1794889913.106,
+          "270"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "7.5"
+        },
+        "value": [
+          1794889913.106,
+          "270"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "10.0"
+        },
+        "value": [
+          1794889913.106,
+          "270"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus",
+          "le": "+Inf"
+        },
+        "value": [
+          1794889913.106,
+          "270"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_count",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus"
+        },
+        "value": [
+          1794889913.106,
+          "270"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_sum",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "search_corpus"
+        },
+        "value": [
+          1794889913.106,
+          "0.18930928099973698"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "0.005"
+        },
+        "value": [
+          1794889913.106,
+          "53"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "0.01"
+        },
+        "value": [
+          1794889913.106,
+          "53"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "0.025"
+        },
+        "value": [
+          1794889913.106,
+          "53"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "0.05"
+        },
+        "value": [
+          1794889913.106,
+          "53"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "0.075"
+        },
+        "value": [
+          1794889913.106,
+          "53"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "0.1"
+        },
+        "value": [
+          1794889913.106,
+          "53"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "0.25"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "0.5"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "0.75"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "1.0"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "2.5"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "5.0"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "7.5"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "10.0"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research",
+          "le": "+Inf"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_count",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_sum",
+          "agent": "policy-research",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "research"
+        },
+        "value": [
+          1794889913.106,
+          "0.21125344099971244"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "0.005"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "0.01"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "0.025"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "0.05"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "0.075"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "0.1"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "0.25"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "0.5"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "0.75"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "1.0"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "2.5"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "5.0"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "7.5"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "10.0"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_bucket",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification",
+          "le": "+Inf"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_count",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_step_seconds_sum",
+          "agent": "verifier-router",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "kind": "verification"
+        },
+        "value": [
+          1794889913.106,
+          "0.005713708000172346"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "agent_runs_total",
+          "instance": "172.18.0.4:8001",
+          "job": "worker",
+          "outcome": "completed",
+          "route": "approve-recommended"
+        },
+        "value": [
+          1794889913.106,
+          "54"
+        ]
+      }
+    ]
+  },
+  "minimum_available_bytes": 4959318016,
+  "samples": [
+    {
+      "time": 1794889673.105818,
+      "available_bytes": 5480751104
+    },
+    {
+      "time": 1794889673.3275354,
+      "available_bytes": 5473042432,
+      "cpu_percent": 12.1,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513130496.0,
+        "api:api:8000": 118296576.0
+      },
+      "ollama_rss_bytes": 754495488
+    },
+    {
+      "time": 1794889678.9438243,
+      "available_bytes": 5135257600,
+      "cpu_percent": 18.9,
+      "queue_depth_including_running": 1,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513130496.0,
+        "api:api:8000": 136253440.0
+      },
+      "ollama_rss_bytes": 753373184
+    },
+    {
+      "time": 1794889684.4424121,
+      "available_bytes": 5136752640,
+      "cpu_percent": 7.2,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513130496.0,
+        "api:api:8000": 136253440.0
+      },
+      "ollama_rss_bytes": 753639424
+    },
+    {
+      "time": 1794889689.8760226,
+      "available_bytes": 5113581568,
+      "cpu_percent": 12.4,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513130496.0,
+        "api:api:8000": 136253440.0
+      },
+      "ollama_rss_bytes": 753852416
+    },
+    {
+      "time": 1794889695.3751671,
+      "available_bytes": 5641674752,
+      "cpu_percent": 15.1,
+      "queue_depth_including_running": 1,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513130496.0,
+        "api:api:8000": 119500800.0
+      },
+      "ollama_rss_bytes": 752025600
+    },
+    {
+      "time": 1794889700.924949,
+      "available_bytes": 5519147008,
+      "cpu_percent": 19.5,
+      "queue_depth_including_running": 1,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513130496.0,
+        "api:api:8000": 119500800.0
+      },
+      "ollama_rss_bytes": 754180096,
+      "gpu": {
+        "memory_used_mib": 3297.0,
+        "utilization_percent": 98.0,
+        "temperature_c": 66.0
+      }
+    },
+    {
+      "time": 1794889706.5312822,
+      "available_bytes": 5356113920,
+      "cpu_percent": 17.0,
+      "queue_depth_including_running": 1,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513130496.0,
+        "api:api:8000": 119500800.0
+      },
+      "ollama_rss_bytes": 754192384
+    },
+    {
+      "time": 1794889711.9835658,
+      "available_bytes": 5291646976,
+      "cpu_percent": 15.7,
+      "queue_depth_including_running": 1,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513130496.0,
+        "api:api:8000": 119500800.0
+      },
+      "ollama_rss_bytes": 754421760
+    },
+    {
+      "time": 1794889717.4484534,
+      "available_bytes": 5197770752,
+      "cpu_percent": 16.9,
+      "queue_depth_including_running": 1,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513261568.0,
+        "api:api:8000": 119500800.0
+      },
+      "ollama_rss_bytes": 754806784
+    },
+    {
+      "time": 1794889722.9123538,
+      "available_bytes": 5822062592,
+      "cpu_percent": 8.5,
+      "queue_depth_including_running": 1,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513392640.0,
+        "api:api:8000": 119500800.0
+      },
+      "ollama_rss_bytes": 752979968
+    },
+    {
+      "time": 1794889728.387798,
+      "available_bytes": 5780869120,
+      "cpu_percent": 13.6,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513392640.0,
+        "api:api:8000": 119500800.0
+      },
+      "ollama_rss_bytes": 754819072
+    },
+    {
+      "time": 1794889733.904263,
+      "available_bytes": 5695291392,
+      "cpu_percent": 17.3,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513392640.0,
+        "api:api:8000": 119500800.0
+      },
+      "ollama_rss_bytes": 754814976,
+      "gpu": {
+        "memory_used_mib": 3278.0,
+        "utilization_percent": 4.0,
+        "temperature_c": 61.0
+      }
+    },
+    {
+      "time": 1794889739.398479,
+      "available_bytes": 5606121472,
+      "cpu_percent": 19.3,
+      "queue_depth_including_running": 1,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513392640.0,
+        "api:api:8000": 119500800.0
+      },
+      "ollama_rss_bytes": 754819072
+    },
+    {
+      "time": 1794889744.9032466,
+      "available_bytes": 5522518016,
+      "cpu_percent": 19.1,
+      "queue_depth_including_running": 1,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513392640.0,
+        "api:api:8000": 119386112.0
+      },
+      "ollama_rss_bytes": 754798592
+    },
+    {
+      "time": 1794889750.3795078,
+      "available_bytes": 5317074944,
+      "cpu_percent": 21.1,
+      "queue_depth_including_running": 1,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513392640.0,
+        "api:api:8000": 119517184.0
+      },
+      "ollama_rss_bytes": 752992256
+    },
+    {
+      "time": 1794889755.8188045,
+      "available_bytes": 5306150912,
+      "cpu_percent": 15.3,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513392640.0,
+        "api:api:8000": 119517184.0
+      },
+      "ollama_rss_bytes": 754806784
+    },
+    {
+      "time": 1794889761.2762942,
+      "available_bytes": 5174665216,
+      "cpu_percent": 11.9,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513392640.0,
+        "api:api:8000": 119517184.0
+      },
+      "ollama_rss_bytes": 754806784
+    },
+    {
+      "time": 1794889766.7119567,
+      "available_bytes": 5591478272,
+      "cpu_percent": 18.4,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513392640.0,
+        "api:api:8000": 119517184.0
+      },
+      "ollama_rss_bytes": 754810880,
+      "gpu": {
+        "memory_used_mib": 3276.0,
+        "utilization_percent": 8.0,
+        "temperature_c": 60.0
+      }
+    },
+    {
+      "time": 1794889772.3888106,
+      "available_bytes": 5541236736,
+      "cpu_percent": 27.8,
+      "queue_depth_including_running": 1,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513392640.0,
+        "api:api:8000": 119517184.0
+      },
+      "ollama_rss_bytes": 754782208
+    },
+    {
+      "time": 1794889777.8729827,
+      "available_bytes": 5395324928,
+      "cpu_percent": 38.6,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513392640.0,
+        "api:api:8000": 119517184.0
+      },
+      "ollama_rss_bytes": 754810880
+    },
+    {
+      "time": 1794889783.3937857,
+      "available_bytes": 5260496896,
+      "cpu_percent": 23.0,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513392640.0,
+        "api:api:8000": 119517184.0
+      },
+      "ollama_rss_bytes": 754810880
+    },
+    {
+      "time": 1794889788.977068,
+      "available_bytes": 5078298624,
+      "cpu_percent": 26.4,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513392640.0,
+        "api:api:8000": 119517184.0
+      },
+      "ollama_rss_bytes": 754814976
+    },
+    {
+      "time": 1794889794.480987,
+      "available_bytes": 4959318016,
+      "cpu_percent": 28.4,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513392640.0,
+        "api:api:8000": 119517184.0
+      },
+      "ollama_rss_bytes": 754900992
+    },
+    {
+      "time": 1794889799.9663315,
+      "available_bytes": 5522898944,
+      "cpu_percent": 19.6,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513523712.0,
+        "api:api:8000": 119422976.0
+      },
+      "ollama_rss_bytes": 755335168,
+      "gpu": {
+        "memory_used_mib": 3276.0,
+        "utilization_percent": 4.0,
+        "temperature_c": 63.0
+      }
+    },
+    {
+      "time": 1794889805.5375445,
+      "available_bytes": 5178638336,
+      "cpu_percent": 27.6,
+      "queue_depth_including_running": 1,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513523712.0,
+        "api:api:8000": 119554048.0
+      },
+      "ollama_rss_bytes": 755384320
+    },
+    {
+      "time": 1794889811.219538,
+      "available_bytes": 5072326656,
+      "cpu_percent": 32.0,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513654784.0,
+        "api:api:8000": 119554048.0
+      },
+      "ollama_rss_bytes": 755388416
+    },
+    {
+      "time": 1794889816.9646606,
+      "available_bytes": 5265801216,
+      "cpu_percent": 21.2,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513654784.0,
+        "api:api:8000": 119554048.0
+      },
+      "ollama_rss_bytes": 755404800
+    },
+    {
+      "time": 1794889822.4417136,
+      "available_bytes": 5168467968,
+      "cpu_percent": 22.2,
+      "queue_depth_including_running": 1,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513654784.0,
+        "api:api:8000": 119554048.0
+      },
+      "ollama_rss_bytes": 753971200
+    },
+    {
+      "time": 1794889827.9378092,
+      "available_bytes": 4982046720,
+      "cpu_percent": 24.0,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513654784.0,
+        "api:api:8000": 119554048.0
+      },
+      "ollama_rss_bytes": 754647040
+    },
+    {
+      "time": 1794889833.4711723,
+      "available_bytes": 5496680448,
+      "cpu_percent": 23.2,
+      "queue_depth_including_running": 2,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513654784.0,
+        "api:api:8000": 119554048.0
+      },
+      "ollama_rss_bytes": 754913280,
+      "gpu": {
+        "memory_used_mib": 3344.0,
+        "utilization_percent": 96.0,
+        "temperature_c": 71.0
+      }
+    },
+    {
+      "time": 1794889839.055551,
+      "available_bytes": 5408653312,
+      "cpu_percent": 24.2,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513654784.0,
+        "api:api:8000": 119554048.0
+      },
+      "ollama_rss_bytes": 755163136
+    },
+    {
+      "time": 1794889844.5300066,
+      "available_bytes": 5328396288,
+      "cpu_percent": 18.9,
+      "queue_depth_including_running": 1,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513654784.0,
+        "api:api:8000": 119554048.0
+      },
+      "ollama_rss_bytes": 755580928
+    },
+    {
+      "time": 1794889849.996461,
+      "available_bytes": 5225799680,
+      "cpu_percent": 24.5,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513785856.0,
+        "api:api:8000": 119590912.0
+      },
+      "ollama_rss_bytes": 755740672
+    }
+  ],
+  "statistics_source": "workers1-users2_final_stats.csv",
+  "stats": [
+    {
+      "Type": "GET",
+      "Name": "case list",
+      "Request Count": "91",
+      "Failure Count": "0",
+      "Median Response Time": "22",
+      "Average Response Time": "22.69014395814348",
+      "Min Response Time": "19.453799992334098",
+      "Max Response Time": "27.01130002969876",
+      "Average Content Size": "198183.7032967033",
+      "Requests/s": "0.5080560915066795",
+      "Failures/s": "0.0",
+      "50%": "22",
+      "66%": "23",
+      "75%": "24",
+      "80%": "24",
+      "90%": "25",
+      "95%": "25",
+      "98%": "27",
+      "99%": "27",
+      "99.9%": "27",
+      "99.99%": "27",
+      "100%": "27"
+    },
+    {
+      "Type": "GET",
+      "Name": "case poll",
+      "Request Count": "121",
+      "Failure Count": "0",
+      "Median Response Time": "7",
+      "Average Response Time": "6.838996696462932",
+      "Min Response Time": "5.729300028178841",
+      "Max Response Time": "11.461200017947704",
+      "Average Content Size": "3221.776859504132",
+      "Requests/s": "0.6755471106847056",
+      "Failures/s": "0.0",
+      "50%": "7",
+      "66%": "7",
+      "75%": "7",
+      "80%": "7",
+      "90%": "7",
+      "95%": "8",
+      "98%": "10",
+      "99%": "10",
+      "99.9%": "11",
+      "99.99%": "11",
+      "100%": "11"
+    },
+    {
+      "Type": "POST",
+      "Name": "case submission",
+      "Request Count": "27",
+      "Failure Count": "0",
+      "Median Response Time": "61",
+      "Average Response Time": "62.85363333558457",
+      "Min Response Time": "53.842400026042014",
+      "Max Response Time": "71.94039999740198",
+      "Average Content Size": "905.0",
+      "Requests/s": "0.15074191726022357",
+      "Failures/s": "0.0",
+      "50%": "61",
+      "66%": "67",
+      "75%": "69",
+      "80%": "69",
+      "90%": "71",
+      "95%": "71",
+      "98%": "72",
+      "99%": "72",
+      "99.9%": "72",
+      "99.99%": "72",
+      "100%": "72"
+    },
+    {
+      "Type": "POST",
+      "Name": "login",
+      "Request Count": "1",
+      "Failure Count": "0",
+      "Median Response Time": "51.26510001718998",
+      "Average Response Time": "51.26510001718998",
+      "Min Response Time": "51.26510001718998",
+      "Max Response Time": "51.26510001718998",
+      "Average Content Size": "211.0",
+      "Requests/s": "0.005583033972600873",
+      "Failures/s": "0.0",
+      "50%": "51",
+      "66%": "51",
+      "75%": "51",
+      "80%": "51",
+      "90%": "51",
+      "95%": "51",
+      "98%": "51",
+      "99%": "51",
+      "99.9%": "51",
+      "99.99%": "51",
+      "100%": "51"
+    },
+    {
+      "Type": "E2E",
+      "Name": "machine assessment",
+      "Request Count": "27",
+      "Failure Count": "0",
+      "Median Response Time": "4100.0",
+      "Average Response Time": "4596.798470371006",
+      "Min Response Time": "3096.589600027073",
+      "Max Response Time": "7146.912400028668",
+      "Average Content Size": "0.0",
+      "Requests/s": "0.15074191726022357",
+      "Failures/s": "0.0",
+      "50%": "4100",
+      "66%": "4100",
+      "75%": "5100",
+      "80%": "5100",
+      "90%": "6100",
+      "95%": "7100",
+      "98%": "7100",
+      "99%": "7100",
+      "99.9%": "7100",
+      "99.99%": "7100",
+      "100%": "7100"
+    },
+    {
+      "Type": "",
+      "Name": "Aggregated",
+      "Request Count": "267",
+      "Failure Count": "0",
+      "Median Response Time": "21",
+      "Average Response Time": "482.2254441968472",
+      "Min Response Time": "5.729300028178841",
+      "Max Response Time": "7146.912400028668",
+      "Average Content Size": "69098.11985018727",
+      "Requests/s": "1.4906700706844331",
+      "Failures/s": "0.0",
+      "50%": "21",
+      "66%": "23",
+      "75%": "25",
+      "80%": "54",
+      "90%": "3100",
+      "95%": "4100",
+      "98%": "5100",
+      "99%": "6100",
+      "99.9%": "7100",
+      "99.99%": "7100",
+      "100%": "7100"
+    }
+  ],
+  "assessment": {
+    "Request Count": "27",
+    "Failure Count": "0",
+    "50%": "4100",
+    "95%": "7100",
+    "99%": "7100",
+    "Requests/s": "0.15074191726022357"
+  },
+  "unobserved_assessments": 0
+}

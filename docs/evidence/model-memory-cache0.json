@@ -1,0 +1,70 @@
+{
+  "passed": true,
+  "host_prompt_cache_mib": 0,
+  "samples": [
+    {
+      "case": 1,
+      "case_id": "5a93b9f0-9993-4e93-ba22-2adf59fe3ba9",
+      "runner_rss_bytes": 768000000,
+      "available_bytes": 5968539648
+    },
+    {
+      "case": 2,
+      "case_id": "233e0f0a-db75-499a-b2b6-b2cb7bf325f6",
+      "runner_rss_bytes": 768770048,
+      "available_bytes": 5961986048
+    },
+    {
+      "case": 3,
+      "case_id": "e4468075-91d2-4483-8c41-70ccddb111d0",
+      "runner_rss_bytes": 768843776,
+      "available_bytes": 5955801088
+    },
+    {
+      "case": 4,
+      "case_id": "f2662c48-5987-4390-898f-ce2837ed4ef6",
+      "runner_rss_bytes": 768843776,
+      "available_bytes": 5962293248
+    },
+    {
+      "case": 5,
+      "case_id": "7e9b8b11-cce1-4d82-89ec-9dc35b001bf1",
+      "runner_rss_bytes": 768847872,
+      "available_bytes": 5958496256
+    },
+    {
+      "case": 6,
+      "case_id": "b48f9ef6-2b3e-4a43-b2b1-883cdf224150",
+      "runner_rss_bytes": 768843776,
+      "available_bytes": 5945839616
+    },
+    {
+      "case": 7,
+      "case_id": "01fa3451-c51e-44c2-b00f-97e34cd1b0bf",
+      "runner_rss_bytes": 768851968,
+      "available_bytes": 5957742592
+    },
+    {
+      "case": 8,
+      "case_id": "97f6fcdd-2b4d-43c2-bf55-99845f91ead6",
+      "runner_rss_bytes": 768839680,
+      "available_bytes": 5957955584
+    },
+    {
+      "case": 9,
+      "case_id": "3cf432b3-0402-4ba7-b1e0-c9868a98759d",
+      "runner_rss_bytes": 768851968,
+      "available_bytes": 5963042816
+    },
+    {
+      "case": 10,
+      "case_id": "52bd3993-09d2-4cb5-9ac7-8984cf808db7",
+      "runner_rss_bytes": 768851968,
+      "available_bytes": 5967269888
+    }
+  ],
+  "steady_rss_growth_fraction": 1.5982525771729428e-05,
+  "runtime_version": {
+    "version": "0.30.7"
+  }
+}

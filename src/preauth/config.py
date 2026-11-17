@@ -13,12 +13,17 @@ class Settings(BaseSettings):
     api_port: int = 8000
     worker_concurrency: int = Field(default=5, ge=1)
     worker_metrics_port: int = 8001
+    queue_capacity: int = Field(default=64, ge=1, le=1000)
     database_url: str = "postgresql+asyncpg://postgres:postgres@postgres:5432/preauth_db"
     redis_url: str = "redis://redis:6379/0"
     llm_provider: str = "stub"
     llm_api_key: str = ""
     llm_model: str = ""
     llm_base_url: str = "http://llm-stub:8080"
+    ollama_context: int = Field(default=4096, ge=1024, le=8192)
+    ollama_output_tokens: int = Field(default=512, ge=64, le=2048)
+    ollama_use_mmap: bool = True
+    ollama_disable_thinking: bool = False
     stub_delay_ms: int = Field(default=250, ge=0)
     stub_jitter_ms: int = Field(default=50, ge=0)
     fault_mode: str = "none"
@@ -47,6 +52,7 @@ class Settings(BaseSettings):
     enable_retrieval_cache: bool = True
     retrieval_cache_size: int = Field(default=512, ge=1)
     demo_force_bad_citation: bool = False
+    precedent_automation_enabled: bool = False
 
 
 @lru_cache

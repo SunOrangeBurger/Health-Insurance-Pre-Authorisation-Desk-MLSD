@@ -1,4 +1,5 @@
 import time
+import asyncio
 from pathlib import Path
 from typing import Any, TypedDict
 
@@ -133,5 +134,5 @@ class PreauthAgentSystem:
             "steps": 0,
             "started_at": time.perf_counter(),
         }
-        state = self.graph.invoke(initial, {"recursion_limit": self.settings.max_steps + 2})
+        state = await asyncio.to_thread(self.graph.invoke, initial, {"recursion_limit": self.settings.max_steps + 2})
         return state["result"], state["trace"]

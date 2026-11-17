@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "checks": [
+    "hospital shortcut signs in through normal session",
+    "reviewer shortcut signs in through normal session",
+    "390px mobile layout fits viewport"
+  ],
+  "javascript_errors": []
+}

@@ -1,0 +1,450 @@
+{
+  "label": "workers1-users2",
+  "users": 2,
+  "duration_seconds": 180,
+  "elapsed_seconds": 123.10220399999525,
+  "exit_code": 15,
+  "guard_stop": "RAM reserve breached for 30 seconds",
+  "minimum_available_bytes": 1235447808,
+  "samples": [
+    {
+      "time": 1794889407.944786,
+      "available_bytes": 4237926400
+    },
+    {
+      "time": 1794889407.9655337,
+      "available_bytes": 4235837440,
+      "cpu_percent": 18.2,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 512868352.0,
+        "api:api:8000": 118185984.0
+      },
+      "ollama_rss_bytes": 0
+    },
+    {
+      "time": 1794889413.5150764,
+      "available_bytes": 3324825600,
+      "cpu_percent": 18.8,
+      "queue_depth_including_running": 2,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 512868352.0,
+        "api:api:8000": 136011776.0
+      },
+      "ollama_rss_bytes": 751894528
+    },
+    {
+      "time": 1794889419.0045712,
+      "available_bytes": 3243458560,
+      "cpu_percent": 15.1,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 512868352.0,
+        "api:api:8000": 136011776.0
+      },
+      "ollama_rss_bytes": 753274880
+    },
+    {
+      "time": 1794889424.464619,
+      "available_bytes": 3170697216,
+      "cpu_percent": 11.8,
+      "queue_depth_including_running": 1,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 512868352.0,
+        "api:api:8000": 136142848.0
+      },
+      "ollama_rss_bytes": 751550464
+    },
+    {
+      "time": 1794889430.024694,
+      "available_bytes": 3045502976,
+      "cpu_percent": 19.3,
+      "queue_depth_including_running": 1,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 512868352.0,
+        "api:api:8000": 136142848.0
+      },
+      "ollama_rss_bytes": 751767552
+    },
+    {
+      "time": 1794889435.476502,
+      "available_bytes": 3006832640,
+      "cpu_percent": 19.2,
+      "queue_depth_including_running": 2,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 512868352.0,
+        "api:api:8000": 136142848.0
+      },
+      "ollama_rss_bytes": 753594368,
+      "gpu": {
+        "memory_used_mib": 3356.0,
+        "utilization_percent": 98.0,
+        "temperature_c": 62.0
+      }
+    },
+    {
+      "time": 1794889441.0572033,
+      "available_bytes": 3521708032,
+      "cpu_percent": 26.4,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 512868352.0,
+        "api:api:8000": 118206464.0
+      },
+      "ollama_rss_bytes": 753831936
+    },
+    {
+      "time": 1794889446.5972223,
+      "available_bytes": 3416166400,
+      "cpu_percent": 26.6,
+      "queue_depth_including_running": 1,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 512868352.0,
+        "api:api:8000": 119386112.0
+      },
+      "ollama_rss_bytes": 751996928
+    },
+    {
+      "time": 1794889452.0988348,
+      "available_bytes": 3306799104,
+      "cpu_percent": 15.3,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 512868352.0,
+        "api:api:8000": 119386112.0
+      },
+      "ollama_rss_bytes": 753827840
+    },
+    {
+      "time": 1794889457.5593646,
+      "available_bytes": 3231145984,
+      "cpu_percent": 15.5,
+      "queue_depth_including_running": 1,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 512868352.0,
+        "api:api:8000": 119517184.0
+      },
+      "ollama_rss_bytes": 753815552
+    },
+    {
+      "time": 1794889463.0093951,
+      "available_bytes": 3176865792,
+      "cpu_percent": 9.6,
+      "queue_depth_including_running": 1,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 512868352.0,
+        "api:api:8000": 119517184.0
+      },
+      "ollama_rss_bytes": 751996928
+    },
+    {
+      "time": 1794889468.4628625,
+      "available_bytes": 3095736320,
+      "cpu_percent": 15.2,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 512868352.0,
+        "api:api:8000": 119517184.0
+      },
+      "ollama_rss_bytes": 753831936,
+      "gpu": {
+        "memory_used_mib": 3352.0,
+        "utilization_percent": 8.0,
+        "temperature_c": 54.0
+      }
+    },
+    {
+      "time": 1794889473.965802,
+      "available_bytes": 3631534080,
+      "cpu_percent": 18.9,
+      "queue_depth_including_running": 1,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 512999424.0,
+        "api:api:8000": 119517184.0
+      },
+      "ollama_rss_bytes": 753831936
+    },
+    {
+      "time": 1794889479.4323647,
+      "available_bytes": 3496804352,
+      "cpu_percent": 19.0,
+      "queue_depth_including_running": 2,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 512999424.0,
+        "api:api:8000": 119517184.0
+      },
+      "ollama_rss_bytes": 753844224
+    },
+    {
+      "time": 1794889484.9162338,
+      "available_bytes": 3456700416,
+      "cpu_percent": 14.2,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 512999424.0,
+        "api:api:8000": 119517184.0
+      },
+      "ollama_rss_bytes": 753868800
+    },
+    {
+      "time": 1794889490.4041255,
+      "available_bytes": 2252140544,
+      "cpu_percent": 23.2,
+      "queue_depth_including_running": 1,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 512999424.0,
+        "api:api:8000": 119418880.0
+      },
+      "ollama_rss_bytes": 752041984
+    },
+    {
+      "time": 1794889495.9667182,
+      "available_bytes": 1537634304,
+      "cpu_percent": 30.6,
+      "queue_depth_including_running": 1,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 512999424.0,
+        "api:api:8000": 119418880.0
+      },
+      "ollama_rss_bytes": 753856512
+    },
+    {
+      "time": 1794889501.9982471,
+      "available_bytes": 1235447808,
+      "cpu_percent": 28.7,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513130496.0,
+        "api:api:8000": 119549952.0
+      },
+      "ollama_rss_bytes": 753868800,
+      "gpu": {
+        "memory_used_mib": 3353.0,
+        "utilization_percent": 0.0,
+        "temperature_c": 58.0
+      }
+    },
+    {
+      "time": 1794889508.0481117,
+      "available_bytes": 1895690240,
+      "cpu_percent": 30.7,
+      "queue_depth_including_running": 1,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513130496.0,
+        "api:api:8000": 119549952.0
+      },
+      "ollama_rss_bytes": 753868800
+    },
+    {
+      "time": 1794889513.7905254,
+      "available_bytes": 1838387200,
+      "cpu_percent": 19.3,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513130496.0,
+        "api:api:8000": 119549952.0
+      },
+      "ollama_rss_bytes": 753897472
+    },
+    {
+      "time": 1794889519.4699388,
+      "available_bytes": 1480110080,
+      "cpu_percent": 22.8,
+      "queue_depth_including_running": 0,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513130496.0,
+        "api:api:8000": 119549952.0
+      },
+      "ollama_rss_bytes": 754442240
+    },
+    {
+      "time": 1794889525.2161083,
+      "available_bytes": 1358954496,
+      "cpu_percent": 19.0,
+      "queue_depth_including_running": 1,
+      "oldest_job_age_seconds": 0,
+      "service_rss_bytes": {
+        "worker:172.18.0.4:8001": 513130496.0,
+        "api:api:8000": 119549952.0
+      },
+      "ollama_rss_bytes": 754491392
+    }
+  ],
+  "statistics_source": "workers1-users2_stats.csv",
+  "stats": [
+    {
+      "Type": "GET",
+      "Name": "case list",
+      "Request Count": "45",
+      "Failure Count": "0",
+      "Median Response Time": "23",
+      "Average Response Time": "24.0370644398758",
+      "Min Response Time": "20.60009998967871",
+      "Max Response Time": "32.52760000759736",
+      "Average Content Size": "197989.95555555556",
+      "Requests/s": "0.38537130622199756",
+      "Failures/s": "0.0",
+      "50%": "23",
+      "66%": "24",
+      "75%": "25",
+      "80%": "26",
+      "90%": "28",
+      "95%": "29",
+      "98%": "33",
+      "99%": "33",
+      "99.9%": "33",
+      "99.99%": "33",
+      "100%": "33"
+    },
+    {
+      "Type": "GET",
+      "Name": "case poll",
+      "Request Count": "97",
+      "Failure Count": "0",
+      "Median Response Time": "7",
+      "Average Response Time": "7.267025774032761",
+      "Min Response Time": "5.440800043288618",
+      "Max Response Time": "11.533400043845177",
+      "Average Content Size": "3098.6907216494847",
+      "Requests/s": "0.8306892600785281",
+      "Failures/s": "0.0",
+      "50%": "7",
+      "66%": "7",
+      "75%": "8",
+      "80%": "8",
+      "90%": "9",
+      "95%": "10",
+      "98%": "11",
+      "99%": "12",
+      "99.9%": "12",
+      "99.99%": "12",
+      "100%": "12"
+    },
+    {
+      "Type": "POST",
+      "Name": "case submission",
+      "Request Count": "21",
+      "Failure Count": "0",
+      "Median Response Time": "57",
+      "Average Response Time": "56.759138095436526",
+      "Min Response Time": "16.619600006379187",
+      "Max Response Time": "66.96299999020994",
+      "Average Content Size": "905.0",
+      "Requests/s": "0.17983994290359887",
+      "Failures/s": "0.0",
+      "50%": "57",
+      "66%": "59",
+      "75%": "59",
+      "80%": "60",
+      "90%": "66",
+      "95%": "66",
+      "98%": "67",
+      "99%": "67",
+      "99.9%": "67",
+      "99.99%": "67",
+      "100%": "67"
+    },
+    {
+      "Type": "POST",
+      "Name": "login",
+      "Request Count": "1",
+      "Failure Count": "0",
+      "Median Response Time": "48.41779998969287",
+      "Average Response Time": "48.41779998969287",
+      "Min Response Time": "48.41779998969287",
+      "Max Response Time": "48.41779998969287",
+      "Average Content Size": "211.0",
+      "Requests/s": "0.008563806804933278",
+      "Failures/s": "0.0",
+      "50%": "48",
+      "66%": "48",
+      "75%": "48",
+      "80%": "48",
+      "90%": "48",
+      "95%": "48",
+      "98%": "48",
+      "99%": "48",
+      "99.9%": "48",
+      "99.99%": "48",
+      "100%": "48"
+    },
+    {
+      "Type": "E2E",
+      "Name": "machine assessment",
+      "Request Count": "20",
+      "Failure Count": "0",
+      "Median Response Time": "4100.0",
+      "Average Response Time": "4717.371724999975",
+      "Min Response Time": "3100.0095999916084",
+      "Max Response Time": "7161.81110002799",
+      "Average Content Size": "0.0",
+      "Requests/s": "0.17127613609866557",
+      "Failures/s": "0.0",
+      "50%": "4100",
+      "66%": "5100",
+      "75%": "6100",
+      "80%": "6100",
+      "90%": "6100",
+      "95%": "7200",
+      "98%": "7200",
+      "99%": "7200",
+      "99.9%": "7200",
+      "99.99%": "7200",
+      "100%": "7200"
+    },
+    {
+      "Type": "",
+      "Name": "Aggregated",
+      "Request Count": "184",
+      "Failure Count": "0",
+      "Median Response Time": "9",
+      "Average Response Time": "529.2084978253748",
+      "Min Response Time": "5.440800043288618",
+      "Max Response Time": "7161.81110002799",
+      "Average Content Size": "50159.440217391304",
+      "Requests/s": "1.5757404521077234",
+      "Failures/s": "0.0",
+      "50%": "10",
+      "66%": "23",
+      "75%": "28",
+      "80%": "56",
+      "90%": "3100",
+      "95%": "4100",
+      "98%": "6100",
+      "99%": "6100",
+      "99.9%": "7200",
+      "99.99%": "7200",
+      "100%": "7200"
+    }
+  ],
+  "assessment": {
+    "Request Count": "20",
+    "Failure Count": "0",
+    "50%": "4100",
+    "95%": "7200",
+    "99%": "7200",
+    "Requests/s": "0.17127613609866557"
+  },
+  "unobserved_assessments": 1
+}

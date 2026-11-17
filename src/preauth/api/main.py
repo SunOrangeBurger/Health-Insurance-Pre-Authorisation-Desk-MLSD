@@ -18,6 +18,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.responses import Response
 
 from preauth.api.middleware import CorrelationIdMiddleware
+from preauth.api.auth import router as auth_router, current_user, hospital_user, owned_run
+from preauth.api.cases import router as cases_router
+from preauth.api.precedents import router as precedents_router
+from preauth.store.models import RunOwner, User
 from preauth.api.rate_limit import consume_token
 from preauth.api.schemas import (
     CONTRACT_VERSION,
@@ -29,9 +33,10 @@ from preauth.api.schemas import (
     SubmissionResponse,
 )
 from preauth.config import get_settings
+from preauth.queue import enqueue_bounded
 from preauth.guardrails.detectors import inspect_request
 from preauth.obs.logging import configure_logging, get_logger
-from preauth.obs.metrics import FEEDBACK, GUARDRAIL_HITS, RATE_LIMITED
+from preauth.obs.metrics import FEEDBACK, GUARDRAIL_HITS, RATE_LIMITED, SUBMISSIONS
 from preauth.obs.tracing import configure_tracing
 from preauth.store.database import close_database, get_session, init_database
 from preauth.store.repository import create_feedback, create_quarantine, create_run, get_cost_entries, get_run, get_run_steps, update_run
@@ -39,7 +44,6 @@ from preauth.store.repository import create_feedback, create_quarantine, create_
 configure_logging()
 logger = get_logger(__name__)
 settings = get_settings()
-SUBMISSIONS = Counter("preauth_submissions_total", "Accepted pre-authorisation submissions")
 QUARANTINED = Counter("preauth_quarantine_total", "Rejected pre-authorisation submissions")
 INDEX_BUILT = Gauge("index_built_timestamp", "Unix timestamp of the active policy index")
 INDEX_CHUNKS = Gauge("index_chunks_total", "Chunks in the active policy index")
@@ -74,6 +78,9 @@ app = FastAPI(
     lifespan=lifespan,
 )
 app.add_middleware(CorrelationIdMiddleware)
+app.include_router(auth_router)
+app.include_router(cases_router)
+app.include_router(precedents_router)
 FastAPIInstrumentor.instrument_app(app)
 
 
@@ -83,6 +90,10 @@ def _serializable_body(body: Any) -> dict[str, Any]:
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    if request.url.path != "/v1/preauth":
+        return JSONResponse(status_code=422, content={"detail": [
+            {"loc": list(e["loc"]), "msg": e["msg"], "type": e["type"]} for e in exc.errors()
+        ]})
     quarantine_id = str(uuid4())
     errors = [
         {
@@ -133,7 +144,7 @@ async def metrics() -> Response:
 
 
 @app.get("/v1/index/status", tags=["operations"])
-async def index_status() -> dict[str, Any]:
+async def index_status(user: User = Depends(current_user)) -> dict[str, Any]:
     manifest = _read_index_manifest()
     if manifest is None:
         raise HTTPException(status_code=503, detail="policy index unavailable")
@@ -149,8 +160,9 @@ async def submit_preauth(
     payload: PreauthRequest,
     request: Request,
     session: AsyncSession = Depends(get_session),
+    user: User = Depends(hospital_user),
 ) -> SubmissionResponse:
-    client_id = request.headers.get("X-Client-ID") or (request.client.host if request.client else "unknown")
+    client_id = user.id
     decision = await consume_token(
         request.app.state.redis,
         client_id,
@@ -167,6 +179,7 @@ async def submit_preauth(
     run_id = str(uuid4())
     correlation_id = request.state.correlation_id
     stored_payload = payload.model_dump(mode="json")
+    stored_payload["hospital_id"] = user.hospital_id
     stored_payload["validation_flags"] = payload.validation_flags
     requested_prompt_version = request.headers.get("X-Research-Prompt-Version")
     if requested_prompt_version:
@@ -186,6 +199,7 @@ async def submit_preauth(
             stored_payload[finding.field] = "[BLOCKED BY INPUT GUARDRAIL]"
             for category in finding.categories:
                 GUARDRAIL_HITS.labels(category=category, field=finding.field).inc()
+    session.add(RunOwner(run_id=run_id, hospital_id=user.hospital_id, user_id=user.id))
     await create_run(
         session,
         run_id=run_id,
@@ -193,12 +207,7 @@ async def submit_preauth(
         request_payload=stored_payload,
     )
     try:
-        await request.app.state.redis.enqueue_job(
-            "process_preauth",
-            run_id,
-            correlation_id,
-            _job_id=run_id,
-        )
+        await enqueue_bounded(request.app.state.redis, run_id, correlation_id)
     except Exception as exc:
         await update_run(session, run_id, status="failed", error_message="queue unavailable")
         logger.exception("enqueue_failed", run_id=run_id)
@@ -209,7 +218,7 @@ async def submit_preauth(
 
 
 @app.get("/v1/runs/{run_id}", response_model=RunResponse)
-async def read_run(run_id: str, session: AsyncSession = Depends(get_session)) -> RunResponse:
+async def read_run(run_id: str, session: AsyncSession = Depends(get_session), user: User = Depends(owned_run)) -> RunResponse:
     run = await get_run(session, run_id)
     if run is None:
         raise HTTPException(status_code=404, detail="run not found")
@@ -229,7 +238,7 @@ async def read_run(run_id: str, session: AsyncSession = Depends(get_session)) ->
 
 
 @app.get("/v1/runs/{run_id}/trace")
-async def read_run_trace(run_id: str, session: AsyncSession = Depends(get_session)) -> dict[str, Any]:
+async def read_run_trace(run_id: str, session: AsyncSession = Depends(get_session), user: User = Depends(owned_run)) -> dict[str, Any]:
     run = await get_run(session, run_id)
     if run is None:
         raise HTTPException(status_code=404, detail="run not found")
@@ -267,6 +276,7 @@ async def submit_feedback(
     run_id: str,
     payload: FeedbackRequest,
     session: AsyncSession = Depends(get_session),
+    user: User = Depends(owned_run),
 ) -> FeedbackResponse:
     if await get_run(session, run_id) is None:
         raise HTTPException(status_code=404, detail="run not found")

@@ -74,3 +74,74 @@ class Feedback(Base):
     satisfactory: Mapped[bool] = mapped_column(default=False)
     reason: Mapped[str | None] = mapped_column(Text, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)
+
+
+class User(Base):
+    __tablename__ = "desk_users"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    email: Mapped[str] = mapped_column(String(254), unique=True)
+    password_hash: Mapped[str] = mapped_column(Text)
+    role: Mapped[str] = mapped_column(String(24))
+    hospital_id: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    active: Mapped[bool] = mapped_column(default=True)
+
+
+class LoginSession(Base):
+    __tablename__ = "desk_sessions"
+
+    token_hash: Mapped[str] = mapped_column(String(64), primary_key=True)
+    user_id: Mapped[str] = mapped_column(String(36), index=True)
+    csrf_token: Mapped[str] = mapped_column(String(64))
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
+
+
+class RunOwner(Base):
+    __tablename__ = "desk_run_owners"
+
+    run_id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    hospital_id: Mapped[str] = mapped_column(String(64), index=True)
+    user_id: Mapped[str] = mapped_column(String(36))
+
+
+class Case(Base):
+    __tablename__ = "desk_cases"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    hospital_id: Mapped[str] = mapped_column(String(64), index=True)
+    run_id: Mapped[str] = mapped_column(String(36), unique=True)
+    revision: Mapped[int] = mapped_column(Integer, default=1)
+    status: Mapped[str] = mapped_column(String(32), default="processing", index=True)
+    policy_version: Mapped[str] = mapped_column(String(128))
+    decision: Mapped[dict[str, Any] | None] = mapped_column(JSON, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)
+
+
+class CaseEvent(Base):
+    __tablename__ = "desk_case_events"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    case_id: Mapped[str] = mapped_column(String(36), index=True)
+    revision: Mapped[int] = mapped_column(Integer)
+    actor: Mapped[str] = mapped_column(String(36))
+    kind: Mapped[str] = mapped_column(String(32))
+    payload: Mapped[dict[str, Any]] = mapped_column(JSON)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)
+
+
+class Precedent(Base):
+    __tablename__ = "desk_precedents"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    case_id: Mapped[str] = mapped_column(String(36), index=True)
+    revision: Mapped[int] = mapped_column(Integer)
+    policy_version: Mapped[str] = mapped_column(String(128), index=True)
+    outcome: Mapped[str] = mapped_column(String(24))
+    reason: Mapped[str] = mapped_column(Text)
+    facts: Mapped[dict[str, Any]] = mapped_column(JSON)
+    description: Mapped[str] = mapped_column(Text)
+    active: Mapped[bool] = mapped_column(default=True)
+
+
+class SubmissionKey(Base):
+    __tablename__ = "desk_submission_keys"
+    id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    case_id: Mapped[str] = mapped_column(String(36))
+    digest: Mapped[str] = mapped_column(String(64))

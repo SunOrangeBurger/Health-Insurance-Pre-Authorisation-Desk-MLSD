@@ -1,0 +1,59 @@
+{
+  "passed": true,
+  "checks": {
+    "full_requested_duration": true,
+    "clean_exit": true,
+    "all_assessments_observed": true,
+    "assessment_errors_below_one_percent": true,
+    "assessment_p95_under_30s": true,
+    "assessment_p99_under_60s": true,
+    "api_latency_and_errors": true,
+    "service_memory_growth_under_ten_percent": true,
+    "queue_age_under_deadline": true,
+    "no_sustained_queue_growth": true,
+    "unchanged_service_instances": true,
+    "outcome_evidence_present": true,
+    "automatic_precedent_exercised": true,
+    "no_exception_approved": true
+  },
+  "observations": 56,
+  "failures": 0,
+  "requested_seconds": 300,
+  "memory_windows": "60\u2013120 seconds after start versus final 60 seconds; mean RSS per unchanged service instance",
+  "memory_growth": {
+    "api:api:8000": {
+      "early_mean_bytes": 121221120.0,
+      "late_mean_bytes": 121241227.63636364,
+      "growth_percent": 0.016587568538906083
+    },
+    "worker:172.18.0.4:8001": {
+      "early_mean_bytes": 516297821.09090906,
+      "late_mean_bytes": 516822109.09090906,
+      "growth_percent": 0.10154759105747146
+    },
+    "ollama": {
+      "early_mean_bytes": 378382149.8181818,
+      "late_mean_bytes": 264959069.0909091,
+      "growth_percent": -29.975801126394085
+    }
+  },
+  "observed_seconds": 297.03075408935547,
+  "p50_ms": 4100.0,
+  "p95_ms": 7100.0,
+  "p99_ms": 7200.0,
+  "achieved_assessments_per_second": 0.18511735314279754,
+  "maximum_queue_depth": 2,
+  "maximum_queue_age_seconds": 8.187000036239624,
+  "peak_host_cpu_percent": 23.4,
+  "peak_gpu_memory_mib": 3301.0,
+  "limitation": "Synthetic local workload. Five minutes is a short stability check, not long-duration reliability evidence. Histogram percentiles, especially p99 with small samples, are estimates. Human turnaround excluded.",
+  "outcomes": {
+    "out_of_corpus:awaiting_review:escalated": 7,
+    "decision_source:pending_review": 22,
+    "nominal:approved:completed": 34,
+    "decision_source:precedent": 34,
+    "waiting_period:awaiting_review:escalated": 9,
+    "nominal:awaiting_review:completed": 2,
+    "injection:awaiting_review:escalated": 4
+  }
+}

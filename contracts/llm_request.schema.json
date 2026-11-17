@@ -16,6 +16,18 @@
       "minimum": 0.0,
       "title": "Temperature",
       "type": "number"
+    },
+    "output_schema": {
+      "anyOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Output Schema"
     }
   },
   "required": [

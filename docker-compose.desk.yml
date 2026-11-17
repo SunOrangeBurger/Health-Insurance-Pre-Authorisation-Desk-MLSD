@@ -1,0 +1,46 @@
+services:
+  postgres:
+    restart: unless-stopped
+  redis:
+    restart: unless-stopped
+  api:
+    restart: unless-stopped
+    environment:
+      ENVIRONMENT: development
+      PRECEDENT_AUTOMATION_ENABLED: ${PRECEDENT_AUTOMATION_ENABLED:-true}
+    mem_limit: 512m
+  worker:
+    restart: unless-stopped
+    volumes:
+      - ./evals:/app/evals:ro
+    environment:
+      LLM_PROVIDER: ollama
+      LLM_BASE_URL: http://host.docker.internal:11434
+      LLM_MODEL: qwen3:4b
+      OLLAMA_DISABLE_THINKING: true
+      LLM_TIMEOUT_S: 40
+      LLM_MAX_ATTEMPTS: 1
+      WORKER_CONCURRENCY: 1
+      PRECEDENT_AUTOMATION_ENABLED: ${PRECEDENT_AUTOMATION_ENABLED:-true}
+      OLLAMA_CONTEXT: 4096
+      OLLAMA_OUTPUT_TOKENS: 512
+      OLLAMA_USE_MMAP: false
+    extra_hosts:
+      - host.docker.internal:${OLLAMA_HOST_IP:-host-gateway}
+    mem_limit: 2g
+  indexer:
+    mem_limit: 2g
+  prometheus:
+    restart: unless-stopped
+    mem_limit: 256m
+    volumes:
+      - ./ops/prometheus.desk.yml:/etc/prometheus/prometheus.yml:ro
+  grafana:
+    restart: unless-stopped
+    mem_limit: 256m
+  jaeger:
+    restart: unless-stopped
+    mem_limit: 256m
+  redis-exporter:
+    restart: unless-stopped
+    mem_limit: 64m

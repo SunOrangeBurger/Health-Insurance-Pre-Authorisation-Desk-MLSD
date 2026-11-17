@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "checks": [
+    "Reviewer inspects and disables reusable decision",
+    "Reviewer overrides automatic decision",
+    "Human outcome and audit history displayed",
+    "No page errors or mobile overflow"
+  ],
+  "source_case_id": "7b23f76b-ff85-47fe-9960-bd809bb3efc6",
+  "overridden_case_id": "7358309c-d499-4293-945d-9a467b9f897f"
+}

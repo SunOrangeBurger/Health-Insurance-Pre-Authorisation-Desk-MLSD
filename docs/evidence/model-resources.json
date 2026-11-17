@@ -1,0 +1,39 @@
+{
+  "limitation": "Point-in-time samples, not peaks or soak/capacity measurements. One loaded model and one inference slot; context4096/output512.",
+  "container_sample": [
+    "mlsd-mini-project-worker-1 320.5MiB / 2GiB",
+    "mlsd-mini-project-api-1 83.95MiB / 512MiB",
+    "mlsd-mini-project-postgres-1 24.79MiB / 7.61GiB",
+    "mlsd-mini-project-redis-1 4.133MiB / 7.61GiB"
+  ],
+  "gpu_sample": "NVIDIA GeForce RTX 4050 Laptop GPU, 6141 MiB, 4414 MiB",
+  "ram_sample_kib": {
+    "TotalVisibleMemorySize": 16473592,
+    "FreePhysicalMemory": 1553576
+  },
+  "date": "2026-11-15",
+  "model": {
+    "name": "qwen2.5-coder:7b",
+    "model": "qwen2.5-coder:7b",
+    "modified_at": "2026-06-29T12:17:08.8333205+05:30",
+    "size": 4683087561,
+    "digest": "dae161e27b0e90dd1856c8bb3209201fd6736d8eb66298e75ed87571486f4364",
+    "details": {
+      "parent_model": "",
+      "format": "gguf",
+      "family": "qwen2",
+      "families": [
+        "qwen2"
+      ],
+      "parameter_size": "7.6B",
+      "quantization_level": "Q4_K_M",
+      "context_length": 32768,
+      "embedding_length": 3584
+    },
+    "capabilities": [
+      "completion",
+      "tools",
+      "insert"
+    ]
+  }
+}

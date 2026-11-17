@@ -1,0 +1,11 @@
+{
+  "label": "workers1-recovery",
+  "users": 1,
+  "duration_seconds": 0,
+  "exit_code": null,
+  "guard_stop": "Preflight RAM below reserve; load was not started",
+  "minimum_available_bytes": 1055076352,
+  "required_reserve_bytes": 2530343731.2,
+  "samples": [],
+  "unobserved_assessments": 0
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "scenario": "waiting_served",
+    "case_id": "0ac05e0c-62bc-495f-83e8-85d33fe2c58b",
+    "elapsed_seconds": 1.072,
+    "processing_status": "degraded",
+    "coverage_position": "degraded",
+    "ai_assessment": null,
+    "citation_ids": [
+      "B.1.1",
+      "C.1.b"
+    ],
+    "verification": {
+      "passed": false,
+      "checks": [
+        "all citations resolve",
+        "mandatory provision searches completed",
+        "Provider unavailable; retrieval-only fallback used."
+      ]
+    }
+  }
+]

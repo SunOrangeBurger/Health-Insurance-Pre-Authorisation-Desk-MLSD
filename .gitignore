@@ -40,6 +40,7 @@ env/
 *.sqlite3
 index_data/
 .cache/
+.uv-cache/
 data/
 
 # Corpus raw files (PDFs)

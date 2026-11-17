@@ -1,0 +1,51 @@
+{
+  "phases": [
+    {
+      "phase": "ollama_assessment_seconds",
+      "observations": 71,
+      "p50_seconds": 2.336,
+      "p95_seconds": 3.18175,
+      "p99_seconds": 3.5926099999999987
+    },
+    {
+      "phase": "queue_wait_seconds",
+      "observations": 71,
+      "p50_seconds": 36.669991,
+      "p95_seconds": 42.747789,
+      "p99_seconds": 44.5360624
+    },
+    {
+      "phase": "retrieval_tool_seconds",
+      "observations": 497,
+      "p50_seconds": 5.6e-05,
+      "p95_seconds": 0.00054,
+      "p99_seconds": 0.0006591200000000001
+    },
+    {
+      "phase": "submission_to_terminal_seconds",
+      "observations": 71,
+      "p50_seconds": 39.933021,
+      "p95_seconds": 45.648011499999996,
+      "p99_seconds": 48.440730099999996
+    },
+    {
+      "phase": "worker_seconds",
+      "observations": 71,
+      "p50_seconds": 2.399797,
+      "p95_seconds": 5.4968895,
+      "p99_seconds": 6.272168999999998
+    }
+  ],
+  "outcomes": [
+    {
+      "status": "completed",
+      "case_status": "processing",
+      "decision_source": "human_review_pending",
+      "count": 71
+    }
+  ],
+  "window_start_epoch": 1794890242.2386882,
+  "window_end_epoch": 1794890462.9601152,
+  "attribution": "Exact synthetic case IDs recorded by Locust; host and WSL clocks may differ.",
+  "limitation": "Database completion timings exclude client polling. Retrieval is per tool call. Human turnaround is not simulated. No automatic outcomes means that percentile has zero observations."
+}

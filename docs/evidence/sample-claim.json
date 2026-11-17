@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "case_id": "9edc555c-bfd3-4462-b029-521394103d81",
+  "submission_status": 202,
+  "checks": [
+    "All sample fields pass browser validation",
+    "Invalid policy number rejected before submission",
+    "Autofill does not submit",
+    "Sample claim accepted by deployed API"
+  ],
+  "javascript_errors": []
+}

@@ -35,6 +35,10 @@ Client (REST / Web)
 
 ---
 
+## Internal tool preview
+
+The hospital/reviewer workspace is complete for the user-adjusted synthetic demonstration scope. See [local demo and accounts](docs/INTERNAL_TOOL_DEMO.md), [progress/evidence](docs/INTERNAL_TOOL_PROGRESS.md) and [measured performance and limitations](docs/INTERNAL_TOOL_PERFORMANCE.md). It uses Qwen3 4B through bounded local Ollama, human-authorized precedent automation, a capped queue and monitored WSL deployment. The requested five-minute stability check passed; longer soak reliability remains unverified. One worker is recommended locally: three workers failed the error target without improving throughput. This is a demonstration, not a clinically validated system.
+
 ## Quickstart
 
 ### Prerequisites

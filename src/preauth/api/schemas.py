@@ -127,6 +127,7 @@ class FeedbackResponse(BaseModel):
 class LLMRequest(BaseModel):
     messages: list[dict[str, str]]
     temperature: float = Field(default=0, ge=0, le=2)
+    output_schema: dict[str, Any] | None = None
 
 
 class LLMResponse(BaseModel):

@@ -2,6 +2,12 @@
 
 This is the target design. The agent may deviate where it has a reason; record the reason in `docs/DECISIONS.md`.
 
+## Implemented internal desk extension
+
+The current static frontend is served by FastAPI and has Hospital Staff and Claims Reviewer workspaces. Server-side sessions, CSRF checks, role enforcement and hospital ownership protect the API. PostgreSQL stores immutable case revisions, reviews, events and reusable precedents; Redis queues work and coordinates the global model lock. A human decision can authorize reuse after exact material-fact, semantic-similarity, current-evidence and exception checks. Automated decisions cannot create new precedents. Uncertainty and model outages stay visible for human review.
+
+The Windows deployment uses Docker Engine in Ubuntu WSL with a bounded Windows Ollama server running Qwen3 4B. One global inference slot is shared across worker replicas. Disabling the runner's host prompt cache prevents distinct prompts from accumulating host-memory snapshots. Prometheus, Grafana and Jaeger expose service health, timing and traces. Locust drives authenticated synthetic cases with host-memory and queue-age guards; stub results and real-model results are reported separately. See INTERNAL_TOOL_PLAN.md, INTERNAL_TOOL_PROGRESS.md and BENCHMARK_LOCAL.md for implemented scope and verified limits.
+
 ## 1. Stack (all free, all containerised)
 
 | Concern | Choice | Notes / rejected alternative |

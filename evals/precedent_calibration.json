@@ -1,0 +1,55 @@
+{
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "threshold": 0.72,
+  "passed": true,
+  "scores": {
+    "calibration": [
+      {
+        "score": 0.7524092197418213,
+        "same": true
+      },
+      {
+        "score": 0.46538472175598145,
+        "same": false
+      },
+      {
+        "score": 0.7206189632415771,
+        "same": true
+      },
+      {
+        "score": 0.440649151802063,
+        "same": false
+      },
+      {
+        "score": 0.7758514285087585,
+        "same": true
+      },
+      {
+        "score": 0.5327033996582031,
+        "same": false
+      }
+    ],
+    "held_out": [
+      {
+        "score": 0.715004563331604,
+        "same": true
+      },
+      {
+        "score": 0.43042632937431335,
+        "same": false
+      },
+      {
+        "score": 0.720015287399292,
+        "same": true
+      },
+      {
+        "score": 0.6990634799003601,
+        "same": false
+      }
+    ]
+  },
+  "held_out_false_matches": 0,
+  "held_out_true_matches": 1,
+  "threshold_method": "0.01 grid; zero calibration false matches; max recall then highest threshold",
+  "limitation": "Small synthetic demo set; not a production validation."
+}

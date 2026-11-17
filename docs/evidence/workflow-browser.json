@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "checks": [
+    "Hospital form submission and asynchronous review-ready status",
+    "Reviewer clarification and hospital revision/resubmission",
+    "Final human approval visible to hospital; mobile layout has no horizontal overflow"
+  ],
+  "page_errors": [],
+  "limitation": "Human workflow only; no AI-quality or performance claim."
+}

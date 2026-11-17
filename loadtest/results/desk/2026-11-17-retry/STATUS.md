@@ -1,0 +1,1 @@
+Invalid benchmark attempt: the shell lacked DESK_HOSPITAL_PASSWORD. Virtual users failed before sending valid workload. The attempt was interrupted and has no completed stage JSON. Retained CSV files must not be used for capacity claims. The supervisor now rejects this missing configuration before load starts.

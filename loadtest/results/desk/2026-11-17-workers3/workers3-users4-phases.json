@@ -1,0 +1,57 @@
+{
+  "phases": [
+    {
+      "phase": "ollama_assessment_seconds",
+      "observations": 51,
+      "p50_seconds": 2.5018,
+      "p95_seconds": 3.0796,
+      "p99_seconds": 3.5134499999999997
+    },
+    {
+      "phase": "queue_wait_seconds",
+      "observations": 52,
+      "p50_seconds": 0.135162,
+      "p95_seconds": 0.683763999999998,
+      "p99_seconds": 2.5513335100000027
+    },
+    {
+      "phase": "retrieval_tool_seconds",
+      "observations": 364,
+      "p50_seconds": 6.65e-05,
+      "p95_seconds": 0.0007774499999999994,
+      "p99_seconds": 0.006127960000000003
+    },
+    {
+      "phase": "submission_to_terminal_seconds",
+      "observations": 52,
+      "p50_seconds": 3.2665435,
+      "p95_seconds": 10.664663349999998,
+      "p99_seconds": 11.998467410000005
+    },
+    {
+      "phase": "worker_seconds",
+      "observations": 52,
+      "p50_seconds": 3.0485344999999997,
+      "p95_seconds": 10.414809099999996,
+      "p99_seconds": 11.905328810000004
+    }
+  ],
+  "outcomes": [
+    {
+      "status": "degraded",
+      "case_status": "processing",
+      "decision_source": "human_review_pending",
+      "count": 1
+    },
+    {
+      "status": "completed",
+      "case_status": "processing",
+      "decision_source": "human_review_pending",
+      "count": 51
+    }
+  ],
+  "window_start_epoch": 1794890575.7011743,
+  "window_end_epoch": 1794890758.0590153,
+  "attribution": "Exact synthetic case IDs recorded by Locust; host and WSL clocks may differ.",
+  "limitation": "Database completion timings exclude client polling. Retrieval is per tool call. Human turnaround is not simulated. No automatic outcomes means that percentile has zero observations."
+}

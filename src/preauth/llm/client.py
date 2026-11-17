@@ -12,7 +12,8 @@ from preauth.llm.circuit_breaker import CircuitBreaker, CircuitOpenError
 
 LLM_CALLS = Counter("llm_calls_total", "LLM provider calls", ["provider", "outcome"])
 LLM_RETRIES = Counter("llm_retries_total", "LLM provider retries", ["provider"])
-LLM_LATENCY = Histogram("llm_call_seconds", "LLM provider call latency", ["provider"])
+LLM_LATENCY = Histogram("llm_call_seconds", "LLM provider call latency", ["provider"],
+                        buckets=(.05, .1, .25, .5, 1, 2, 5, 10, 20, 30, 40, 60, 90))
 
 
 class ProviderUnavailable(RuntimeError):
@@ -71,6 +72,39 @@ class ResilientLLMClient:
             headers["Authorization"] = f"Bearer {self.settings.llm_api_key}"
         timeout = httpx.Timeout(self.settings.llm_timeout_s)
         async with httpx.AsyncClient(timeout=timeout) as client:
+            if self.settings.llm_provider == "ollama":
+                payload = {
+                    "model": self.settings.llm_model,
+                    "messages": request.messages,
+                    "stream": False,
+                    "keep_alive": "5m",
+                    "options": {"temperature": request.temperature,
+                                "num_ctx": self.settings.ollama_context,
+                                "use_mmap": self.settings.ollama_use_mmap,
+                                "num_predict": self.settings.ollama_output_tokens},
+                }
+                if request.output_schema:
+                    # Bounded repetitions can explode this runtime's grammar
+                    # working set. Keep only shape/enums in the decoder grammar;
+                    # Pydantic enforces every length/item bound after generation.
+                    def grammar_schema(value):
+                        if isinstance(value, dict):
+                            return {k: grammar_schema(v) for k, v in value.items()
+                                    if k not in {"minLength", "maxLength", "minItems", "maxItems"}}
+                        if isinstance(value, list):
+                            return [grammar_schema(v) for v in value]
+                        return value
+                    payload["format"] = grammar_schema(request.output_schema)
+                if self.settings.ollama_disable_thinking:
+                    payload["think"] = False
+                response = await client.post(
+                    f"{self.settings.llm_base_url.rstrip('/')}/api/chat", json=payload
+                )
+                response.raise_for_status()
+                data = response.json()
+                return LLMResponse(content=data["message"]["content"],
+                                   prompt_tokens=data.get("prompt_eval_count", 0),
+                                   completion_tokens=data.get("eval_count", 0))
             if self.settings.llm_provider == "stub":
                 response = await client.post(
                     f"{self.settings.llm_base_url.rstrip('/')}/v1/complete",

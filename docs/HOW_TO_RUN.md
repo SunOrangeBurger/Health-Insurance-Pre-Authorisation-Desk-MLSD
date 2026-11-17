@@ -14,6 +14,8 @@ Leave that tab open while using the app. It keeps the WSL environment active. If
 
 ## 2. Start from a separate PowerShell tab
 
+Windows PowerShell 5.1 and PowerShell 7 are supported. The launcher explicitly passes Compose argument arrays to avoid the older shell combining an entire command into one argument.
+
 ```powershell
 Set-Location 'D:\Fedora-Recovery\Projects\mlsd-mini-project'
 $env:DESK_HOSPITAL_PASSWORD = 'Hospital-demo-2026'

@@ -148,3 +148,7 @@ Added claims-reviewer/v2 with required factual case_summary, INR currency normal
 ## Extensive technical documentation
 
 Created the 35-page technical PDF with an editable manuscript and reproducible ReportLab builder. It includes architecture/workflow diagrams, API/data/security references, AI/precedent gates, operator commands, measured load/stress/short-stability results, source/evidence register and reviewer-summary/v2 behavior. All pages were rendered and visually reviewed; text-bound and placeholder checks passed. Performance is explicitly attributed to v1; v2 currently has functional acceptance only. QA metadata records the PDF SHA-256.
+
+## Windows PowerShell 5.1 startup fix
+
+The user reported a built image followed by an unknown Compose command. Replaced variadic array capture with an explicitly bound string-array parameter in demo_desk.ps1. Ran the complete -SkipIngest startup through Windows PowerShell 5.1 successfully, including credential forwarding and monitoring startup. API readiness and frontend HTTP checks passed. Evidence: powershell51-startup.json.

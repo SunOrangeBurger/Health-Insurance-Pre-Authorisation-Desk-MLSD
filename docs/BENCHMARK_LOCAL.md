@@ -1,4 +1,14 @@
-# Local benchmark attempt — 2026-11-15
+# Local benchmark status
+
+## Resumed testing — 2026-11-17
+
+Verified completion remains **85%**. Qwen3 4B with disabled host prompt cache remains stable near 720 MB runner RSS. The first resumed two-user attempt stopped after 57 seconds on the host RAM guard. A subsequent retry with valid benchmark credentials completed 20 assessments with zero observed failures, p50 4.1 seconds and p95/p99 7.2 seconds, but stopped after 123 seconds when available RAM fell to about 1.15 GiB. One accepted assessment was unobserved by the stopped client. Recovery was refused below the reserve. Browser processes accounted for several GB at inspection; user applications were left running.
+
+The intermediate `2026-11-17-retry` directory is an invalid attempt: the new shell lacked `DESK_HOSPITAL_PASSWORD`, so virtual users could not start. It was interrupted and must not be used for capacity claims. A new CLI preflight rejects that missing configuration before starting load.
+
+Raw artifacts: `loadtest/results/desk/2026-11-17` and `2026-11-17-capacity`. Consolidated results: LOAD_STRESS_RESULTS.md. No higher-load stage, matched one-versus-three-worker comparison or full 30-minute soak has passed. The available partial samples cannot establish sustainable throughput. Further runs require sufficient free host memory.
+
+## Earlier attempt — 2026-11-15
 
 Status: resource-guard stop; capacity acceptance remains incomplete.
 

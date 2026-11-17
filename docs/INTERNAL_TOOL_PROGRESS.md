@@ -1,8 +1,8 @@
 # Internal tool expansion progress
 
-Updated: 2026-11-15 (Asia/Calcutta)
+Updated: 2026-11-17 (Asia/Calcutta)
 
-**Verified completion: 85%.** This measures the new scope independently of the original project.
+**Verified completion: 90%.** This measures the new scope independently of the original project.
 
 | Checkpoint | Weight | Status | Evidence |
 |---|---:|---|---|
@@ -14,7 +14,9 @@ Updated: 2026-11-15 (Asia/Calcutta)
 | Precedent automation integration | 15% | Complete | Real-model/PostgreSQL automatic approval/rejection; reviewer controls; safety and rollback tests |
 | Deployment and telemetry smoke | 5% | Complete | Eight running services; four healthy scrape targets; provisioned Grafana and Jaeger traces |
 | Multiworker deployment validation | 5% | Complete | Three replica scrape histories, real Redis mutex check, restart/readiness and persisted-case recovery |
-| Performance validation and handover | 15% | In progress | Locust workload/launcher written; actual runs pending |
+| Load, stress and worker comparison | 5% | Complete | Completed stages, saturation/recovery and measured three-worker limitation |
+| User-adjusted five-minute stability test | 5% | In progress | Mixed workload running at 60% measured rate; long profiles optional |
+| Final report and handover | 5% | In progress | Reports/runbook being finalized; GitHub checkpoint pending |
 
 ## 40% checkpoint evidence
 
@@ -104,3 +106,15 @@ The user freed RAM and testing resumed. Varied prompts still grew runner memory 
 5. Generate the load/stress and soak reports, complete the handover checks and push updated evidence to codex/internal-policy-desk.
 
 Pre-existing script permission changes remain outside project commits.
+
+## Resumed November 17
+
+The user shortened the required soak to five minutes due to time constraints; optional 30-minute and two-hour profiles remain available. This is short-term stability evidence only. After the user freed host memory, the two-user three-minute stage passed with 27 observations, zero errors, no unobserved cases and p95/p99 7.1 seconds. Higher stages and worker comparison are running. Earlier RAM-guard stops remain retained. Verified completion remains 85% until the next exit checks pass.
+
+Fixed Windows-to-WSL path translation and PowerShell argument forwarding in the deployment helpers. Added benchmark credential preflight, process-tree cleanup, actual elapsed time, GPU samples, exact case-ID capture, histogram snapshots and a soak evaluator. Corrected queue-age measurement to use Redis time because the WSL and Windows clocks differ. Targeted regressions: 71 passed before the additional five-minute profile test.
+
+## 90% checkpoint — load, stress and worker comparison completed
+
+One-worker stages at 2/4/8 users passed the declared latency and error checks. The 16-user stress stage completed 71 assessments without errors but exceeded the p95 target (47 seconds), establishing saturation. Recovery returned p95 to 5.1 seconds with no missing observations. Under the matched four-user workload, three workers produced 52 observations with one degraded failure (1.9%) and 0.279 assessments/second versus 0.291 with one worker; it failed the error target. This comparison is evidence of a limitation, not a scaling success. Three-worker recovery passed and the deployment was returned to one worker.
+
+Raw evidence: loadtest/results/desk/2026-11-17-freed and 2026-11-17-workers3. Exact case-ID phase reports separate queue, retrieval and inference times. A five-minute mixed stability test is now running at 0.1859 assessments/second, approximately 60% of the passing eight-user measured rate. It includes a temporary synthetic human-approved precedent, which will be disabled after testing. Handover remains pending.

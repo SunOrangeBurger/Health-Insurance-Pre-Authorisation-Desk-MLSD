@@ -7,7 +7,8 @@ if (-not $env:DESK_HOSPITAL_PASSWORD -or -not $env:DESK_REVIEWER_PASSWORD) {
 if (-not (Test-Path -LiteralPath (Join-Path $PSScriptRoot '../corpus/raw/optima_secure_policy_wording.pdf'))) {
     throw 'Place the policy PDF listed in corpus/MANIFEST.md in corpus/raw first.'
 }
-function Invoke-Compose([string[]]$CommandArguments) {
+function Invoke-Compose {
+    param([Parameter(ValueFromRemainingArguments=$true)][string[]]$CommandArguments)
     & "$PSScriptRoot/compose_wsl.ps1" @CommandArguments
     if ($LASTEXITCODE -ne 0) { throw 'Compose operation failed.' }
 }

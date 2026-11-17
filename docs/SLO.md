@@ -1,5 +1,11 @@
 # End-to-End Service Level Objective
 
+## Internal desk with real Ollama (separate workload)
+
+The internal-tool plan declared machine-assessment p95 <= 30 seconds and p99 <= 60 seconds at the measured sustainable workload; non-inference API p95 <= 1 second and p99 <= 2 seconds; unexpected errors < 1%; no crashes, sustained queue growth or >10% service-memory growth between comparable post-warmup windows. Degraded and failed assessments count as failures. Submission-to-review-ready includes queueing and polling; human review time is excluded. The user shortened the required stability run from 30 to five minutes on November 17. Longer profiles remain optional, and a five-minute pass cannot establish long-duration reliability.
+
+These targets and the real-model results in BENCHMARK_LOCAL.md are separate from the original stub objective below. Do not apply the stub's scaling measurements or latency target to real Ollama.
+
 **Declared:** 2026-11-08 12:10 IST, before any project load-test measurement.
 
 ## Service-level indicator

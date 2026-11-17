@@ -12,7 +12,7 @@ Synthetic local accounts (not production credentials):
 
 Hospital Staff can submit a structured request, filter/list their hospital's cases, read details/history, and respond to clarification. Claims Reviewers can approve, reject, or request information. Final decisions and reasons are visible to the submitting hospital. Revisions and decisions are retained in history. A stale or duplicate review is rejected.
 
-The policy index now contains 109 chunks and the worker uses installed qwen2.5-coder:7b through Windows Ollama. A supported cataract case with a served waiting period receives an approve recommendation; uncertain/conflicting or unsupported cases require human review. The UI explanation comes from verified policy checks; raw model reasoning is retained in the audit record. Guarded automatic precedent decisions are enabled after a reviewer authorizes a reusable decision. Notes, prior conditions, emergencies, deluxe rooms, conflicting/changed policy evidence and mismatched material facts require review. Existing browser acceptance cases were one-off synthetic human decisions.
+The policy index contains 109 chunks and the worker uses Qwen3 4B through Windows Ollama, with thinking disabled, context 4096, output capped at 512 tokens, one global inference slot and host prompt cache disabled. Start it with the project launcher: a manually started server can have different memory limits. A supported cataract case with a served waiting period receives an approve recommendation; uncertain/conflicting or unsupported cases require human review. The UI explanation comes from verified policy checks; raw model reasoning is retained in the audit record. Guarded automatic precedent decisions are enabled after a reviewer authorizes a reusable decision. Notes, prior conditions, emergencies, deluxe rooms, conflicting/changed policy evidence and mismatched material facts require review.
 
 ## Start through WSL
 
@@ -26,7 +26,7 @@ From project PowerShell, start the WSL-bound model service first (exit an existi
 ./scripts/compose_wsl.ps1 ps
 ```
 
-The policy index has been restored. The monitoring stack has been verified. Multiworker, scaling and load/stress/soak tests remain later checkpoints. Avoid `down -v` unless intentionally deleting demo data.
+The policy index and monitoring stack have been verified, as have three-worker readiness, the shared inference mutex and worker recovery. Sustained capacity, scaling comparison and soak acceptance remain incomplete; see BENCHMARK_LOCAL.md. Avoid `down -v` unless intentionally deleting demo data.
 
 ## Repeat acceptance
 

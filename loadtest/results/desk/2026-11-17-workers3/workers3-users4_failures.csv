@@ -1,0 +1,2 @@
+Method,Name,Error,Occurrences
+E2E,machine assessment,RuntimeError('degraded or failed assessment'),1

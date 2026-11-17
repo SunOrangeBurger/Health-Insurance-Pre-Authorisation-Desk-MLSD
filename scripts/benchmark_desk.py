@@ -12,18 +12,27 @@ import httpx
 
 ROOT = Path.cwd()
 OUT = ROOT / 'loadtest/results/desk'
-COMPOSE = ['wsl', '-d', 'Ubuntu', '--cd', '/mnt/d/Fedora-Recovery/Projects/mlsd-mini-project', '--',
-           'env', 'OLLAMA_HOST_IP=172.27.160.1', '/usr/bin/docker', 'compose', '-f', 'docker-compose.yml', '-f', 'docker-compose.desk.yml']
+
+
+def telemetry_snapshot():
+    """Keep stage-local histogram boundaries; never use lifetime percentiles."""
+    response = httpx.get('http://localhost:9090/api/v1/query', params={
+        'query': '{__name__=~"preauth_worker_run_seconds_(bucket|count|sum)|llm_call_seconds_(bucket|count|sum)|agent_step_seconds_(bucket|count|sum)|agent_runs_total"}'}, timeout=5)
+    response.raise_for_status()
+    payload = response.json()
+    if payload.get('status') != 'success':
+        raise RuntimeError('Prometheus histogram snapshot failed')
+    return {'time': time.time(), 'series': payload['data']['result']}
 
 
 def queue_state():
-    script = 'local x=redis.call("ZRANGE",KEYS[1],0,0,"WITHSCORES"); return {redis.call("ZCARD",KEYS[1]),x[2] or "0"}'
+    script = 'local x=redis.call("ZRANGE",KEYS[1],0,0,"WITHSCORES"); local t=redis.call("TIME"); return {redis.call("ZCARD",KEYS[1]),x[2] or "0",t[1]} '
     command = ['wsl', '-d', 'Ubuntu', '--', '/usr/bin/docker', 'exec', 'mlsd-mini-project-redis-1',
                'redis-cli', '--raw', 'EVAL', script, '1', 'arq:queue']
     result = subprocess.run(command, capture_output=True, text=True, timeout=10)
     result.check_returncode()
-    count, score = result.stdout.strip().splitlines()
-    return {'queue_depth_including_running': int(count), 'oldest_job_age_seconds': max(0, time.time()-float(score)/1000) if int(count) else 0}
+    count, score, server_time = result.stdout.strip().splitlines()
+    return {'queue_depth_including_running': int(count), 'oldest_job_age_seconds': max(0, float(server_time)-float(score)/1000) if int(count) else 0}
 
 
 def stage(label, users, seconds=180, workload_env=None):
@@ -44,6 +53,8 @@ def stage(label, users, seconds=180, workload_env=None):
     samples = [{'time': time.time(), 'available_bytes': memory.available}]
     stopped = None
     low_since = None
+    started = time.perf_counter()
+    before_metrics = telemetry_snapshot()
     with (OUT/(label+'.log')).open('w') as log:
         process = subprocess.Popen(command, stdout=log, stderr=subprocess.STDOUT,
                                    env={**os.environ, **(workload_env or {}), 'DESK_FINAL_STATS_PREFIX': str(prefix)})
@@ -56,26 +67,38 @@ def stage(label, users, seconds=180, workload_env=None):
                     'query': 'process_resident_memory_bytes{job=~"api|worker"}'}, timeout=5).json()
                 sample['service_rss_bytes'] = {r['metric']['job']+':'+r['metric']['instance']: float(r['value'][1])
                                                for r in metrics['data']['result']}
+                if not {'api', 'worker'}.issubset({key.split(':', 1)[0] for key in sample['service_rss_bytes']}):
+                    raise ValueError('Essential service telemetry missing')
                 sample['ollama_rss_bytes'] = sum(p.info['memory_info'].rss for p in psutil.process_iter(['name', 'memory_info'])
                                                if (p.info['name'] or '').lower().startswith('llama-server'))
+                if len(samples) % 6 == 0:
+                    try:
+                        gpu = subprocess.check_output(['nvidia-smi', '--query-gpu=memory.used,utilization.gpu,temperature.gpu',
+                                                       '--format=csv,noheader,nounits'], text=True, timeout=5).splitlines()[0]
+                        used, utilization, temperature = [float(x.strip()) for x in gpu.split(',')]
+                        sample['gpu'] = {'memory_used_mib': used, 'utilization_percent': utilization, 'temperature_c': temperature}
+                    except (OSError, subprocess.SubprocessError, ValueError, IndexError):
+                        sample['gpu_telemetry_unavailable'] = True
                 if sample['oldest_job_age_seconds'] > 180:
                     stopped = 'Oldest queued/running job exceeded 180 seconds'
-                    process.terminate()
+                    stop_load(process)
             except (subprocess.SubprocessError, ValueError, KeyError, httpx.HTTPError, psutil.Error):
                 stopped = 'Queue/resource monitor failed'
-                process.terminate()
+                stop_load(process)
             samples.append(sample)
             reserve = max(2*1024**3, memory.total*.15)
             if memory.available < reserve:
                 low_since = low_since or time.time()
                 if time.time()-low_since >= 30:
                     stopped = 'RAM reserve breached for 30 seconds'
-                    process.terminate()
+                    stop_load(process)
             else:
                 low_since = None
             time.sleep(5)
         code = process.wait()
-    result = {'label': label, 'users': users, 'duration_seconds': seconds, 'exit_code': code, 'guard_stop': stopped,
+    result = {'label': label, 'users': users, 'duration_seconds': seconds, 'elapsed_seconds': time.perf_counter()-started,
+              'exit_code': code, 'guard_stop': stopped,
+              'telemetry_before': before_metrics, 'telemetry_after': telemetry_snapshot(),
               'minimum_available_bytes': min(s['available_bytes'] for s in samples), 'samples': samples}
     for artifact in OUT.glob(label+'*.csv'):
         raw = artifact.read_bytes()
@@ -93,8 +116,25 @@ def stage(label, users, seconds=180, workload_env=None):
             accepted = int(submitted.get('Request Count', 0))-int(submitted.get('Failure Count', 0))
             result['unobserved_assessments'] = max(0, accepted-int(e2e['Request Count']))
     (OUT/(label+'.json')).write_text(json.dumps(result, indent=2))
-    print(json.dumps({k: v for k, v in result.items() if k not in {'samples', 'stats'}}), flush=True)
+    print(json.dumps({k: v for k, v in result.items() if k not in {'samples', 'stats', 'telemetry_before', 'telemetry_after'}}), flush=True)
     return result
+
+
+def stop_load(process):
+    """Stop the owned tree, including Windows virtualenv redirector children."""
+    try:
+        parent = psutil.Process(process.pid)
+        owned = parent.children(recursive=True) + [parent]
+        for child in owned:
+            try:
+                child.terminate()
+            except psutil.NoSuchProcess:
+                pass
+        _, alive = psutil.wait_procs(owned, timeout=5)
+        for child in alive:
+            child.kill()
+    except psutil.NoSuchProcess:
+        pass
 
 
 def main():
@@ -104,9 +144,11 @@ def main():
     parser.add_argument('--users', type=int, nargs='+', default=[1, 2, 4, 8])
     parser.add_argument('--seconds', type=int, default=180)
     parser.add_argument('--output-dir', default='loadtest/results/desk')
-    parser.add_argument('--soak-minutes', type=int, choices=[0, 30, 120], default=0)
+    parser.add_argument('--soak-minutes', type=int, choices=[0, 5, 30, 120], default=0)
     parser.add_argument('--soak-rps', type=float)
     args = parser.parse_args()
+    if not os.environ.get('DESK_HOSPITAL_PASSWORD'):
+        raise SystemExit('Set DESK_HOSPITAL_PASSWORD for the seeded synthetic benchmark account before starting load')
     OUT = Path(args.output_dir).resolve()
     if not OUT.is_relative_to(ROOT):
         raise SystemExit('Benchmark output must stay inside this project')
@@ -117,7 +159,7 @@ def main():
         if args.soak_rps is None or not 0 < args.soak_rps <= 1:
             raise SystemExit('Specify measured sustainable soak-rps between 0 and 1')
         result = stage('workers'+str(args.workers)+'-soak', 2, args.soak_minutes*60,
-                       {'DESK_SOAK_RPS': str(args.soak_rps), 'DESK_SOAK_USERS': '2'})
+                       {'DESK_SOAK_RPS': str(args.soak_rps), 'DESK_SOAK_USERS': '2', 'DESK_MIXED_WORKLOAD': '1'})
         (OUT/('workers'+str(args.workers)+'-soak-summary.json')).write_text(json.dumps(result, indent=2))
         return
     results = []

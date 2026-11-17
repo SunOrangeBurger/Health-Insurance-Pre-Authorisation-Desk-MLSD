@@ -9,7 +9,7 @@
   ],
   "cases": [
     {
-      "case_id": "46403cc4-9c4d-48b2-89cc-941d508c7bd6",
+      "case_id": "8e1d7a8b-e471-463c-8b0e-c0733fc84038",
       "status": "awaiting_review",
       "decision": null,
       "assessment": {
@@ -20,21 +20,21 @@
           "C.1.b"
         ],
         "exception_flags": [],
-        "model_rationale": "The policy's waiting period for cataract (24 months) is served as of 2026-11-22 (policy start 2024-05-29 + 24 months = 2026-05-29; 2026-11-22 > 2026-05-29). No pre-existing conditions declared. Procedure is covered under day care treatments (B.1.1.g). Room category requested is single, which aligns with policy's 'At Actuals' room rent basis.",
+        "model_rationale": "The policy's waiting period for cataract (24 months) is served as of 2026-11-24 (policy start 2024-05-31, 24 months = 2026-05-31; 2026-11-24 > 2026-05-31). Clause B.1.1 covers day-care cataract procedures with no pre-existing conditions. No exceptions declared.",
         "prompt_version": "claims-reviewer/v1",
         "model": "qwen3:4b",
-        "inference_seconds": 3.8301,
-        "prompt_tokens": 2569,
-        "completion_tokens": 168
+        "inference_seconds": 3.0833,
+        "prompt_tokens": 2566,
+        "completion_tokens": 149
       }
     },
     {
-      "case_id": "4be12890-a3de-4071-a944-4fedfb8bd190",
+      "case_id": "0bb7755d-1993-415c-b09f-97004fceb9b6",
       "status": "approved",
       "decision": {
         "outcome": "approved",
         "source": "precedent",
-        "precedent_id": "32d47fdc-81d5-4639-bad5-ddeef3c9c0af",
+        "precedent_id": "32b2ac92-dfca-408e-a788-4d8f3666b709",
         "reason": "Retrieved provisions are verified and the applicable specific waiting period is served.",
         "revision": 1
       },
@@ -49,13 +49,13 @@
         "model_rationale": "The policy's waiting period for cataract treatment is served (coverage_position: waiting_period_served), and no pre-existing conditions or exceptions were declared. The procedure (phacoemulsification) is covered under day-care treatments per clause B.1.1.g and B.1.1.i, with no room rent issues as it's day-care. No contradictions in evidence.",
         "prompt_version": "claims-reviewer/v1",
         "model": "qwen3:4b",
-        "inference_seconds": 2.7135,
+        "inference_seconds": 2.6112,
         "prompt_tokens": 2573,
         "completion_tokens": 119
       }
     },
     {
-      "case_id": "03ef7ef9-965d-4b9f-8088-37cb28df1f69",
+      "case_id": "9c2a2f95-e5be-468b-a780-d47e19cd24e2",
       "status": "awaiting_review",
       "decision": null,
       "assessment": {
@@ -66,16 +66,16 @@
           "C.1.b"
         ],
         "exception_flags": [],
-        "model_rationale": "Policy covers day-care cataract treatment with waiting period served (24 months continuous coverage from policy inception), no pre-existing conditions, and procedure within scope per B.1.1.1.iii (Day Care Treatments).",
+        "model_rationale": "Policy covers day-care cataract treatment with waiting period served (24 months continuous coverage from 2024-05-31 to 2026-11-24), no pre-existing conditions, and procedure within coverage scope per B.1.1.1.iii (Day Care Treatments).",
         "prompt_version": "claims-reviewer/v1",
         "model": "qwen3:4b",
-        "inference_seconds": 2.2795,
-        "prompt_tokens": 2576,
-        "completion_tokens": 89
+        "inference_seconds": 2.4707,
+        "prompt_tokens": 2573,
+        "completion_tokens": 111
       }
     },
     {
-      "case_id": "f5cbdd84-016e-4c6a-bdb9-f12f865a07ce",
+      "case_id": "b3e0caf3-0f3d-4d78-aab9-7da5caa0da37",
       "status": "awaiting_review",
       "decision": null,
       "assessment": {
@@ -86,16 +86,16 @@
           "C.1.b"
         ],
         "exception_flags": [],
-        "model_rationale": "Policy covers day-care cataract treatment with waiting period served (24 months continuous coverage from policy inception), no pre-existing conditions, and procedure within scope per B.1.1.1.iii (Day Care Treatments).",
+        "model_rationale": "The policy's waiting period for cataract (24 months) is served as of 2026-11-24 (policy start 2024-05-31), with no pre-existing conditions or exceptions declared. Coverage for day-care cataract surgery is explicitly included under Section B-1.1.4 (Day Care Treatments) and B.1.1.g (surgical implants).",
         "prompt_version": "claims-reviewer/v1",
         "model": "qwen3:4b",
-        "inference_seconds": 2.2278,
+        "inference_seconds": 2.8223,
         "prompt_tokens": 2568,
-        "completion_tokens": 89
+        "completion_tokens": 133
       }
     },
     {
-      "case_id": "1e83b3f4-530b-4568-831c-411e5c434b81",
+      "case_id": "132d216c-ef0e-42d2-93c5-5b82da7567a6",
       "status": "awaiting_review",
       "decision": null,
       "assessment": {
@@ -106,16 +106,16 @@
           "C.1.b"
         ],
         "exception_flags": [],
-        "model_rationale": "The policy's waiting period for cataract (24 months) is served as of 2026-11-22 (policy start 2024-05-29 + 24 months = 2026-05-29), and no pre-existing conditions or exceptions declared. Coverage_position confirms waiting_period_served with no contradictions.",
+        "model_rationale": "The policy's waiting period for cataract (24 months) is served as the policy start date (2024-05-31) precedes the planned admission (2026-11-24) by 24 months. No pre-existing conditions declared, and day-care procedure falls under covered treatments per B.1.1.1.iii. (All Day Care Treatments).",
         "prompt_version": "claims-reviewer/v1",
         "model": "qwen3:4b",
-        "inference_seconds": 2.7667,
-        "prompt_tokens": 2568,
-        "completion_tokens": 122
+        "inference_seconds": 2.7922,
+        "prompt_tokens": 2569,
+        "completion_tokens": 130
       }
     },
     {
-      "case_id": "eaa6a06b-3136-455b-8e51-5bbf6fc5b302",
+      "case_id": "006ba9a0-41f8-4dd0-9968-71e56c587421",
       "status": "awaiting_review",
       "decision": null,
       "assessment": {
@@ -125,21 +125,21 @@
           "C.1.b"
         ],
         "exception_flags": [],
-        "model_rationale": "The policy's waiting period clause (C.1.b) excludes cataract treatment for 24 months post-policy inception. The 11.1-month elapsed period is insufficient, so waiting period not served. No exceptions declared, thus reject based on waiting period clause.",
+        "model_rationale": "The policy's 24-month waiting period for cataract treatment (clause C.1.b) has not been served (11.1 months elapsed), so the claim is excluded per the waiting period clause. No exceptions declared.",
         "prompt_version": "claims-reviewer/v1",
         "model": "qwen3:4b",
-        "inference_seconds": 2.2478,
-        "prompt_tokens": 2572,
-        "completion_tokens": 90
+        "inference_seconds": 2.004,
+        "prompt_tokens": 2575,
+        "completion_tokens": 82
       }
     },
     {
-      "case_id": "222ece44-2091-48db-b8a1-9b1416e8b9b4",
+      "case_id": "c32e17dd-5de7-4122-bf97-bd727e06ba72",
       "status": "rejected",
       "decision": {
         "outcome": "rejected",
         "source": "precedent",
-        "precedent_id": "0e59b27e-bddb-490f-a438-d34bb4013a7e",
+        "precedent_id": "94a7254f-69f9-4012-b8f7-269d59edfe5a",
         "reason": "The 24-month specific waiting period has not been served (11.1 months elapsed).",
         "revision": 1
       },
@@ -153,7 +153,7 @@
         "model_rationale": "The policy's 24-month waiting period for cataract treatment (clause C.1.b) has not been served (11.1 months elapsed), per route_reason. No exceptions declared, so reject based on waiting period clause.",
         "prompt_version": "claims-reviewer/v1",
         "model": "qwen3:4b",
-        "inference_seconds": 2.1652,
+        "inference_seconds": 2.0159,
         "prompt_tokens": 2580,
         "completion_tokens": 83
       }

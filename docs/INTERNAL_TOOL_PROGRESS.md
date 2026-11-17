@@ -2,7 +2,7 @@
 
 Updated: 2026-11-17 (Asia/Calcutta)
 
-**Verified completion: 95%.** This measures the new scope independently of the original project.
+**Verified completion: 100% of the user-adjusted demonstration scope.** This measures the new scope independently of the original project.
 
 | Checkpoint | Weight | Status | Evidence |
 |---|---:|---|---|
@@ -16,7 +16,7 @@ Updated: 2026-11-17 (Asia/Calcutta)
 | Multiworker deployment validation | 5% | Complete | Three replica scrape histories, real Redis mutex check, restart/readiness and persisted-case recovery |
 | Load, stress and worker comparison | 5% | Complete | Completed stages, saturation/recovery and measured three-worker limitation |
 | User-adjusted five-minute stability test | 5% | Complete | 56 observations; zero errors/missing cases; automatic and exception outcomes; stable memory |
-| Final report and handover | 5% | In progress | Reports/runbook being finalized; GitHub checkpoint pending |
+| Final report and handover | 5% | Complete | 76 tests; rebuilt deployment; repeated real-model acceptance; reports and runbook |
 
 ## 40% checkpoint evidence
 
@@ -124,3 +124,11 @@ Raw evidence: loadtest/results/desk/2026-11-17-freed and 2026-11-17-workers3. Ex
 The user-adjusted five-minute run completed 56 assessments at 0.1851 assessments/second including startup/drain. Zero errors or unobserved cases; p50 4.1s, p95 7.1s, p99 7.2s. There were 34 precedent approvals, 20 exceptional cases routed to review, and two nominal cases conservatively left for review. No exception was approved. The temporary test precedent was disabled afterwards. Mean RSS growth between the 60–120s and final-minute windows was 0.017% API and 0.102% worker; Ollama RSS decreased. Queue depth peaked at two, age at 8.19s, minimum free RAM 3.88 GiB, sampled GPU memory 3301 MiB. The monitor covered 297 seconds because of five-second sampling; actual supervisor runtime was 302.5 seconds for the 300-second Locust workload. The evaluator now distinguishes runtime from resource sampling coverage, with a regression check for that boundary.
 
 Final review added a 64-job queue cap serialized by a shared Redis admission lock. Full queues leave desk cases visible for human review without an automated decision; the legacy endpoint returns 503. Concurrent-admission and safe-overload tests passed. Final regression count: 76 passing tests. Images are being rebuilt before final handover. The 90% checkpoint was pushed as ee1661b.
+
+## 100% checkpoint — revised demonstration scope complete
+
+The user-requested five-minute stability run replaces the originally planned 30-minute requirement; longer soak profiles remain optional and unverified. Final images rebuilt successfully with the bounded queue helper. All eight services run, API/worker/database/Redis health checks pass, API readiness is ready, all four Prometheus targets are up, Grafana is provisioned and Jaeger receives traces. Final real-model/PostgreSQL acceptance repeated hospital isolation, idempotency and concurrent review (exactly 200/409), automatic semantic approval/rejection, mitigating circumstances, revocation and human override. The live Redis capacity probe added no job and released its lock. Test-created precedents were disabled. No load generator remains active; the app is left running with one worker.
+
+Final evidence: final-deployment-2026-11-17.json, queue-capacity-live.json, workflow-api.json, precedent-flow.json, monitoring-smoke.json and the five-minute soak artifacts. Performance and caveats are in INTERNAL_TOOL_PERFORMANCE.md; operation and restart instructions are in INTERNAL_TOOL_DEMO.md and RUNBOOK.md. Regression: 76 passed. GitHub checkpoints ee1661b (90%) and 4db9723 (95%) were pushed; final handover follows on the same authorized branch.
+
+100% means the agreed synthetic internal-tool scope is implemented and verified under the revised test duration. It does not mean production or clinical readiness: five minutes does not establish long-duration stability, model prose remains imperfect, semantic fixtures are tiny with 50% positive recall, p99 samples are small, and three-worker error SLO failed. One worker is the measured local recommendation. The earlier stub scaling result is not a real-model capacity claim. Pre-existing script permission changes remain untouched and unstaged.

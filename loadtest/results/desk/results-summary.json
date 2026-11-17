@@ -84,6 +84,20 @@
     "p99_s": 25.0
   },
   {
+    "stage": "2026-11-17-workers3/workers3-users4",
+    "observations": 52,
+    "failures": 1,
+    "unobserved": 0,
+    "status": "failed exit",
+    "slo_met_on_observed_samples": false,
+    "api_errors": 0,
+    "maximum_api_endpoint_p95_ms": 72.0,
+    "maximum_api_endpoint_p99_ms": 74.0,
+    "p50_s": 4.1,
+    "p95_s": 11.0,
+    "p99_s": 12.0
+  },
+  {
     "stage": "cache0/workers1-users1",
     "observations": 15,
     "failures": 0,
@@ -236,6 +250,20 @@
     "p50_s": 3.1,
     "p95_s": 5.1,
     "p99_s": 5.1
+  },
+  {
+    "stage": "2026-11-17-workers3/workers3-recovery",
+    "observations": 4,
+    "failures": 0,
+    "unobserved": 0,
+    "status": "completed",
+    "slo_met_on_observed_samples": true,
+    "api_errors": 0,
+    "maximum_api_endpoint_p95_ms": 77.0,
+    "maximum_api_endpoint_p99_ms": 77.0,
+    "p50_s": 4.1,
+    "p95_s": 4.1,
+    "p99_s": 4.1
   },
   {
     "stage": "nommap/workers1-recovery",

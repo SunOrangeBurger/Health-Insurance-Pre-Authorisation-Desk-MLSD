@@ -27,16 +27,15 @@
   "p99_panel_present": true,
   "jaeger_services": [
     "preauth-api",
-    "preauth-worker",
-    "jaeger-all-in-one"
+    "preauth-worker"
   ],
-  "worker_trace_id": "e4457065ee33ad8e8163ef458540ee65",
+  "worker_trace_id": "f7818aa63d8fa8923d66ff3ae1440d9a",
   "worker_observations": [
     {
       "metric": {},
       "value": [
-        1794754762.182,
-        "3"
+        1794891438.514,
+        "6"
       ]
     }
   ],

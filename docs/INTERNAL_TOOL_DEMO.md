@@ -26,7 +26,7 @@ From project PowerShell, start the WSL-bound model service first (exit an existi
 ./scripts/compose_wsl.ps1 ps
 ```
 
-The policy index and monitoring stack have been verified, as have three-worker readiness, the shared inference mutex and worker recovery. Sustained capacity, scaling comparison and soak acceptance remain incomplete; see BENCHMARK_LOCAL.md. Avoid `down -v` unless intentionally deleting demo data.
+The policy index and monitoring stack have been verified, as have three-worker readiness, the shared inference mutex and worker recovery. Load/stress/recovery and the worker comparison are complete; the user-adjusted five-minute stability check passed. Use one worker: the three-worker error target failed. See INTERNAL_TOOL_PERFORMANCE.md for measured limits and the unverified longer-soak boundary. Avoid `down -v` unless intentionally deleting demo data.
 
 ## Repeat acceptance
 

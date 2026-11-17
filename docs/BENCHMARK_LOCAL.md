@@ -1,8 +1,12 @@
 # Local benchmark status
 
-## Resumed testing — 2026-11-17
+## Final status — 2026-11-17
 
-Verified completion remains **85%**. Qwen3 4B with disabled host prompt cache remains stable near 720 MB runner RSS. The first resumed two-user attempt stopped after 57 seconds on the host RAM guard. A subsequent retry with valid benchmark credentials completed 20 assessments with zero observed failures, p50 4.1 seconds and p95/p99 7.2 seconds, but stopped after 123 seconds when available RAM fell to about 1.15 GiB. One accepted assessment was unobserved by the stopped client. Recovery was refused below the reserve. Browser processes accounted for several GB at inspection; user applications were left running.
+**100% of the user-adjusted demonstration scope is complete.** The user shortened the required soak to five minutes. That test passed with 56 assessments, zero errors or unobserved cases, p50 4.1s/p95 7.1s/p99 7.2s, 34 automatic approvals and all 20 exceptional cases sent to review. The nominal eight-user stage passed at about 0.310 assessments/second; 16 users saturated the p95 target. Three workers failed the error target (one degraded observation out of 52) without increasing throughput. One worker remains deployed. See INTERNAL_TOOL_PERFORMANCE.md for the full report and raw evidence. Longer soak reliability is unverified.
+
+## Earlier resumed attempts — 2026-11-17
+
+At this earlier point, verified completion remained **85%**. Qwen3 4B with disabled host prompt cache remains stable near 720 MB runner RSS. The first resumed two-user attempt stopped after 57 seconds on the host RAM guard. A subsequent retry with valid benchmark credentials completed 20 assessments with zero observed failures, p50 4.1 seconds and p95/p99 7.2 seconds, but stopped after 123 seconds when available RAM fell to about 1.15 GiB. One accepted assessment was unobserved by the stopped client. Recovery was refused below the reserve. Browser processes accounted for several GB at inspection; user applications were left running.
 
 The intermediate `2026-11-17-retry` directory is an invalid attempt: the new shell lacked `DESK_HOSPITAL_PASSWORD`, so virtual users could not start. It was interrupted and must not be used for capacity claims. A new CLI preflight rejects that missing configuration before starting load.
 

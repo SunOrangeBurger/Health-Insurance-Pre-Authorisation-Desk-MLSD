@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "capacity_probe_rejected": true,
+  "queue_depth_before": 0,
+  "queue_depth_after": 0,
+  "admission_lock_released": true,
+  "probe_limit": 0,
+  "configured_default_capacity": 64,
+  "probe_method": "Zero-limit rejection exercises the deployed Redis admission lock without inserting synthetic jobs; default 64-job threshold and concurrent admission covered by regression tests."
+}

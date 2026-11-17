@@ -46,5 +46,3 @@ async def test_capacity_failure_stays_visible_for_human_review(client, monkeypat
     assert case['status'] == 'awaiting_review' and case['processing_status'] == 'failed'
     assert not case['reusable_eligible']
     assert 'capacity reached' in case['recommendation']['route_reason']
-
-

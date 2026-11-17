@@ -37,7 +37,7 @@ Client (REST / Web)
 
 ## Internal tool preview
 
-The hospital/reviewer workspace has reached its verified 85% checkpoint. See [local demo and accounts](docs/INTERNAL_TOOL_DEMO.md) and [progress/evidence](docs/INTERNAL_TOOL_PROGRESS.md). The WSL deployment now uses a restored policy index and local Ollama recommendations. Guarded precedent automation and monitoring are verified; multiworker readiness/recovery is verified; capacity testing is paused by the RAM reserve guard. See [benchmark status](docs/BENCHMARK_LOCAL.md).
+The hospital/reviewer workspace is complete for the user-adjusted synthetic demonstration scope. See [local demo and accounts](docs/INTERNAL_TOOL_DEMO.md), [progress/evidence](docs/INTERNAL_TOOL_PROGRESS.md) and [measured performance and limitations](docs/INTERNAL_TOOL_PERFORMANCE.md). It uses Qwen3 4B through bounded local Ollama, human-authorized precedent automation, a capped queue and monitored WSL deployment. The requested five-minute stability check passed; longer soak reliability remains unverified. One worker is recommended locally: three workers failed the error target without improving throughput. This is a demonstration, not a clinically validated system.
 
 ## Quickstart
 

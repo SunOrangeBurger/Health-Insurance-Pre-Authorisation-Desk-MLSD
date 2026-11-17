@@ -1,0 +1,52 @@
+{
+  "passed": true,
+  "ready": {
+    "status": "ready"
+  },
+  "image_id": "sha256:e1d0df39c38284b521d5e30996fa682786a8be61f74f967ca28caaf3061e1dcf",
+  "containers": [
+    {
+      "name": "mlsd-mini-project-api-1",
+      "state": "running",
+      "health": "healthy"
+    },
+    {
+      "name": "mlsd-mini-project-grafana-1",
+      "state": "running",
+      "health": ""
+    },
+    {
+      "name": "mlsd-mini-project-jaeger-1",
+      "state": "running",
+      "health": ""
+    },
+    {
+      "name": "mlsd-mini-project-postgres-1",
+      "state": "running",
+      "health": "healthy"
+    },
+    {
+      "name": "mlsd-mini-project-prometheus-1",
+      "state": "running",
+      "health": ""
+    },
+    {
+      "name": "mlsd-mini-project-redis-1",
+      "state": "running",
+      "health": "healthy"
+    },
+    {
+      "name": "mlsd-mini-project-redis-exporter-1",
+      "state": "running",
+      "health": ""
+    },
+    {
+      "name": "mlsd-mini-project-worker-1",
+      "state": "running",
+      "health": "healthy"
+    }
+  ],
+  "regression_passed": 76,
+  "queue_capacity": 64,
+  "deployment": "Ubuntu WSL Docker Engine; bounded Windows Ollama; one worker"
+}

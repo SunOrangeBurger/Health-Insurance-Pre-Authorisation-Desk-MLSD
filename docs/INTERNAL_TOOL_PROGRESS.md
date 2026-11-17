@@ -136,3 +136,7 @@ Final evidence: final-deployment-2026-11-17.json, queue-capacity-live.json, work
 ## Demo login shortcuts
 
 Added one-click Hospital Staff and Claims Reviewer (Insurer) buttons using the public synthetic accounts through the existing login endpoint. Rebuilt API/worker images and verified both authenticated roles in Edge, sign-out, no JavaScript errors and 390px mobile layout. Evidence: demo-login.json and desktop/mobile screenshots.
+
+## Sample claim autofill
+
+Added Fill sample claim on the hospital request form with valid synthetic cataract details, relative dates and a fresh request ID. Added policy-number format guidance and browser validation. Rebuilt the deployment; Edge verified valid fields, invalid-policy rejection, no automatic submission and HTTP 202 acceptance of the sample claim. Evidence: sample-claim.json and sample-claim.png.

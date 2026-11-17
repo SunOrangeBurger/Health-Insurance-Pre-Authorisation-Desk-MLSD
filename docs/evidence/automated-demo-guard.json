@@ -1,0 +1,95 @@
+{
+  "run_id": "9143018a06024ed8a5051639eb5684ce",
+  "purpose": "Synthetic automated demo; reviewer actions are simulated.",
+  "started_at": "2026-11-17T12:05:46.223580+05:30",
+  "interval_seconds": 5.0,
+  "stop_reason": "Host RAM below reserve for 30 seconds",
+  "finished_at": "2026-11-17T12:06:17.107236+05:30",
+  "counts": {
+    "submitted": 1,
+    "assessments": 1,
+    "processing:completed": 1,
+    "decision:simulated_reviewer:approved": 1
+  },
+  "case_ids": [
+    "5c8f177e-aad5-4b2d-af40-7468d1525d90"
+  ],
+  "temporary_precedents": [
+    "a09de93a-1cfd-4a42-ae8b-c60f7fb66d48"
+  ],
+  "cleanup_failed_precedents": [],
+  "verification_scope": "Partial live run stopped by RAM guard. Full mixed cycle pending sufficient memory.",
+  "temporary_precedents_verified_disabled": true,
+  "prometheus_decision_series": [
+    {
+      "metric": {
+        "outcome": "approved",
+        "source": "human"
+      },
+      "value": [
+        1794897624.26,
+        "1"
+      ]
+    },
+    {
+      "metric": {
+        "outcome": "rejected",
+        "source": "human"
+      },
+      "value": [
+        1794897624.26,
+        "0"
+      ]
+    },
+    {
+      "metric": {
+        "outcome": "information_requested",
+        "source": "human"
+      },
+      "value": [
+        1794897624.26,
+        "0"
+      ]
+    },
+    {
+      "metric": {
+        "outcome": "approved",
+        "source": "precedent"
+      },
+      "value": [
+        1794897624.26,
+        "0"
+      ]
+    },
+    {
+      "metric": {
+        "outcome": "approved",
+        "source": "human_override"
+      },
+      "value": [
+        1794897624.26,
+        "0"
+      ]
+    },
+    {
+      "metric": {
+        "outcome": "rejected",
+        "source": "precedent"
+      },
+      "value": [
+        1794897624.26,
+        "0"
+      ]
+    },
+    {
+      "metric": {
+        "outcome": "rejected",
+        "source": "human_override"
+      },
+      "value": [
+        1794897624.26,
+        "0"
+      ]
+    }
+  ]
+}

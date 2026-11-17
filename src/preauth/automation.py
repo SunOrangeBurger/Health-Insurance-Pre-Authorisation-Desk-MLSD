@@ -41,3 +41,4 @@ async def apply_precedent(session, run_id, request, evidence, embedder):
     # The worker commits the automatic outcome with the terminal run result.
     # A crash cannot publish a final case decision without its assessment.
     await session.flush()
+    return match.outcome

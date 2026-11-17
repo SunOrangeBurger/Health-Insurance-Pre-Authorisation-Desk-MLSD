@@ -1,5 +1,7 @@
 # Stop this project's services without deleting data or stopping shared Docker/WSL.
 $ErrorActionPreference = 'Stop'
+& "$PSScriptRoot/stop_traffic_demo.ps1"
+if ($LASTEXITCODE -ne 0) { throw 'Automated demo did not stop cleanly.' }
 & "$PSScriptRoot/compose_wsl.ps1" --profile observability stop
 if ($LASTEXITCODE -ne 0) { throw 'Could not stop project containers.' }
 $statePath = Join-Path $env:TEMP 'policy-desk-ollama-state.json'

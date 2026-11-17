@@ -75,3 +75,7 @@ From project PowerShell, run:
 This stops project containers and the verified launcher-owned Ollama server, preserving data. Then close the Ubuntu tab. Shared Docker/WSL infrastructure is not forcibly shut down. Do not use `down -v` unless you intend to delete the demo database/index volumes.
 
 The full technical reference is in `output/pdf/Policy_Desk_Technical_Document.pdf`.
+
+## Automated presentation traffic
+
+After starting the app, run `./scripts/start_traffic_demo.ps1` to generate a paced 15-minute sequence of synthetic claims and simulated reviewer actions while you watch Grafana. Stop traffic with `./scripts/stop_traffic_demo.ps1`. See AUTOMATED_DEMO.md for scenarios, metrics, limits and cleanup. The full stop_desk.ps1 helper stops this traffic before backend services.

@@ -16,7 +16,7 @@ from preauth.store.models import Case, CaseEvent, Run, RunOwner, User, Precedent
 from preauth.api.rate_limit import consume_token
 from preauth.precedents import eligible, material_facts, description
 from preauth.guardrails.detectors import inspect_request
-from preauth.obs.metrics import SUBMISSIONS
+from preauth.obs.metrics import SUBMISSIONS, CASE_DECISIONS
 from preauth.queue import enqueue_bounded, QueueCapacityExceeded
 
 router = APIRouter(prefix="/v1/cases", tags=["cases"])
@@ -187,20 +187,25 @@ async def decide(case_id: str, payload: ReviewDecision, user: User = Depends(cur
     run = await session.get(Run, case.run_id)
     if case.revision != payload.revision or case_status(case, run) != "awaiting_review":
         raise HTTPException(409, "Case changed or is not awaiting review")
+    precedent_id = None
     if payload.reusable:
         evidence = run.result or {}
         expected = {"approve": "approved", "reject": "rejected"}.get(evidence.get("ai_assessment", {}).get("recommendation"))
         if not eligible(run.request_payload, evidence) or payload.outcome != expected:
             raise HTTPException(409, "This decision has exceptions or conflicts and must remain one-off")
-        session.add(Precedent(id=str(uuid4()), case_id=case.id, revision=case.revision,
+        precedent_id = str(uuid4())
+        session.add(Precedent(id=precedent_id, case_id=case.id, revision=case.revision,
                               policy_version=case.policy_version, outcome=payload.outcome,
                               reason=payload.reason, facts=material_facts(run.request_payload, evidence),
                               description=description(run.request_payload), active=True))
     case.status = payload.outcome
     case.decision = {**payload.model_dump(), "source": "human", "reviewer_id": user.id}
+    if precedent_id:
+        case.decision["precedent_id"] = precedent_id
     session.add(CaseEvent(id=str(uuid4()), case_id=case.id, revision=case.revision,
                           actor=user.id, kind="reviewed", payload=case.decision))
     await session.commit()
+    CASE_DECISIONS.labels(outcome=payload.outcome, source="human").inc()
     return await detail(case, session)
 
 
@@ -222,4 +227,5 @@ async def override(case_id: str, payload: ReviewDecision, user: User = Depends(c
     session.add(CaseEvent(id=str(uuid4()), case_id=case.id, revision=case.revision, actor=user.id,
                           kind="automatic_decision_overridden", payload={"previous": old, "decision": case.decision}))
     await session.commit()
+    CASE_DECISIONS.labels(outcome=payload.outcome, source="human_override").inc()
     return await detail(case, session)

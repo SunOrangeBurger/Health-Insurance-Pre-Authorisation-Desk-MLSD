@@ -1,0 +1,110 @@
+{
+  "run_id": "7312f3e4846649e3a969830b047d617f",
+  "purpose": "Synthetic automated demo; reviewer actions are simulated.",
+  "started_at": "2026-11-17T12:09:41.929280+05:30",
+  "interval_seconds": 5.0,
+  "stop_reason": "Requested case limit reached",
+  "finished_at": "2026-11-17T12:11:36.194187+05:30",
+  "counts": {
+    "submitted": 10,
+    "assessments": 11,
+    "processing:completed": 7,
+    "decision:simulated_reviewer:approved": 3,
+    "processing:escalated": 4,
+    "decision:simulated_reviewer:rejected": 1,
+    "decision:precedent:approved": 3,
+    "decision:precedent:rejected": 1,
+    "decision:simulated_reviewer:information_requested": 3,
+    "resubmitted": 1
+  },
+  "case_ids": [
+    "558c30b3-0672-4f16-9dd4-34996144bff2",
+    "73eafa02-2eec-473b-b8ab-8b21c2b77eee",
+    "d3f1f79f-30df-4ec3-9085-6cb9a2fc34fb",
+    "9bf2ab10-9dbb-4c23-8e0a-8fbbe5fd1da1",
+    "e16fe854-1702-455c-8551-2343f2520d68",
+    "9e68a021-7dd0-4e28-9eaa-73df364e81ca",
+    "d3d2aee6-5114-4080-b80b-282fdee13743",
+    "e66fea7e-2df8-4ca3-876e-0d748dcffc5c",
+    "8e203463-dba6-4ad2-bdae-ea9154e4358a",
+    "f594bb2e-40c2-4088-8ce7-45d330a23a25"
+  ],
+  "temporary_precedents": [
+    "44159817-315d-4a11-8b93-de7d17e8d725",
+    "66ee6df2-2dd6-4ff1-b18d-35d41b5c84fb"
+  ],
+  "cleanup_failed_precedents": [],
+  "verification_scope": "Complete real Ollama and API cycle: approval/rejection reuse, mitigating case, clarification/resubmit, injection, unsupported procedure, changed cost and cleanup.",
+  "prometheus_decision_series": [
+    {
+      "metric": {
+        "outcome": "approved",
+        "source": "human"
+      },
+      "value": [
+        1794897817.608,
+        "4"
+      ]
+    },
+    {
+      "metric": {
+        "outcome": "rejected",
+        "source": "human"
+      },
+      "value": [
+        1794897817.608,
+        "1"
+      ]
+    },
+    {
+      "metric": {
+        "outcome": "information_requested",
+        "source": "human"
+      },
+      "value": [
+        1794897817.608,
+        "3"
+      ]
+    },
+    {
+      "metric": {
+        "outcome": "approved",
+        "source": "precedent"
+      },
+      "value": [
+        1794897817.608,
+        "3"
+      ]
+    },
+    {
+      "metric": {
+        "outcome": "approved",
+        "source": "human_override"
+      },
+      "value": [
+        1794897817.608,
+        "0"
+      ]
+    },
+    {
+      "metric": {
+        "outcome": "rejected",
+        "source": "precedent"
+      },
+      "value": [
+        1794897817.608,
+        "1"
+      ]
+    },
+    {
+      "metric": {
+        "outcome": "rejected",
+        "source": "human_override"
+      },
+      "value": [
+        1794897817.608,
+        "0"
+      ]
+    }
+  ]
+}

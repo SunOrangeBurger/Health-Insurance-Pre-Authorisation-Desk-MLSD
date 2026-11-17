@@ -12,4 +12,7 @@ WORKER_UP = Gauge("preauth_worker_up", "Worker process is running")
 COST_USD = Counter("llm_notional_cost_usd_total", "Configured notional LLM cost", ["provider", "step"])
 FEEDBACK = Counter("preauth_feedback_total", "Run feedback", ["satisfactory"])
 SUBMISSIONS = Counter("preauth_submissions_total", "Accepted pre-authorisation submissions")
+CASE_DECISIONS = Counter("preauth_case_decisions_total", "Committed case decisions (process counters, not a durable ledger)", ["outcome", "source"])
+for _outcome, _source in [(o, "human") for o in ("approved", "rejected", "information_requested")] + [(o, s) for o in ("approved", "rejected") for s in ("precedent", "human_override")]:
+    CASE_DECISIONS.labels(outcome=_outcome, source=_source)
 

@@ -33,6 +33,7 @@ from preauth.api.schemas import (
     SubmissionResponse,
 )
 from preauth.config import get_settings
+from preauth.queue import enqueue_bounded
 from preauth.guardrails.detectors import inspect_request
 from preauth.obs.logging import configure_logging, get_logger
 from preauth.obs.metrics import FEEDBACK, GUARDRAIL_HITS, RATE_LIMITED, SUBMISSIONS
@@ -206,12 +207,7 @@ async def submit_preauth(
         request_payload=stored_payload,
     )
     try:
-        await request.app.state.redis.enqueue_job(
-            "process_preauth",
-            run_id,
-            correlation_id,
-            _job_id=run_id,
-        )
+        await enqueue_bounded(request.app.state.redis, run_id, correlation_id)
     except Exception as exc:
         await update_run(session, run_id, status="failed", error_message="queue unavailable")
         logger.exception("enqueue_failed", run_id=run_id)

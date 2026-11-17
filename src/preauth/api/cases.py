@@ -12,11 +12,12 @@ from sqlalchemy.exc import IntegrityError
 from preauth.api.auth import current_user, hospital_user
 from preauth.api.schemas import PreauthRequest
 from preauth.store.database import get_session
-from preauth.store.models import Case, CaseEvent, Run, RunOwner, User, Precedent, SubmissionKey
+from preauth.store.models import Case, CaseEvent, Run, RunOwner, User, Precedent, SubmissionKey, utc_now
 from preauth.api.rate_limit import consume_token
 from preauth.precedents import eligible, material_facts, description
 from preauth.guardrails.detectors import inspect_request
 from preauth.obs.metrics import SUBMISSIONS
+from preauth.queue import enqueue_bounded, QueueCapacityExceeded
 
 router = APIRouter(prefix="/v1/cases", tags=["cases"])
 
@@ -116,10 +117,13 @@ def make_run(payload, request, user, session):
 
 async def enqueue(run, request, session):
     try:
-        await request.app.state.redis.enqueue_job("process_preauth", run.id, run.correlation_id, _job_id=run.id)
-    except Exception:
+        await enqueue_bounded(request.app.state.redis, run.id, run.correlation_id)
+    except Exception as exc:
         run.status = "failed"
-        run.error_message = "queue unavailable"
+        run.error_message = "Processing capacity reached; human review is required" if isinstance(exc, QueueCapacityExceeded) else "queue unavailable"
+        run.completed_at = utc_now()
+        run.result = {"route": "medical-review", "route_reason": run.error_message,
+                      "coverage_position": "not_assessed", "citations": [], "verification": {"passed": False}}
         await session.commit()
         # Keep the case visible to the hospital and reviewer instead of losing it.
 

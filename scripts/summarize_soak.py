@@ -31,7 +31,11 @@ def evaluate(result):
     failures = int(assessment.get('Failure Count', 0))
     api = [r for r in result.get('stats', []) if r.get('Type') not in {'', 'E2E'} and r.get('Name') != 'login']
     checks = {
-        'full_requested_duration': duration in {300, 1800, 7200} and end-start >= duration,
+        # The monitor samples every five seconds and may stop before its next
+        # sample when Locust exits. Use elapsed runtime for duration, retaining
+        # the resource-coverage gap explicitly instead of demanding a sample
+        # exactly at the end boundary.
+        'full_requested_duration': duration in {300, 1800, 7200} and result.get('elapsed_seconds', 0) >= duration and end-start >= duration-10,
         'clean_exit': result.get('exit_code') == 0 and not result.get('guard_stop'),
         'all_assessments_observed': result.get('unobserved_assessments', 1) == 0 and count > 0,
         'assessment_errors_below_one_percent': count > 0 and failures/count < .01,

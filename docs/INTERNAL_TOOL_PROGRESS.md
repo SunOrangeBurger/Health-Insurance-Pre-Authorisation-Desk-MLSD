@@ -2,7 +2,7 @@
 
 Updated: 2026-11-17 (Asia/Calcutta)
 
-**Verified completion: 90%.** This measures the new scope independently of the original project.
+**Verified completion: 95%.** This measures the new scope independently of the original project.
 
 | Checkpoint | Weight | Status | Evidence |
 |---|---:|---|---|
@@ -15,7 +15,7 @@ Updated: 2026-11-17 (Asia/Calcutta)
 | Deployment and telemetry smoke | 5% | Complete | Eight running services; four healthy scrape targets; provisioned Grafana and Jaeger traces |
 | Multiworker deployment validation | 5% | Complete | Three replica scrape histories, real Redis mutex check, restart/readiness and persisted-case recovery |
 | Load, stress and worker comparison | 5% | Complete | Completed stages, saturation/recovery and measured three-worker limitation |
-| User-adjusted five-minute stability test | 5% | In progress | Mixed workload running at 60% measured rate; long profiles optional |
+| User-adjusted five-minute stability test | 5% | Complete | 56 observations; zero errors/missing cases; automatic and exception outcomes; stable memory |
 | Final report and handover | 5% | In progress | Reports/runbook being finalized; GitHub checkpoint pending |
 
 ## 40% checkpoint evidence
@@ -118,3 +118,9 @@ Fixed Windows-to-WSL path translation and PowerShell argument forwarding in the 
 One-worker stages at 2/4/8 users passed the declared latency and error checks. The 16-user stress stage completed 71 assessments without errors but exceeded the p95 target (47 seconds), establishing saturation. Recovery returned p95 to 5.1 seconds with no missing observations. Under the matched four-user workload, three workers produced 52 observations with one degraded failure (1.9%) and 0.279 assessments/second versus 0.291 with one worker; it failed the error target. This comparison is evidence of a limitation, not a scaling success. Three-worker recovery passed and the deployment was returned to one worker.
 
 Raw evidence: loadtest/results/desk/2026-11-17-freed and 2026-11-17-workers3. Exact case-ID phase reports separate queue, retrieval and inference times. A five-minute mixed stability test is now running at 0.1859 assessments/second, approximately 60% of the passing eight-user measured rate. It includes a temporary synthetic human-approved precedent, which will be disabled after testing. Handover remains pending.
+
+## 95% checkpoint — five-minute stability acceptance
+
+The user-adjusted five-minute run completed 56 assessments at 0.1851 assessments/second including startup/drain. Zero errors or unobserved cases; p50 4.1s, p95 7.1s, p99 7.2s. There were 34 precedent approvals, 20 exceptional cases routed to review, and two nominal cases conservatively left for review. No exception was approved. The temporary test precedent was disabled afterwards. Mean RSS growth between the 60–120s and final-minute windows was 0.017% API and 0.102% worker; Ollama RSS decreased. Queue depth peaked at two, age at 8.19s, minimum free RAM 3.88 GiB, sampled GPU memory 3301 MiB. The monitor covered 297 seconds because of five-second sampling; actual supervisor runtime was 302.5 seconds for the 300-second Locust workload. The evaluator now distinguishes runtime from resource sampling coverage, with a regression check for that boundary.
+
+Final review added a 64-job queue cap serialized by a shared Redis admission lock. Full queues leave desk cases visible for human review without an automated decision; the legacy endpoint returns 503. Concurrent-admission and safe-overload tests passed. Final regression count: 76 passing tests. Images are being rebuilt before final handover. The 90% checkpoint was pushed as ee1661b.

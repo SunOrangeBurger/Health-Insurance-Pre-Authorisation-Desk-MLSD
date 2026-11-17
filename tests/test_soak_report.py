@@ -42,3 +42,13 @@ def test_user_requested_five_minute_profile_has_comparable_windows():
     assert report['passed']
     assert report['requested_seconds'] == 300
     assert '60–120' in report['memory_windows']
+
+
+def test_normal_five_second_sampling_gap_does_not_shorten_runtime():
+    result = sample_result()
+    result['duration_seconds'] = 300
+    result['elapsed_seconds'] = 302
+    result['samples'] = result['samples'][:60]
+    assert module.evaluate(result)['checks']['full_requested_duration']
+    result['elapsed_seconds'] = 290
+    assert not module.evaluate(result)['checks']['full_requested_duration']

@@ -1,5 +1,5 @@
 {
-  "passed": 73,
+  "passed": 76,
   "failed": 0,
   "warning": "PendingDeprecationWarning: python_multipart import in installed Starlette",
   "test_files": [
@@ -14,7 +14,8 @@
     "test_soak_report",
     "test_reliability",
     "test_validation",
-    "test_guardrails"
+    "test_guardrails",
+    "test_queue_capacity"
   ],
   "environment": "Windows local .venv; SQLite unit/integration fixtures; real model measured separately"
 }

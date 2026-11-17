@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     api_port: int = 8000
     worker_concurrency: int = Field(default=5, ge=1)
     worker_metrics_port: int = 8001
+    queue_capacity: int = Field(default=64, ge=1, le=1000)
     database_url: str = "postgresql+asyncpg://postgres:postgres@postgres:5432/preauth_db"
     redis_url: str = "redis://redis:6379/0"
     llm_provider: str = "stub"

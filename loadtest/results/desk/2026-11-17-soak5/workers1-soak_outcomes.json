@@ -1,0 +1,9 @@
+{
+  "out_of_corpus:awaiting_review:escalated": 7,
+  "decision_source:pending_review": 22,
+  "nominal:approved:completed": 34,
+  "decision_source:precedent": 34,
+  "waiting_period:awaiting_review:escalated": 9,
+  "nominal:awaiting_review:completed": 2,
+  "injection:awaiting_review:escalated": 4
+}

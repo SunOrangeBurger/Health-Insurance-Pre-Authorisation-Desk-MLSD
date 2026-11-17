@@ -18,6 +18,13 @@ from preauth.store.models import LoginSession, RunOwner, User
 
 
 class FakeRedis:
+    def lock(self, *args, **kwargs):
+        from contextlib import nullcontext
+        return nullcontext()
+
+    async def zcard(self, *args):
+        return 0
+
     async def eval(self, *args):
         return [1, "4"]
 

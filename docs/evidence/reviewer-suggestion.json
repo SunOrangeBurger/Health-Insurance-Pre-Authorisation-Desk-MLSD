@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "checks": [
+    "AI summary shown; accept suggestion records one-off human approved",
+    "AI summary shown; accept suggestion records one-off human rejected",
+    "Input-guardrail case has no accept-suggestion action"
+  ],
+  "javascript_errors": [],
+  "cases": [
+    {
+      "id": "b34b666e-0b2e-4f69-9775-57521a274a95",
+      "expected": "approved",
+      "summary": "44-year-old female patient, day-care admission for age-related cataract phacoemulsification with intraocular lens implantation (procedure code SYN-001), estimated cost INR 78,061. No prior conditions declared."
+    },
+    {
+      "id": "94931620-070d-45b8-a50f-c9f24410cf58",
+      "expected": "rejected",
+      "summary": "44-year-old female patient, age-related cataract, day-care phacoemulsification with intraocular lens implantation at SYN-HOSP-001 on 2026-11-24, estimated cost INR 78,066. No prior conditions declared."
+    },
+    {
+      "id": "6fe64229-0e35-4c64-b267-2b17b283b6cd",
+      "expected": null,
+      "summary": null
+    }
+  ]
+}

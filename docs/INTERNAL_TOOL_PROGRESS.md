@@ -140,3 +140,11 @@ Added one-click Hospital Staff and Claims Reviewer (Insurer) buttons using the p
 ## Sample claim autofill
 
 Added Fill sample claim on the hospital request form with valid synthetic cataract details, relative dates and a fresh request ID. Added policy-number format guidance and browser validation. Rebuilt the deployment; Edge verified valid fields, invalid-policy rejection, no automatic submission and HTTP 202 acceptance of the sample claim. Evidence: sample-claim.json and sample-claim.png.
+
+## Reviewer AI summary and human acceptance
+
+Added claims-reviewer/v2 with required factual case_summary, INR currency normalization and a reviewer summary panel. Accept AI suggestion records the suggested approve/reject outcome and verified policy reason through the existing human decision endpoint, respecting the current reuse choice. It is hidden for nonreviewers, final/failed/degraded cases, needs-information or flagged/unverified assessments. Real Ollama/Edge acceptance passed approval, rejection and injection suppression. Targeted regression suite: 77 passed. Existing performance figures were measured with v1 and have not been re-established for the longer v2 prompt.
+
+## Extensive technical documentation
+
+Created the 35-page technical PDF with an editable manuscript and reproducible ReportLab builder. It includes architecture/workflow diagrams, API/data/security references, AI/precedent gates, operator commands, measured load/stress/short-stability results, source/evidence register and reviewer-summary/v2 behavior. All pages were rendered and visually reviewed; text-bound and placeholder checks passed. Performance is explicitly attributed to v1; v2 currently has functional acceptance only. QA metadata records the PDF SHA-256.

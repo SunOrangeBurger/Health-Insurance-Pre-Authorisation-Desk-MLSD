@@ -8,6 +8,7 @@ from preauth.api.schemas import LLMRequest
 
 
 class Assessment(BaseModel):
+    case_summary: str = Field(min_length=10, max_length=700, description="Two short factual sentences summarizing the submitted patient, procedure, requested amount and declared circumstances. No policy interpretation or invented facts.")
     recommendation: Literal["approve", "reject", "needs_information"]
     rationale: str = Field(min_length=10, max_length=3000,
                            description="One brief sentence stating the policy reason; at most 60 words, no step-by-step reasoning")
@@ -17,7 +18,7 @@ class Assessment(BaseModel):
 
 async def assess(client, request, evidence):
     started = time.perf_counter()
-    prompt = Path("prompts/claims_reviewer_v1.txt").read_text(encoding="utf-8")
+    prompt = Path("prompts/claims_reviewer_v2.txt").read_text(encoding="utf-8")
     response = await client.complete(LLMRequest(
         messages=[{"role": "system", "content": prompt + "\nRequired output JSON schema:\n" + json.dumps(Assessment.model_json_schema()) + '\nReturn exactly one JSON object, no Markdown or commentary.'},
                   {"role": "user", "content": json.dumps({"request": request, "evidence": evidence})}],
@@ -44,13 +45,16 @@ async def assess(client, request, evidence):
     if result.exception_flags:
         result.recommendation = "needs_information"
     output = result.model_dump()
+    # The request contract denominates all costs in INR; correct generated
+    # currency notation without treating the narrative as verified policy evidence.
+    output["case_summary"] = output["case_summary"].replace("$", "INR ").replace("USD", "INR")
     # Generated explanations can misstate a clause even when the outcome is
     # correct. Preserve them for audit, but show the verified policy explanation.
     output["model_rationale"] = output["rationale"]
     output["rationale"] = evidence.get("route_reason") or "Policy evidence requires a human review."
     if "model_policy_conflict" in result.exception_flags:
         output["rationale"] += " The model recommendation conflicted with the verified policy position; human review is required."
-    return {**output, "prompt_version": "claims-reviewer/v1",
+    return {**output, "prompt_version": "claims-reviewer/v2",
             "model": getattr(getattr(client, "settings", None), "llm_model", "test-double"),
             "inference_seconds": round(time.perf_counter() - started, 4),
             "prompt_tokens": response.prompt_tokens, "completion_tokens": response.completion_tokens}

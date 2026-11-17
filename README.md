@@ -231,3 +231,9 @@ Operational recovery procedures are in [`docs/RUNBOOK.md`](docs/RUNBOOK.md). If 
 API is not ready, first inspect `docker compose ps`, the one-shot `indexer` logs and
 `GET /v1/index/status`; for provider failures, inspect the worker breaker metric and
 restore the normal `ops/stub.compose` profile.
+
+## Full technical reference
+
+The [35-page technical PDF](output/pdf/Policy_Desk_Technical_Document.pdf) covers architecture, APIs, persistence, security, AI safeguards, reviewer assistance, deployment and measured evaluation. The [editable manuscript](docs/TECHNICAL_DOCUMENT.md) and [ReportLab build script](scripts/build_technical_pdf.py) are included. The v2 reviewer summary has functional acceptance; the historical load/soak matrix used v1 and is labeled accordingly.
+
+For daily use on this Windows machine, see the [start/stop and demo walkthrough](docs/HOW_TO_RUN.md). Stop the stack and its managed model with `./scripts/stop_desk.ps1`.

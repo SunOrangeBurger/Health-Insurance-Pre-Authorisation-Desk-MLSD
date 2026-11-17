@@ -66,3 +66,5 @@ Reproduce the complete precedent acceptance by running verify_precedent_flow.py 
 The sign-in page includes **Hospital Staff** and **Claims Reviewer (Insurer)** demo buttons. Each signs in immediately using the public sample credentials above through the regular login endpoint; it does not bypass sessions, roles or CSRF. If you change the seeded passwords, use the normal sign-in form or update the demo shortcuts to match.
 
 On the hospital **New request** form, click **Fill sample claim** for valid synthetic cataract details. Dates are generated relative to today; the policy number is `SYN-POL-0001`. Filling does not submit the claim. Review the fields and click **Submit for assessment**.
+
+Newly assessed cases show an AI case summary to the reviewer. Check it against the submitted facts and policy citations. **Accept AI suggestion** records a human approval/rejection with the verified policy reason; the current reuse checkbox applies. Uncertain/flagged cases need a manual decision. Historical cases retain their original assessment and may have no generated summary.

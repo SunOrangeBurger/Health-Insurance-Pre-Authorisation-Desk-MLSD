@@ -1,0 +1,7 @@
+{
+  "passed": 77,
+  "failed": 0,
+  "prompt_version": "claims-reviewer/v2",
+  "browser_acceptance": "reviewer-suggestion.json",
+  "limitation": "Performance/soak matrix remains measured on v1."
+}

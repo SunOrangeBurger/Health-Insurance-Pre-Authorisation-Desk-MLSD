@@ -17,7 +17,7 @@ from preauth.agents.graph import PreauthAgentSystem
 from preauth.agents.models import AgentTraceEvent
 from preauth.rag.embeddings import MiniLMEmbedder
 from preauth.obs.logging import configure_logging, get_logger
-from preauth.obs.metrics import AGENT_RUNS, AGENT_STEPS, AGENT_TOOL_CALLS, COST_USD, WORKER_UP
+from preauth.obs.metrics import AGENT_RUNS, AGENT_STEPS, AGENT_TOOL_CALLS, COST_USD, WORKER_UP, CASE_DECISIONS
 from preauth.obs.tracing import configure_tracing, span
 from preauth.store.database import close_database, init_database, session_factory
 from preauth.store.repository import add_cost_entry, add_run_steps, get_run, update_run
@@ -171,8 +171,9 @@ async def process_preauth(ctx, run_id: str, correlation_id: str) -> None:
                 result = sanitize_output(result)
                 await add_run_steps(session, run_id, [event.model_dump(mode="json") for event in trace])
                 terminal = "degraded" if provider_degraded else ("escalated" if result["route"] == "medical-review" else "completed")
+                automatic_outcome = None
                 if not provider_degraded and settings.precedent_automation_enabled:
-                    await apply_precedent(session, run_id, agent_request, result, ctx["embedder"])
+                    automatic_outcome = await apply_precedent(session, run_id, agent_request, result, ctx["embedder"])
                 await update_run(
                     session,
                     run_id,
@@ -181,6 +182,8 @@ async def process_preauth(ctx, run_id: str, correlation_id: str) -> None:
                     prompt_versions=result.get("prompt_versions", {}),
                 )
                 RUNS.labels(status=terminal).inc()
+                if automatic_outcome:
+                    CASE_DECISIONS.labels(outcome=automatic_outcome, source="precedent").inc()
                 AGENT_RUNS.labels(outcome=terminal, route=result["route"]).inc()
                 AGENT_STEPS.observe(len(trace))
                 AGENT_TOOL_CALLS.observe(len([event for event in trace if event.kind == "tool_call"]))

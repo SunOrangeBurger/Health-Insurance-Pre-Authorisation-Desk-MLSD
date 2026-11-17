@@ -6,11 +6,69 @@
   "graphTooltip": 1,
   "panels": [
     {
+      "id": 101,
+      "type": "timeseries",
+      "title": "Case decisions per minute - reviewer vs precedent",
+      "description": "Human means reviewer-account API decisions. Automated demo reviewer actions are simulated and clearly marked in their case reasons. Process counters reset on restart.",
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 16,
+        "h": 9
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (outcome, source) (rate(preauth_case_decisions_total[2m])) * 60",
+          "legendFormat": "{{source}} / {{outcome}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0
+        }
+      }
+    },
+    {
+      "id": 102,
+      "type": "stat",
+      "title": "Decisions since service start",
+      "description": "In-memory process totals; not a durable case ledger. Includes manual and scripted demo activity.",
+      "gridPos": {
+        "x": 16,
+        "y": 0,
+        "w": 8,
+        "h": 9
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (outcome, source) (preauth_case_decisions_total)",
+          "legendFormat": "{{source}} / {{outcome}}",
+          "instant": true
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value_and_name",
+        "colorMode": "value",
+        "graphMode": "none",
+        "orientation": "horizontal"
+      }
+    },
+    {
       "type": "timeseries",
       "title": "Worker processing p50 / p95 / p99 (excludes queue)",
       "gridPos": {
         "x": 0,
-        "y": 0,
+        "y": 10,
         "w": 12,
         "h": 8
       },
@@ -35,7 +93,7 @@
       "title": "Run throughput by status",
       "gridPos": {
         "x": 12,
-        "y": 0,
+        "y": 10,
         "w": 12,
         "h": 8
       },
@@ -51,7 +109,7 @@
       "title": "Provider latency / retry rate",
       "gridPos": {
         "x": 0,
-        "y": 8,
+        "y": 18,
         "w": 12,
         "h": 8
       },
@@ -71,7 +129,7 @@
       "title": "Circuit breaker state",
       "gridPos": {
         "x": 12,
-        "y": 8,
+        "y": 18,
         "w": 6,
         "h": 4
       },
@@ -87,7 +145,7 @@
       "title": "Index chunks / age",
       "gridPos": {
         "x": 18,
-        "y": 8,
+        "y": 18,
         "w": 6,
         "h": 4
       },
@@ -107,7 +165,7 @@
       "title": "Agent outcomes and tool calls",
       "gridPos": {
         "x": 12,
-        "y": 12,
+        "y": 22,
         "w": 12,
         "h": 8
       },
@@ -127,7 +185,7 @@
       "title": "Notional cost",
       "gridPos": {
         "x": 0,
-        "y": 16,
+        "y": 26,
         "w": 12,
         "h": 8
       },
@@ -143,7 +201,7 @@
       "title": "Service process CPU / RSS",
       "gridPos": {
         "x": 12,
-        "y": 20,
+        "y": 30,
         "w": 12,
         "h": 8
       },
@@ -163,7 +221,7 @@
       "title": "Live intake / quarantine / guardrails",
       "gridPos": {
         "x": 0,
-        "y": 28,
+        "y": 38,
         "w": 12,
         "h": 8
       },
@@ -191,7 +249,7 @@
       "title": "Live feedback / retrieval cache",
       "gridPos": {
         "x": 12,
-        "y": 28,
+        "y": 38,
         "w": 12,
         "h": 8
       },
@@ -223,5 +281,5 @@
   "timezone": "browser",
   "title": "Pre-Authorisation Desk Overview",
   "uid": "preauth-overview",
-  "version": 1
+  "version": 2
 }

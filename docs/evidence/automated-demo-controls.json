@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "shell": "Windows PowerShell 5.1",
+  "start": "Hidden background launch passed",
+  "stop": "Cooperative stop, drain, cleanup and lock release passed",
+  "run_summary": {
+    "run_id": "51c2ad789fda42b5b4f70c905a467b80",
+    "purpose": "Synthetic automated demo; reviewer actions are simulated.",
+    "started_at": "2026-11-17T12:12:30.801171+05:30",
+    "interval_seconds": 5.0,
+    "stop_reason": "Stop requested or duration reached",
+    "finished_at": "2026-11-17T12:12:53.705326+05:30",
+    "counts": {
+      "submitted": 2,
+      "assessments": 2,
+      "processing:completed": 1,
+      "decision:simulated_reviewer:approved": 1,
+      "processing:escalated": 1,
+      "decision:simulated_reviewer:rejected": 1
+    },
+    "case_ids": [
+      "2e522a46-0992-4c84-823d-7e4ec204c5e1",
+      "9d174287-81c9-4eef-bc73-f451333e05ba"
+    ],
+    "temporary_precedents": [
+      "4f43bf2f-8886-4eb8-9f54-8bda7caadbe2",
+      "9853b2a3-f23e-45c2-b670-a897acd03781"
+    ],
+    "cleanup_failed_precedents": []
+  }
+}

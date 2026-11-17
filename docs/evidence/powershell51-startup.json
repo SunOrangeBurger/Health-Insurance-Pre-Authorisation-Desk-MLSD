@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "shell_version": "5.1.26100.9818",
+  "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/demo_desk.ps1 -SkipIngest",
+  "exit_code": 0,
+  "ready": {
+    "status": "ready"
+  },
+  "frontend_status": 200,
+  "fix": "Explicit string-array parameter binding for Compose helper; avoid ValueFromRemainingArguments array stringification."
+}

@@ -148,3 +148,15 @@ Added claims-reviewer/v2 with required factual case_summary, INR currency normal
 ## Extensive technical documentation
 
 Created the 35-page technical PDF with an editable manuscript and reproducible ReportLab builder. It includes architecture/workflow diagrams, API/data/security references, AI/precedent gates, operator commands, measured load/stress/short-stability results, source/evidence register and reviewer-summary/v2 behavior. All pages were rendered and visually reviewed; text-bound and placeholder checks passed. Performance is explicitly attributed to v1; v2 currently has functional acceptance only. QA metadata records the PDF SHA-256.
+
+## Windows PowerShell 5.1 startup fix
+
+The user reported a built image followed by an unknown Compose command. Replaced variadic array capture with an explicitly bound string-array parameter in demo_desk.ps1. Ran the complete -SkipIngest startup through Windows PowerShell 5.1 successfully, including credential forwarding and monitoring startup. API readiness and frontend HTTP checks passed. Evidence: powershell51-startup.json.
+
+## Automated presentation traffic and decision telemetry
+
+Added start_traffic_demo.ps1 / stop_traffic_demo.ps1 and a paced real-API/Ollama generator. It seeds approval/rejection precedents through explicitly simulated reviewer actions, replays equivalent cases, handles notes/cost exceptions, clarification/resubmission, injection and unsupported procedures. Only run-owned cases are reviewed; temporary precedents are disabled on supported shutdown. Shared-memory reserve and queue-pressure guards stop unsafe load; single-run locking prevents duplicate generators. The full stop helper stops traffic before backend services.
+
+Added committed decision counters by outcome/source and two provisioned Grafana workflow panels. Counters are process telemetry, not a durable ledger; simulated reviewer requests use the regular reviewer endpoint and label their reasons. New human reusable responses expose their created precedent ID for reliable scoped cleanup without listing unrelated entries.
+
+Verification: 88 targeted regression checks passed. Complete real-model cycle submitted 10 claims and assessed 11 revisions, with seven simulated reviewer decisions, three automatic approvals, one automatic rejection, one clarification/resubmission and no degraded/failed assessments. Cleanup disabled both temporary precedents. Windows PowerShell 5.1 background start/stop passed; Grafana rendered live decision data. The first live attempt stopped at the RAM reserve and cleaned up correctly; this failure is retained. Evidence: automated-demo-cycle.json, automated-demo-controls.json, automated-demo-guard.json, automated-demo-regression.json and automated-demo-dashboard.png. See AUTOMATED_DEMO.md for operation and limitations. This is presentation traffic, not a new capacity/soak benchmark.

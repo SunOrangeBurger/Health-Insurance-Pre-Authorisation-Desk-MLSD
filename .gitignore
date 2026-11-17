@@ -58,6 +58,7 @@ evals/results/*.json
 *.log
 scratch/
 tmp/
+.runtime/
 
 # OS and IDE files
 .DS_Store

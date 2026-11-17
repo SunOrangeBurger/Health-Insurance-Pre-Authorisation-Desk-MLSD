@@ -1,0 +1,11 @@
+{
+  "pages": 35,
+  "words": 9431,
+  "sha256": "0985700506b67ba802723d0f3339863866061f95f1300b4c9c8339d02f1b00c5",
+  "text_bounds_issues": [],
+  "rendered_pages": 35,
+  "source_revision": "997f31f",
+  "reviewer_prompt": "claims-reviewer/v2",
+  "note": "Historical performance matrix used v1; v2 functional acceptance is separate.",
+  "visual_review": "All 35 final pages rendered with Poppler and reviewed in contact sheets; no clipping, overlap or unresolved placeholders observed."
+}

@@ -2,6 +2,116 @@
 
 A production-style multi-agent health insurance pre-authorisation service built for ML System Design & AgentOps. The service accepts synthetic pre-authorisation requests over REST, validates them at the ingestion boundary, classifies the admission, and runs an asynchronous LangGraph agent system to retrieve binding policy provisions (cover clauses, specific waiting periods, exclusions, sub-limits, room-rent limits, and day-care lists) from retail health insurance policy wordings. It produces structured coverage recommendations with indicative limits and clause-level citations, always escalating to `medical-review` when provisions are absent, ambiguous, or unverified.
 
+## Run the demos on Windows
+
+Two demo modes are available: **Usage demo** (you submit and review cases) and **Load demo** (synthetic requests and simulated reviewer actions happen automatically while you watch the dashboards). Both use real local Ollama and the same application stack.
+
+### Start services for either demo
+
+Use Windows PowerShell 5.1 or PowerShell 7. The verified setup is Docker Engine inside Ubuntu WSL plus bounded Windows Ollama; Docker Desktop is unnecessary. The existing policy index, database and model downloads are reused.
+
+In **terminal tab 1**, open Ubuntu and leave it running:
+
+```powershell
+wsl -d Ubuntu
+```
+
+If the Docker engine is not running, run `sudo systemctl start docker` inside Ubuntu.
+
+In **terminal tab 2**, use PowerShell:
+
+```powershell
+Set-Location 'D:\Fedora-Recovery\Projects\mlsd-mini-project'
+$env:DESK_HOSPITAL_PASSWORD = 'Hospital-demo-2026'
+$env:DESK_REVIEWER_PASSWORD = 'Reviewer-demo-2026'
+./scripts/demo_desk.ps1 -SkipIngest
+```
+
+Wait for startup to finish. `-SkipIngest` is appropriate for this machine's existing index. On a fresh setup, place the policy PDF specified in [the corpus manifest](corpus/MANIFEST.md), install the model/tooling described in [the setup guide](docs/INTERNAL_TOOL_DEMO.md), and omit `-SkipIngest` to build the index. If PowerShell blocks scripts, run `Set-ExecutionPolicy -Scope Process Bypass` in that PowerShell tab and retry.
+
+### Links
+
+Local links work while the corresponding services are running.
+
+| Link | Purpose |
+|---|---|
+| [Policy Desk](http://localhost:8000/) | Hospital Staff and Claims Reviewer workspaces |
+| [Grafana live demo dashboard](http://localhost:3000/d/preauth-overview?from=now-15m&to=now&refresh=5s) | Decisions, throughput, latency p50/p95/p99 and resource signals; refreshes every 5 seconds |
+| [Grafana home](http://localhost:3000/) | Browse dashboards |
+| [Prometheus query browser](http://localhost:9090/graph) | Run metric queries and inspect graphs |
+| [Prometheus targets](http://localhost:9090/targets) | Check scrape-target health |
+| [Jaeger traces](http://localhost:16686/) | Follow API/worker execution traces |
+| [Interactive API docs](http://localhost:8000/docs) | Inspect and try API endpoints |
+| [OpenAPI schema](http://localhost:8000/openapi.json) | Machine-readable API contract |
+| [API readiness](http://localhost:8000/readyz) | Dependency readiness |
+| [API liveness](http://localhost:8000/healthz) | Basic service health |
+| [API metrics](http://localhost:8000/metrics) | Raw Prometheus-format API metrics |
+
+### 1. Usage demo - submit and review a claim yourself
+
+After starting the services above:
+
+1. Open [Policy Desk](http://localhost:8000/) and click **Hospital Staff**.
+2. Click **New request**, then **Fill sample claim**. Review the synthetic fields and click **Submit for assessment**.
+3. Wait for processing, then sign out and choose **Claims Reviewer (Insurer)**.
+4. Open the case and inspect the AI-generated summary, recommendation and policy citations.
+5. Click **Accept AI suggestion**, or choose your own approve/reject/request-information outcome and record a reason. The reuse checkbox authorizes future equivalent decisions only when eligibility checks pass.
+6. Sign back in as Hospital Staff to see the decision or respond to clarification. A later equivalent request can use an authorized precedent; exceptions still require review.
+
+Demo accounts use `hospital@desk.local` / `Hospital-demo-2026` and `reviewer@desk.local` / `Reviewer-demo-2026`; the role buttons sign in with these public synthetic credentials. Historical cases can lack the newer AI summary, so submit a fresh claim for that feature. Detailed walkthrough: [HOW_TO_RUN.md](docs/HOW_TO_RUN.md).
+
+### 2. Load demo - hands-free traffic and dashboard observation
+
+With the services already running, start a paced **15-minute** background demo from project PowerShell:
+
+```powershell
+./scripts/start_traffic_demo.ps1 -Minutes 15 -IntervalSeconds 8
+```
+
+The runner creates synthetic cases, simulates reviewer approvals/rejections, enables eligible precedents, exercises automatic approval/rejection and handles clarification and exception cases. It acts only on its own cases. The interval is a pause between scenarios, in addition to processing/reviewer time; only one claim is processed at a time. This is presentation traffic, not a stress-test capacity claim.
+
+Open [Grafana](http://localhost:3000/d/preauth-overview?from=now-15m&to=now&refresh=5s) and watch **Case decisions per minute - reviewer vs precedent** and **Decisions since service start** at the top, followed by the existing worker latency/throughput panels. Allow about a minute for rate curves to develop.
+
+In [Prometheus](http://localhost:9090/graph), try these expressions individually:
+
+```promql
+sum by (outcome, source) (preauth_case_decisions_total)
+sum by (outcome, source) (rate(preauth_case_decisions_total[2m])) * 60
+sum by (status) (rate(preauth_worker_runs_total[2m]))
+histogram_quantile(0.95, sum by (le) (rate(preauth_worker_run_seconds_bucket[5m])))
+```
+
+`human` denotes reviewer-account decisions, including the demo's explicitly simulated reviewer. `precedent` denotes automatic reuse. These are process counters that reset on restart and include manual activity too. Worker latency excludes queue wait and simulated reviewer think time.
+
+Optional live console log:
+
+```powershell
+Get-Content .runtime/traffic-demo/console.log -Wait
+```
+
+Stop **only automated traffic**, keeping the app and dashboards available:
+
+```powershell
+./scripts/stop_traffic_demo.ps1
+```
+
+The runner drains its current assessment and disables its temporary precedents. It also stops automatically after its configured duration. Keep enough RAM free: the guard pauses/stops traffic below max(2 GiB, 15% physical RAM), about 2.36 GiB on this laptop. For other durations, cleanup/recovery details and formal benchmark pointers, see [AUTOMATED_DEMO.md](docs/AUTOMATED_DEMO.md) and [measured performance](docs/INTERNAL_TOOL_PERFORMANCE.md).
+
+### Stop everything after either demo
+
+```powershell
+./scripts/stop_desk.ps1
+```
+
+This stops demo traffic first, then project containers and the verified managed Ollama server. Your database, policy index and model downloads are preserved. Close the Ubuntu tab afterward. Shared Docker/WSL infrastructure is not forcibly shut down; do not use `down -v` unless you intend to delete project volumes.
+
+### Documentation and evidence
+
+- [Full technical PDF](output/pdf/Policy_Desk_Technical_Document.pdf) and [editable manuscript](docs/TECHNICAL_DOCUMENT.md).
+- [Windows startup/shutdown guide](docs/HOW_TO_RUN.md), [accounts and model setup](docs/INTERNAL_TOOL_DEMO.md), and [automated demo guide](docs/AUTOMATED_DEMO.md).
+- [Performance results and limitations](docs/INTERNAL_TOOL_PERFORMANCE.md), [progress checkpoints](docs/INTERNAL_TOOL_PROGRESS.md), and [operations runbook](docs/RUNBOOK.md).
+- [Configured GitHub repository](https://github.com/SunOrangeBurger/Health-Insurance-Pre-Authorisation-Desk-MLSD) and [internal desk branch](https://github.com/SunOrangeBurger/Health-Insurance-Pre-Authorisation-Desk-MLSD/tree/codex/internal-policy-desk).
+
 ---
 
 ## Architecture Overview
@@ -39,7 +149,9 @@ Client (REST / Web)
 
 The hospital/reviewer workspace is complete for the user-adjusted synthetic demonstration scope. See [local demo and accounts](docs/INTERNAL_TOOL_DEMO.md), [progress/evidence](docs/INTERNAL_TOOL_PROGRESS.md) and [measured performance and limitations](docs/INTERNAL_TOOL_PERFORMANCE.md). It uses Qwen3 4B through bounded local Ollama, human-authorized precedent automation, a capped queue and monitored WSL deployment. The requested five-minute stability check passed; longer soak reliability remains unverified. One worker is recommended locally: three workers failed the error target without improving throughput. This is a demonstration, not a clinically validated system.
 
-## Quickstart
+## Offline stub development quickstart
+
+This older development profile is separate from the Windows/Ollama demos above.
 
 ### Prerequisites
 - Docker & Docker Compose (or Podman with `podman-compose`)

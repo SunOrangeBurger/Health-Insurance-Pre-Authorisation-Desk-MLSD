@@ -83,6 +83,16 @@ histogram_quantile(0.95, sum by (le) (rate(preauth_worker_run_seconds_bucket[5m]
 
 `human` denotes reviewer-account decisions, including the demo's explicitly simulated reviewer. `precedent` denotes automatic reuse. These are process counters that reset on restart and include manual activity too. Worker latency excludes queue wait and simulated reviewer think time.
 
+Check whether traffic is actually running and how many claims it has generated:
+
+```powershell
+./scripts/status_traffic_demo.ps1
+```
+
+The launcher checks **available** RAM before starting and confirms the first submitted claim. It refuses to launch below the reserve. A background process can still stop later if resources change; the status command reports the last stop reason. A successful app startup alone does not generate traffic.
+
+For visible events and stop messages in the same terminal, start the load demo with `./scripts/start_traffic_demo.ps1 -Minutes 15 -IntervalSeconds 8 -Foreground` instead of the background command.
+
 Optional live console log:
 
 ```powershell

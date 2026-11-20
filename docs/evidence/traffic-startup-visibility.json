@@ -1,0 +1,32 @@
+{
+  "verified": true,
+  "original_stop_reason": "Host RAM below reserve for 30 seconds",
+  "original_generated_claims": 0,
+  "restart_live_snapshot": {
+    "run_id": "6e7e5f8a37e44db68745927e450de89c",
+    "phase": "submitted",
+    "time": "2026-11-20T10:11:31.334323+05:30",
+    "counts": {
+      "submitted": 8,
+      "assessments": 8,
+      "processing:completed": 5,
+      "decision:simulated_reviewer:approved": 2,
+      "processing:escalated": 3,
+      "decision:simulated_reviewer:rejected": 1,
+      "decision:precedent:approved": 2,
+      "decision:precedent:rejected": 1,
+      "decision:simulated_reviewer:information_requested": 2,
+      "resubmitted": 1
+    },
+    "stop_reason": null,
+    "error": null,
+    "memory": {
+      "ready": true,
+      "available_gib": 2.53,
+      "required_gib": 2.36
+    }
+  },
+  "regression_passed": 90,
+  "scope": "Preflight refusal below RAM reserve, no run creation on failed preflight, PowerShell 5.1 status/start confirmation, real autonomous approval/rejection observed. Active run is not a completed duration benchmark.",
+  "cache_action": "One-time Ubuntu clean filesystem cache reclaim; no persistent WSL settings or reserve changes."
+}

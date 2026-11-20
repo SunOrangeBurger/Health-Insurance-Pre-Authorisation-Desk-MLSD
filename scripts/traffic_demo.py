@@ -24,6 +24,13 @@ class DemoStopped(Exception):
     pass
 
 
+def memory_preflight():
+    memory = psutil.virtual_memory()
+    reserve = max(2*1024**3, memory.total*.15)
+    return {'ready':memory.available >= reserve, 'available_gib':round(memory.available/2**30,2),
+            'required_gib':round(reserve/2**30,2)}
+
+
 def claim_payload(run_id, scenario):
     days = 330 if scenario == 'rejection' else 900
     issued = (date.today()-timedelta(days=days)).isoformat()
@@ -73,15 +80,26 @@ class Demo:
         line = json.dumps(record)
         self.events.write(line+'\n')
         print(line, flush=True)
+        live = {'run_id':self.run_id, 'phase':kind, 'time':record['time'], 'counts':dict(self.counts),
+                'stop_reason':self.summary.get('stop_reason'), 'error':self.summary.get('error'),
+                'memory':memory_preflight()}
+        pending = self.output/'live.tmp'
+        pending.write_text(json.dumps(live),encoding='utf-8')
+        pending.replace(self.output/'live.json')
 
     def guard(self, allow_stop=True):
         memory = psutil.virtual_memory()
         low = memory.available < max(2*1024**3, memory.total*.15)
         if low:
+            if self.low_since is None:
+                self.emit('resource_paused', message='New claims paused: available RAM below reserve',
+                          available_gib=round(memory.available/2**30,2),required_gib=round(max(2*1024**3,memory.total*.15)/2**30,2))
             self.low_since = self.low_since or time.monotonic()
             if time.monotonic()-self.low_since >= 30:
                 raise DemoStopped('Host RAM below reserve for 30 seconds')
         else:
+            if self.low_since is not None:
+                self.emit('resource_resumed')
             self.low_since = None
         if allow_stop and (self.stop_file.exists() or time.monotonic() >= self.deadline):
             raise DemoStopped('Stop requested or duration reached')
@@ -239,7 +257,12 @@ def main():
     parser.add_argument('--minutes',type=float,default=15)
     parser.add_argument('--interval',type=float,default=8)
     parser.add_argument('--max-cases',type=int,default=0)
+    parser.add_argument('--preflight',action='store_true')
     args=parser.parse_args()
+    if args.preflight:
+        status=memory_preflight()
+        print(json.dumps(status))
+        raise SystemExit(0 if status['ready'] else 2)
     if not 0<args.minutes<=120 or not 5<=args.interval<=60 or args.max_cases<0:
         raise SystemExit('Minutes must be >0 and <=120; interval 5-60 seconds; case limit >=0')
     CONTROL.mkdir(parents=True,exist_ok=True)

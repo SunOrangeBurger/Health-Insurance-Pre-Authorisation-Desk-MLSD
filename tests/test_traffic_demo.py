@@ -75,3 +75,21 @@ def test_cleanup_disables_only_recorded_run_precedents(tmp_path,monkeypatch):
     run.cleanup()
     assert set(seen)=={'/precedents/own-approval/disable','/precedents/own-rejection/disable'}
     assert not json.loads((run.output/'summary.json').read_text())['cleanup_failed_precedents']
+
+
+def test_preflight_reports_total_vs_available_memory(monkeypatch):
+    monkeypatch.setattr(demo.psutil,'virtual_memory',lambda:SimpleNamespace(total=16*2**30,available=.66*2**30))
+    assert demo.memory_preflight()=={'ready':False,'available_gib':.66,'required_gib':2.4}
+    monkeypatch.setattr(demo.psutil,'virtual_memory',lambda:SimpleNamespace(total=16*2**30,available=4*2**30))
+    assert demo.memory_preflight()['ready']
+
+
+def test_preflight_exits_before_creating_a_run(tmp_path,monkeypatch,capsys):
+    monkeypatch.setattr(demo,'CONTROL',tmp_path/'must-not-be-created')
+    monkeypatch.setattr(sys,'argv',['traffic_demo.py','--preflight'])
+    monkeypatch.setattr(demo.psutil,'virtual_memory',lambda:SimpleNamespace(total=16*2**30,available=1*2**30))
+    with pytest.raises(SystemExit) as result:
+        demo.main()
+    assert result.value.code==2
+    assert json.loads(capsys.readouterr().out)['ready'] is False
+    assert not demo.CONTROL.exists()

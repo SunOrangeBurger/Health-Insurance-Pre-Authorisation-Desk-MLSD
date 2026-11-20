@@ -2,6 +2,10 @@
 
 A production-style multi-agent health insurance pre-authorisation service built for ML System Design & AgentOps. The service accepts synthetic pre-authorisation requests over REST, validates them at the ingestion boundary, classifies the admission, and runs an asynchronous LangGraph agent system to retrieve binding policy provisions (cover clauses, specific waiting periods, exclusions, sub-limits, room-rent limits, and day-care lists) from retail health insurance policy wordings. It produces structured coverage recommendations with indicative limits and clause-level citations, always escalating to `medical-review` when provisions are absent, ambiguous, or unverified.
 
+## Faculty presentation
+
+Follow **[demo.md - sequential faculty demonstration runbook](demo.md)** for the exact commands, browser links, usage demo, automated load demo, Grafana/Prometheus queries, presentation notes and shutdown sequence.
+
 ## Run the demos on Windows
 
 Two demo modes are available: **Usage demo** (you submit and review cases) and **Load demo** (synthetic requests and simulated reviewer actions happen automatically while you watch the dashboards). Both use real local Ollama and the same application stack.

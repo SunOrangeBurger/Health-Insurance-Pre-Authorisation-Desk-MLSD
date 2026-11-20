@@ -6,6 +6,8 @@
 
 **Presentation order:** startup -> usage demo -> automated load demo -> Grafana -> Prometheus -> traces -> results -> shutdown.
 
+**Two independent stages:** Stage A is your personal claim review. Stage B starts only when you explicitly trigger the generator. Nothing automatically moves from one stage to the other; take as long as you want between them.
+
 Follow the numbered steps in order. All claims and reviewer actions in the automated demo are synthetic. This guide assumes the existing model, policy PDF, index and Python environment on this machine are already installed.
 
 ## 1. Prepare before the faculty arrives
@@ -33,23 +35,44 @@ Leave this tab open for the entire demonstration. If Docker is not running, exec
 sudo systemctl start docker
 ```
 
-## 3. Start the application stack
+## 3. Stage A: start each service yourself
 
-Open **terminal tab B: PowerShell**, then run:
+Use **terminal tab B: PowerShell**. Run the following blocks separately, waiting for each to finish. This uses the individual commands rather than the combined demo launcher.
+
+Set the project directory:
 
 ```powershell
 Set-Location 'D:\Fedora-Recovery\Projects\mlsd-mini-project'
-$env:DESK_HOSPITAL_PASSWORD = 'Hospital-demo-2026'
-$env:DESK_REVIEWER_PASSWORD = 'Reviewer-demo-2026'
-./scripts/demo_desk.ps1 -SkipIngest
 ```
 
-Wait for the command to finish and print the application URL. This builds the image, starts the bounded model server, database, Redis, API, worker and monitoring, and seeds the synthetic accounts. `-SkipIngest` reuses this machine's existing policy index.
-
-If PowerShell blocks scripts, run the following in **tab B only**, then retry:
+Start the bounded local model server:
 
 ```powershell
-Set-ExecutionPolicy -Scope Process Bypass
+./scripts/start_ollama_wsl.ps1
+```
+
+Build the application image (needed after code changes; otherwise you can reuse the existing image):
+
+```powershell
+./scripts/compose_wsl.ps1 build api worker
+```
+
+Start the database and queue:
+
+```powershell
+./scripts/compose_wsl.ps1 up -d --no-deps --wait postgres redis
+```
+
+Start the API and one worker:
+
+```powershell
+./scripts/compose_wsl.ps1 up -d --no-deps --wait api worker
+```
+
+Start monitoring:
+
+```powershell
+./scripts/compose_wsl.ps1 --profile observability up -d --no-deps prometheus grafana jaeger redis-exporter
 ```
 
 Check the containers:
@@ -57,6 +80,10 @@ Check the containers:
 ```powershell
 ./scripts/compose_wsl.ps1 ps
 ```
+
+These commands start the application only. **They do not generate claims or record reviewer decisions.** Existing accounts, policy index and database are reused on this machine.
+
+If PowerShell blocks scripts, run `Set-ExecutionPolicy -Scope Process Bypass` in tab B and retry. For a fresh database/index rather than this existing installation, follow [the setup guide](docs/INTERNAL_TOOL_DEMO.md), including ingestion and account seeding.
 
 **Open next:** [API readiness](http://localhost:8000/readyz). Expect `{"status":"ready"}`. Then open [Policy Desk](http://localhost:8000/).
 
@@ -86,7 +113,7 @@ Explain:
 
 The initial request uses synthetic cataract details, INR 500,000 sum insured and INR 75,000 estimated cost. Autofill does not submit until the button is clicked.
 
-## 5. Usage demo: review, accept a suggestion and show reuse
+## 5. Complete your personal review; then pause here
 
 Continue at [Policy Desk](http://localhost:8000/).
 
@@ -97,8 +124,13 @@ Continue at [Policy Desk](http://localhost:8000/).
 5. Click **Accept AI suggestion**. Alternatively, explain the manual outcome/reason controls.
 6. Show the final decision and case history. The decision source is **human**, because a reviewer explicitly authorized it.
 7. Sign out and choose **Hospital Staff** again. Show the final decision from the hospital side.
-8. Create another request with **Fill sample claim**. Replace **Procedure code** with the **same `FAC-...` tag**, and keep all other material fields equal to the first request.
-9. Submit it. If the current assessment agrees and all guards pass, show the automatic decision with source **precedent**.
+
+**Your personal review is now complete. Stop here and discuss it for as long as you want. No load generator has been started.**
+
+Optional reuse demonstration before moving on:
+
+1. Create another request with **Fill sample claim**. Replace **Procedure code** with the **same `FAC-...` tag**, and keep all other material fields equal to the first request.
+2. Submit it. If the current assessment agrees and all guards pass, show the automatic decision with source **precedent**.
 
 Explain:
 
@@ -108,45 +140,57 @@ If the model asks for information or a gate fails, show that review route honest
 
 **Optional exception demonstration:** submit the same sample/tag with a nonempty additional-circumstances note. Show that it returns to review rather than blindly copying the precedent. The automated demo below also covers exceptions and clarification.
 
-## 6. Start the automated load / observation demo
+## 6. Stage B: trigger automated traffic only when you are ready
 
-Keep tab A open. In **tab B**, first check available memory:
+This is a separate action after your personal review. Keep Ubuntu tab A open and use PowerShell tab B. First check available memory:
 
 ```powershell
 .venv/Scripts/python.exe scripts/traffic_demo.py --preflight
 ```
 
-Expect `ready: true`. If it reports `false`, free memory before continuing. The launcher also performs this check and refuses to start below the reserve.
+Expect `ready: true`. If it reports `false`, free memory before continuing. The launcher also checks this and refuses to start below the reserve.
 
-Start a controlled **five-minute presentation run**, with live events visible in tab B:
+Choose your own duration and pace. Edit these values before launching:
 
 ```powershell
-./scripts/start_traffic_demo.ps1 -Minutes 5 -IntervalSeconds 8 -Foreground
+$demoMinutes = 15
+$pauseSeconds = 8
 ```
 
-**Leave this terminal running.** Do not type subsequent commands into tab B until the foreground run finishes. Use a separate PowerShell tab C for status checks and stop commands.
+- `$demoMinutes` is the maximum run duration (1-120 minutes). You can stop it earlier whenever you want.
+- `$pauseSeconds` controls the pause between scenarios (5-60 seconds). Increase it for slower activity, decrease it for more frequent requests. Model processing and simulated reviewer time are additional, so this is not an exact requests-per-second setting.
 
-The sequence automatically:
+**This next command is the point where automatic claims begin:**
 
-1. Submits an approval candidate and records an eligible reusable simulated reviewer approval.
-2. Submits a rejection candidate and records an eligible reusable simulated reviewer rejection.
-3. Replays equivalent cases to exercise automatic approvals/rejections.
-4. Exercises mitigating circumstances, changed costs, clarification/resubmission, injection and unsupported procedures.
-5. Repeats the mixed sequence until the duration or safety limit is reached.
+```powershell
+./scripts/start_traffic_demo.ps1 -Minutes $demoMinutes -IntervalSeconds $pauseSeconds
+```
+
+The generator runs in the background, leaving your PowerShell prompt free. It confirms an actual first submission before reporting active traffic. The manual review does not trigger this command for you.
+
+**Open now:** [Grafana](http://localhost:3000/d/preauth-overview?from=now-15m&to=now&refresh=5s) and [Prometheus](http://localhost:9090/graph). The detailed walkthroughs are in steps 8 and 9; move between dashboards at your own pace.
+
+The automated sequence seeds eligible simulated reviewer approvals/rejections, replays matching cases, and exercises exceptions, clarification/resubmission, injection and unsupported procedures. It acts only on its own cases and stops at your duration limit or a safety limit. This is paced presentation traffic, not a maximum-capacity benchmark.
+
+Stop automated submissions whenever you want, while leaving the app and dashboards running:
+
+```powershell
+./scripts/stop_traffic_demo.ps1
+```
+
+To change speed, stop the current run first, edit `$pauseSeconds`, then launch a new run with the same start command. Normal stop drains the current assessment and disables that run's temporary precedents. Restarting creates a fresh demo sequence; it does not resume the old one.
+
+If you prefer live events in the terminal, use this **instead of** the background command:
+
+```powershell
+./scripts/start_traffic_demo.ps1 -Minutes $demoMinutes -IntervalSeconds $pauseSeconds -Foreground
+```
+
+For foreground mode, leave tab B running and use a separate PowerShell tab C for status/stop commands. Do not start foreground and background generators together.
 
 Explain:
 
-> I am no longer entering claims. The generator is acting as synthetic hospital staff and a simulated reviewer through the real APIs and local model. It only acts on its own cases. This is paced presentation traffic, not a claim of maximum system capacity.
-
-The eight-second interval is a pause between scenarios, in addition to processing and simulated reviewer time. Only one claim is processed at a time by the generator. Expect activity every several seconds, not hundreds of requests per second.
-
-**Optional longer/background version:** use this **instead of**, not alongside, the foreground command:
-
-```powershell
-./scripts/start_traffic_demo.ps1 -Minutes 15 -IntervalSeconds 8
-```
-
-Background startup confirms the first submitted claim before reporting active traffic. It can still stop later on resource pressure; status is the authoritative check.
+> First I submitted and reviewed a case myself. Now I have independently started the synthetic workload. Its duration and pace are configurable, and I can stop it without shutting down the system.
 
 ## 7. Confirm that automation is actually generating claims
 
@@ -161,7 +205,7 @@ Expect **Automated traffic: RUNNING**, with `submitted` and `assessments` increa
 
 **Do not infer automation from Grafana merely being open or showing a count of one.** Those can be manual decisions. If status says STOPPED, read its stop reason. A RAM-reserve stop means the runner intentionally stopped, not that requests are secretly continuing.
 
-For a background run, optional live logs in tab C:
+For the background run, optional live logs in tab B or C:
 
 ```powershell
 Get-Content .runtime/traffic-demo/console.log -Wait
@@ -293,7 +337,7 @@ In **PowerShell tab C**, stop the automated traffic early, or confirm it has fin
 ./scripts/status_traffic_demo.ps1
 ```
 
-The supported stop path drains the current assessment and disables the run's temporary precedents. App and dashboards remain available for discussion. The foreground command in tab B returns when the generator exits. If the run has already reached its duration limit, no second generator needs to be stopped.
+The supported stop path drains the current assessment and disables the run's temporary precedents. App and dashboards remain available for discussion. If you chose foreground mode, its terminal returns when the generator exits. If the run has already reached its duration limit, no second generator needs to be stopped.
 
 When the discussion is finished, shut down the full project:
 

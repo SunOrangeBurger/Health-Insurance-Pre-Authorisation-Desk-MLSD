@@ -4,7 +4,7 @@ A production-style multi-agent health insurance pre-authorisation service built 
 
 ## Faculty presentation
 
-Follow **[demo.md - sequential faculty demonstration runbook](demo.md)** for the exact commands, browser links, usage demo, automated load demo, Grafana/Prometheus queries, presentation notes and shutdown sequence.
+Follow **[demo.md - sequential faculty demonstration runbook](demo.md)** for individual service-start commands and **two independently controlled stages**: one personal claim review, then automated traffic only when you choose to launch it, at your selected duration and pace. It also includes all browser links, Grafana/Prometheus queries and shutdown steps.
 
 ## Run the demos on Windows
 
